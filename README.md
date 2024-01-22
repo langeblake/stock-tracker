@@ -1,3 +1,13 @@
 ## KRX Quant data analytics
 
-:TODO
+
+
+Install dependencies
+```Bash
+npm install
+```
+
+Run the project locally
+```Bash
+npm run dev
+```
