@@ -6,6 +6,7 @@ import ScrollUp from "@/components/Common/ScrollUp";
 // import Features from "@/components/(template)/Features";
 import Hero from "@/components/Hero";
 import MarketChange from "@/components/MarketChange";
+import MarketOverview from "@/components/MarketOverview";
 import MarketTrend from "@/components/MarketTrend";
 // import Pricing from "@/components/(template)/Pricing";
 // import Testimonials from "@/components/Testimonials";
@@ -21,7 +22,8 @@ export default function Home() {
   return (
     <>
       <ScrollUp />
-      <Hero />
+      {/* <Hero /> */}
+      <MarketOverview />
       <MarketTrend />
       <MarketChange />
       {/* <Features /> */}

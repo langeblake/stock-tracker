@@ -7,7 +7,7 @@ const MarketTrend = () => {
                 <div className="container">
                     <SectionTitle
                     title="Market Trend List"
-                    paragraph="This will including a (regularly) updated list of stock trends: Ranking, Symbol, Price, Price(24hr%), Funding Rate, Volume, Volume(24hr%), Market Cap, etc. "
+                    paragraph="This section will include a (regularly) updated list of stock trends: Ranking, Symbol, Price, Price(24hr%), Funding Rate, Volume, Volume(24hr%), Market Cap, etc. "
                     center
                     />
                 </div>
