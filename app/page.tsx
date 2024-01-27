@@ -25,7 +25,7 @@ export default function Home() {
       <ScrollUp />
       {/* <Hero /> */}
       <MarketOverview />
-      <PolygonDataFetcher />
+      {/* <PolygonDataFetcher /> */}
       <MarketTrend />
       <MarketChange />
       {/* <Features /> */}

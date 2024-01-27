@@ -5,33 +5,36 @@ import usePolygonData from '@/hooks/usePolygonData02'; // Adjust the path as nee
 import { OverviewCard } from './overviewCard';
 
 const MarketOverview = () => {
-  const { data, error } = usePolygonData();
+  const { data, error, isLoading } = usePolygonData();
 
-  if (error) {
-    return <div>Error fetching data</div>;
-  }
+  const shouldShowSkeleton = isLoading || (!data && !isLoading);
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  let chunks = [];
+  if (data && data.results) {
+    // Sort and slice the top 20 entries
+    const top20Data = data.results.sort((a, b) => b.v - a.v).slice(0, 20);
 
-  // Sort and slice the top 20 entries
-  const top20Data = data.results.sort((a: { v: number; }, b: { v: number; }) => b.v - a.v).slice(0, 20);
-
-  // Chunk the data into groups of 5
-  const chunkSize = 5;
-  const chunks = [];
-  for (let i = 0; i < top20Data.length; i += chunkSize) {
-    chunks.push(top20Data.slice(i, i + chunkSize));
+    // Chunk the data into groups of 5
+    const chunkSize = 5;
+    for (let i = 0; i < top20Data.length; i += chunkSize) {
+      chunks.push(top20Data.slice(i, i + chunkSize));
+    }
   }
 
   return (
     <section id="market-overview" className="hidden lg:flex w-full dark:bg-black overflow-hidden bg-gray-100 pb-16 pt-[85px]">
       <div className="container mx-auto pt-24">
         <div className="flex justify-center items-center gap-4">
-          {chunks.map((chunk, index) => (
-            <OverviewCard key={index} data={chunk} />
-          ))}
+          {shouldShowSkeleton ? (
+            // Here, render as many OverviewCards as you need to show the skeleton
+            Array.from({ length: 4 }, (_, index) => (
+              <OverviewCard key={index} data={[]}  isLoading={true} />
+            ))
+          ) : (
+            chunks.map((chunk, index) => (
+              <OverviewCard key={index} data={chunk}  isLoading={false} />
+            ))
+          )}
         </div>
       </div>
     </section>
@@ -39,3 +42,4 @@ const MarketOverview = () => {
 };
 
 export default MarketOverview;
+
