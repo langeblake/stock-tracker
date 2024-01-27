@@ -18,7 +18,7 @@ export const OverviewCard = ({ data, isLoading }) => {
             const isPositiveChange = change >= 0; // Determine if the change is positive
   
             return (
-              <div key={index} className="flex py-4 px-2 flex-row justify-between hover:cursor-pointer hover:bg-zinc-800 rounded-md">
+              <div key={index} className="flex py-4 px-2 flex-row justify-between hover:cursor-pointer dark:hover:bg-zinc-800 hover:bg-zinc-100 rounded-md">
                 <h1 className="mr-4 font-medium">{item.T}</h1> {/* Display the ticker */}
                 <div className="flex gap-4">
                   <h2 className={`font-light ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>
