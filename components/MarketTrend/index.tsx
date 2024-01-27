@@ -1,4 +1,5 @@
 import SectionTitle from "../Common/SectionTitle";
+import PolygonDataFetcher from "../polygonDataFetcher";
 
 const MarketTrend = () => {
     return ( 

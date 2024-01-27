@@ -8,6 +8,7 @@ import Hero from "@/components/Hero";
 import MarketChange from "@/components/MarketChange";
 import MarketOverview from "@/components/MarketOverview";
 import MarketTrend from "@/components/MarketTrend";
+import PolygonDataFetcher from "@/components/polygonDataFetcher";
 // import Pricing from "@/components/(template)/Pricing";
 // import Testimonials from "@/components/Testimonials";
 import { Metadata } from "next";
@@ -24,6 +25,7 @@ export default function Home() {
       <ScrollUp />
       {/* <Hero /> */}
       <MarketOverview />
+      <PolygonDataFetcher />
       <MarketTrend />
       <MarketChange />
       {/* <Features /> */}

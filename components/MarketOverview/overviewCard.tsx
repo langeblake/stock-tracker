@@ -1,15 +1,22 @@
 export const OverviewCard = ({ data }) => {
-    return ( 
-        <div className="border flex w-full flex-col gap-4 rounded-lg p-4 justify-around dark:border-zinc-800 dark:bg-zinc-900 bg-white dark:text-white">
-            {data.map((item) => (
-                <div key={item.id} className="flex py-4 px-2 flex-row  justify-between dark:hover:bg-zinc-800 hover:bg-zinc-100 hover:cursor-pointer">
-                    <h1 className="mr-4 font-medium ">{item.market} {item.id}</h1>
-                    <div className="flex gap-4">
-                        <h2 className="text-green-600 font-light">{item.price}</h2>
-                        <h2 className="text-red-600 font-light">{item.change}%</h2>
+    return (
+        <div className="border flex w-full flex-col gap-4 rounded-lg p-4 justify-around dark:border-zinc-700 dark:bg-zinc-900 bg-white dark:text-white">
+            {data.map((item, index) => {
+                const change = item.c - item.o; // Calculate the change
+                const isPositiveChange = change >= 0; // Determine if the change is positive
+
+                return (
+                    <div key={index} className="flex py-4 px-2 flex-row justify-between dark:hover:bg-zinc-800 hover:bg-zinc-100 hover:cursor-pointer">
+                        <h1 className="mr-4 font-medium">{item.T}</h1> {/* Display the ticker */}
+                        <div className="flex gap-4">
+                            <h2 className={`font-light ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>
+                                {isPositiveChange ? '+' : ''}{change.toFixed(2)} {/* Display the change */}
+                            </h2>
+                            <h2 className="dark:text-green-400 text-green-500 font-light">${item.c}</h2> {/* Display the closing price */}
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 };
