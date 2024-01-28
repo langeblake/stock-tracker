@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import fetchPolygonData from '@/utils/fetchPolygonData02';
+import { toast } from 'react-toastify';
 
 const usePolygonData = () => {
   const [data, setData] = useState({ results: [] });
@@ -16,6 +17,14 @@ const usePolygonData = () => {
         setIsLoading(false)
       } catch (e) {
         setError(e);
+        toast.error('Uh oh! Something went wrong fetching data.', {
+          position: 'top-right', // Position of the toast
+          autoClose: 5000,       // Auto close the toast after 5 seconds (ms)
+          hideProgressBar: false, // Show progress bar
+          closeOnClick: true,     // Close the toast when clicked
+          pauseOnHover: true,     // Pause the timer on hover
+          draggable: true,        // Allow dragging the toast
+        });
       }
     };
 
