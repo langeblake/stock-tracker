@@ -9,6 +9,9 @@ async function fetchPolygonData() {
     
     // Get today's date
     const currentDate = new Date();
+
+    // Subtract 1 day from the current date (API doesn't allow up-to-date data)
+    currentDate.setDate(currentDate.getDate() - 1);
     
     // Ensure currentDate is not a weekend (Saturday or Sunday)
     if (currentDate.getDay() === 0) {

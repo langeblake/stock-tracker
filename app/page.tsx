@@ -26,7 +26,7 @@ export default function Home() {
       {/* <Hero /> */}
       <MarketOverview />
       {/* <PolygonDataFetcher /> */}
-      <MarketTrend />
+      {/* <MarketTrend /> */}
       <MarketChange />
       {/* <Features /> */}
       {/* <Brands /> */}
