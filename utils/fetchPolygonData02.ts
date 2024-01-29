@@ -23,7 +23,8 @@ async function fetchPolygonData() {
     const formattedDate = currentDate.toISOString().split('T')[0];
     
     // Fetch data for the most recent weekday
-    const data = await rest.stocks.aggregatesGroupedDaily(formattedDate);
+    // const data = await rest.stocks.aggregatesGroupedDaily(formattedDate);
+    const data = await rest.stocks.aggregatesGroupedDaily("2024-01-26");
     
     return data;
   } catch (e) {
