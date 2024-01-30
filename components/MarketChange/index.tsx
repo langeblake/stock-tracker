@@ -1,6 +1,6 @@
 import SectionTitle from "../Common/SectionTitle";
-import GainersLosers from "./gainers-losersCard";
-import GainersLosersTree from "./gainers-losersTree";
+import GainersLosers from "./GainersLosersCard";
+import GainersLosersTree from "./GainersLosersTree";
 
 const MarketChange = () => {
     return ( 

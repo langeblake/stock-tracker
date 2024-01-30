@@ -15,6 +15,7 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
             try {
                 const response = await rest.stocks.snapshotGainersLosers(type);
                 setData(prevData => ({ ...prevData, [type]: response }));
+                
             } catch (e) {
                 console.error(`An error happened fetching ${type}:`, e);
                 setError(e);
@@ -25,9 +26,15 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
         fetchGainersLosers("losers");
 
         setLoading(false);
+        
     }, []);
 
-    console.log(data)
+    useEffect(() => {
+        if (data.gainers.tickers.length > 0 || data.losers.tickers.length > 0) {
+            console.log(data);
+        }
+    }, [data]);
+
     return { data, loading, error };
 };
 

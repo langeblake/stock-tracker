@@ -68,6 +68,6 @@ export interface DayData {
   }
   
   export interface MarketData {
-    gainers: StockDataItem;
-    losers: StockDataItem;
+    gainers: StockData;
+    losers: StockData;
   }
