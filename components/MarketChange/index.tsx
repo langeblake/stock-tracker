@@ -1,4 +1,4 @@
-import SectionTitle from "../Common/SectionTitle";
+// import SectionTitle from "../Common/SectionTitle";
 import GainersLosers from "./GainersLosersCard";
 import GainersLosersTree from "./GainersLosersTree";
 
@@ -12,8 +12,12 @@ const MarketChange = () => {
                 center
                 /> */}
                 <div className="h-fit flex gap-6 flex-col lg:flex-row">
-                    <GainersLosers />
-                    <GainersLosersTree />
+                    <div className="lg:w-1/2">
+                        <GainersLosers />
+                    </div>
+                    <div className="lg:w-1/2">
+                        <GainersLosersTree />
+                    </div>
                 </div>
             </div>
         </section>
