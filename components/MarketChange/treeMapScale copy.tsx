@@ -2,48 +2,41 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
+import { transformDataForTreeMap } from '@/utils/transformDataForTreeMap';
 
-const TreeMapScale = ({ data }) => {
+const TreeMapScale = ({ apiData }) => {
   const svgRef = useRef(null);
   const [containerSize, setContainerSize] = useState({ width: 680, height: 580 });
-  
+  const [numberOfTickers, setNumberOfTickers] = useState(10); // Default to 10 tickers
 
   // Function to update the dimensions state based on the container size
   const updateContainerSize = () => {
     if (svgRef.current) {
       const { width, height } = svgRef.current.getBoundingClientRect();
       setContainerSize({ width, height });
+
+      // Adjust number of tickers based on width
+      setNumberOfTickers(width > 1200 ? 15 : 10);
     }
   };
 
-
-  // This function calculates a font size based on the smaller of the cell's width or height
-  const calculateFontSize = (cellWidth, cellHeight) => {
-  const minDimension = Math.min(cellWidth, cellHeight);
-  // Basic example: scale font size down as the minDimension decreases
-  // Adjust the constants as needed to fit your design
-  return Math.max(12, minDimension / 10); // Ensures a minimum font size of 10
-}
-
-
   useEffect(() => {
     window.addEventListener('resize', updateContainerSize);
-    // Initial size update
-    updateContainerSize();
+    updateContainerSize(); // Set initial size
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', updateContainerSize);
     };
   }, []);
 
   useEffect(() => {
-    if (data && containerSize.width && containerSize.height) {
-      renderTreemap();
+    if (apiData && containerSize.width && containerSize.height) {
+      const transformedData = transformDataForTreeMap(apiData, numberOfTickers);
+      renderTreemap(transformedData);
     }
-  }, [data, containerSize]);
+  }, [apiData, containerSize, numberOfTickers]);
 
-  function renderTreemap() {
+  const renderTreemap = (data) => {
     // Use the container size for the treemap dimensions
     const { width, height } = containerSize;
     const svg = d3.select(svgRef.current);
@@ -153,9 +146,13 @@ const TreeMapScale = ({ data }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
-      <svg ref={svgRef} width="100%" height="500px" viewBox={`0 0 ${containerSize.width} ${containerSize.height}`} preserveAspectRatio="xMidYMid meet" />
+      <svg ref={svgRef} width="100%" height="100%" viewBox={`0 0 ${containerSize.width} ${containerSize.height}`} preserveAspectRatio="xMidYMid meet" />
     </div>
   );
 };
 
 export default TreeMapScale;
+function calculateFontSize(cellWidth: number, cellHeight: number) {
+  throw new Error('Function not implemented.');
+}
+
