@@ -24,7 +24,7 @@ export const OverviewCard = ({ data, isLoading }) => {
                   <h2 className={`font-light ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>
                     {isPositiveChange ? '+' : ''}{change.toFixed(2)} {/* Display the change */}
                   </h2>
-                  <h2 className="dark:text-green-400 text-green-500 font-light">${item.c}</h2> {/* Display the closing price */}
+                  <h2 className="dark:text-green-500 text-green-500 font-regular">${item.c}</h2> {/* Display the closing price */}
                 </div>
               </div>
             );

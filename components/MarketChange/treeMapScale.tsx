@@ -49,7 +49,7 @@ const TreeMapScale = ({ data }) => {
     const svg = d3.select(svgRef.current);
     svg.selectAll('g').remove();
   
-    const fader = (color) => d3.interpolateRgb(color, '#00f285')(0.5);
+    const fader = (color) => d3.interpolateRgb(color, '#00d60b')(0.5);
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10.map(fader));
 
   
