@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import fetchPolygonData from '@/utils/fetchPolygonData02';
+import fetchPolygonData from '@/utils/fetchPolygonDaily';
 
-const usePolygonData = () => {
+const usePolygonDaily = () => {
   const [data, setData] = useState({ results: [] });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,4 +26,4 @@ const usePolygonData = () => {
   return { data, error, isLoading };
 };
 
-export default usePolygonData;
+export default usePolygonDaily;

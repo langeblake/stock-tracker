@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import usePolygonData from '@/hooks/usePolygonData02'; // Adjust the path as needed
+import usePolygonData from '@/hooks/usePolygonDaily'; // Adjust the path as needed
 import { OverviewCard } from './overviewCard';
 
 const MarketOverview = () => {
@@ -9,11 +9,11 @@ const MarketOverview = () => {
 
   const shouldShowSkeleton = isLoading || (!data && !isLoading);
 
+  // Sort by volume
   let chunks = [];
   if (data && data.results) {
     // Sort and slice the top 20 entries
     const top20Data = data.results.sort((a, b) => b.v - a.v).slice(0, 20);
-
     // Chunk the data into groups of 5
     const chunkSize = 5;
     for (let i = 0; i < top20Data.length; i += chunkSize) {

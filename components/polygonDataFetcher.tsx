@@ -3,7 +3,7 @@
 "use client"
 
 import React from 'react';
-import usePolygonData from '@/hooks/usePolygonData02';
+import usePolygonData from '@/hooks/usePolygonDaily';
 
 const PolygonDataFetcher = () => {
   const { data, error } = usePolygonData();

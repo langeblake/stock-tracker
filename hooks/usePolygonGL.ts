@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { restClient } from '@polygon.io/client-js';
 import { MarketData } from '@/types/stockDataTypes';
 
+
 const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | null } => {
     const [data, setData] = useState<MarketData>({ gainers: { status: '', tickers: [] }, losers: { status: '', tickers: [] } });
     const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
     useEffect(() => {
         setLoading(true);
 
+        // Consider moving fetch logic to Utility Function
         const fetchGainersLosers = async (type: 'gainers' | 'losers') => {
             try {
                 const response = await rest.stocks.snapshotGainersLosers(type);
@@ -26,13 +28,14 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
         fetchGainersLosers("losers");
 
         setLoading(false);
-        
+
     }, []);
 
     useEffect(() => {
         if (data.gainers.tickers.length > 0 || data.losers.tickers.length > 0) {
             console.log(data);
         }
+
     }, [data]);
 
     return { data, loading, error };

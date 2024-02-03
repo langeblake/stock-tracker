@@ -35,7 +35,7 @@ const GainersLosers = () => {
             <div className='flex gap-5'>
                 <div className='flex flex-col gap-4 w-1/2'>
                     {topGainers.map((ticker, index) => (
-                        <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white'>
+                        <div key={ticker.ticker + '-gainer'} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white'>
                             <TickerCard key={index} ticker={ticker} />
                         </div>
                         
@@ -43,7 +43,7 @@ const GainersLosers = () => {
                 </div>
                 <div className='flex flex-col gap-4 w-1/2'>
                     {topLosers.map((ticker, index) => (
-                        <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white'>
+                        <div key={ticker.ticker + '-loser'} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white dark:hover:cursor-pointer'>
                             <TickerCard key={index} ticker={ticker} />
                         </div>
                     ))}

@@ -5,7 +5,7 @@ import GainersLosersTree from "./GainersLosersTree";
 const MarketChange = () => {
     return ( 
         <section id="marketchange" className="py-16 md:py-20 lg:py-28 dark:bg-black bg-gray-100 border-slate-600">
-            <div className="container">
+            <div className="px-12">
                 {/* <SectionTitle
                 title="Market Change"
                 paragraph="This section can contain two components: Gains & Losses; Tree/Heat Maps"

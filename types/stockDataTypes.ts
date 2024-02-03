@@ -58,7 +58,7 @@ export interface DayData {
   }
   
   export interface StockData {
-    status: string;
+    status?: string;
     tickers: Ticker[];
   }
 
