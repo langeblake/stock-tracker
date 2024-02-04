@@ -5,7 +5,7 @@ import usePolygonDaily from "@/hooks/usePolygonDaily";
 import VolumeHeatMap from "./VolumeHeatMap";
 // import { treeMapData as data } from "@/utils/treeMapData";
 // import { treeMapStockData as data } from "@/data/treeMapData-Test01";
-import { Grid, Oval } from "react-loader-spinner";
+import { Oval } from "react-loader-spinner";
 import usePolygonAllTickers from "@/hooks/usePolygonAllTickers";
 import { transformTickerDataForTreeMap } from "@/utils/transformTIckerDataForTreeMap";
 
