@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import fetchPolygonAllTickers from '@/utils/fetchPolygonAllTickers';
+import fetchPolygonAllTickers from '@/utils/api/fetchPolygonAllTickers';
 
 const usePolygonAllTickers = () => {
   // Adjusting the initial state to match the expected structure for clarity

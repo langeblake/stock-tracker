@@ -1,7 +1,7 @@
 // hooks/useTickerData.js
 
 import { useState, useEffect } from 'react';
-import fetchPolygonTicker from '@/utils/fetchPolygonTicker'; 
+import fetchPolygonTicker from '@/utils/api/fetchPolygonTicker'; 
 
 const useTickerData = (ticker: string) => {
   const [data, setData] = useState(null);

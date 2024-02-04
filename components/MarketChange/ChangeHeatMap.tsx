@@ -1,21 +1,19 @@
 "use client"
 
 // import TreeMap from "./treeMap";
-import usePolygonDaily from "@/hooks/usePolygonDaily";
-import VolumeHeatMap from "./VolumeHeatMap";
 // import { treeMapData as data } from "@/utils/treeMapData";
 // import { treeMapStockData as data } from "@/data/treeMapData-Test01";
 import { Oval } from "react-loader-spinner";
-import usePolygonAllTickers from "@/hooks/usePolygonAllTickers";
-import { transformTickerDataForTreeMap } from "@/utils/transformTIckerDataForTreeMap";
+import usePolygonGL from "@/hooks/usePolygonGL";
+import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMap";
+import D3ChangeTree from "./D3ChangeTree";
 
-const GainersLosersTree = () => {
-    const { data, error, isLoading } = usePolygonAllTickers();
+const ChangeHeatMap = () => {
+    const { data, error, loading } = usePolygonGL();
 
-    if (isLoading) {
+    if (loading) {
         return (
             <div className="w-full">
-                <h1 className='font-bold text-2xl py-6'>Heatmap (24hr)</h1>
                 <div className=' flex w-full h-500px rounded-lg justify-center items-center'>
                 <Oval
                     visible={true}
@@ -33,21 +31,19 @@ const GainersLosersTree = () => {
     if (error) return <div>Error loading data</div>;
   
     // Transform the data right before rendering the tree map
-    const treeMapData = transformTickerDataForTreeMap(data);
-    console.log("Treemap Data", treeMapData)
+    const treeMapData = transformChangeDataForTreeMap(data);
 
     
 
     return ( 
         <div className="w-full max-h-[700px] min-h-[700px]">
-            <h1 className='font-bold text-2xl py-6'>Heatmap (24hr)</h1>
             <div className=' w-full h-full rounded-lg'>
                {/* <TreeMap data={data} height={580} width={680}/> */}
                {/* <TreeMapScale data={data}/> */}
-               <VolumeHeatMap data={treeMapData}/>
+               <D3ChangeTree data={treeMapData}/>
             </div>
         </div>
      );
 }
 
-export default GainersLosersTree;
+export default ChangeHeatMap;

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import usePolygonGL from '@/hooks/usePolygonGL';
+import { useRouter } from 'next/navigation';
 
 const TickerSkeleton = () => {
     return (
@@ -38,6 +39,12 @@ const TickerCard = ({ ticker }) => {
 const GainersLosers = () => {
     const { data, loading, error } = usePolygonGL();
 
+    const router = useRouter()
+
+    const handleClick = (ticker) => {
+      router.push(`/ticker/${ticker}`);
+    }
+
     if (error) return <p>Error loading data: {error.message}</p>;
 
     // Determine the number of skeletons to render
@@ -56,7 +63,7 @@ const GainersLosers = () => {
                         ))
                     ) : (
                         data.gainers.tickers.sort((a, b) => b.todaysChangePerc - a.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-gainer'} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 bg-white hover:cursor-pointer'>
+                            <div key={ticker.ticker + '-gainer'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 bg-white hover:cursor-pointer'>
                                 <TickerCard key={index} ticker={ticker} />
                             </div>
                         ))
@@ -71,7 +78,7 @@ const GainersLosers = () => {
                         ))
                     ) : (
                         data.losers.tickers.sort((a, b) => a.todaysChangePerc - b.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-loser'} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 bg-white'>
+                            <div key={ticker.ticker + '-loser'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 bg-white'>
                                 <TickerCard key={index} ticker={ticker} />
                             </div>
                         ))

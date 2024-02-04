@@ -1,5 +1,14 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
+import { Metadata } from "next";
+
+//Need to pass Ticker into title
+export const metadata: Metadata = {
+    title: "Ticker",
+    description: "",
+    // other metadata
+  };
+  
 
 const TickerPage = ({ params }: {
     params: { ticker: string }

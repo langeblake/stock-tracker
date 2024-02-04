@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import fetchPolygonData from '@/utils/fetchPolygonDaily';
+import fetchPolygonData from '@/utils/api/fetchPolygonDaily';
 
 const usePolygonDaily = () => {
   const [data, setData] = useState({ results: [] });

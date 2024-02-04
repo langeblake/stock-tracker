@@ -1,5 +1,5 @@
 // Transformation function within the hook or as a separate utility
-export function transformTickerDataForTreeMap(data) {
+export function transformVolumeDataForTreeMap(data) {
     const topTickers = data.tickers
         .sort((a, b) => b.day.v - a.day.v) // Sort by volume in descending order
         .slice(0, 10); // Take the top 10

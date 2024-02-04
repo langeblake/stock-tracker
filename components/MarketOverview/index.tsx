@@ -2,9 +2,10 @@
 import React from 'react';
 import usePolygonAllTickers from '@/hooks/usePolygonAllTickers';
 import { OverviewCard } from './overviewCard';
+import { usePolygonData } from '@/context/polygon/allTickerDataContext';
 
 const MarketOverview = () => {
-  const { data, error, isLoading } = usePolygonAllTickers();
+  const { data, error, isLoading } = usePolygonData();
 
   const shouldShowSkeleton = isLoading || (!data && !isLoading);
 
