@@ -12,7 +12,7 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
     useEffect(() => {
         setLoading(true);
 
-        // Consider moving fetch logic to Utility Function
+        // Consider moving fetch logic to Utility Fetch Function
         const fetchGainersLosers = async (type: 'gainers' | 'losers') => {
             try {
                 const response = await rest.stocks.snapshotGainersLosers(type);

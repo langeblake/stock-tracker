@@ -11,7 +11,7 @@ const usePolygonDaily = () => {
     const fetchData = async () => {
       try {
         const result = await fetchPolygonData();
-        console.log("Data fetched: ", result);
+        // console.log("Data fetched: ", result);
         setData(result);
         setIsLoading(false)
       } catch (e) {

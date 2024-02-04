@@ -1,20 +1,21 @@
 "use client"
-
 import React from 'react';
-import usePolygonData from '@/hooks/usePolygonDaily'; // Adjust the path as needed
+import usePolygonAllTickers from '@/hooks/usePolygonAllTickers';
 import { OverviewCard } from './overviewCard';
 
 const MarketOverview = () => {
-  const { data, error, isLoading } = usePolygonData();
+  const { data, error, isLoading } = usePolygonAllTickers();
 
   const shouldShowSkeleton = isLoading || (!data && !isLoading);
 
-  // Sort by volume
   let chunks = [];
-  if (data && data.results) {
-    // Sort and slice the top 20 entries
-    const top20Data = data.results.sort((a, b) => b.v - a.v).slice(0, 20);
-    // Chunk the data into groups of 5
+  if (data && data.tickers) {
+    // Sort the tickers by daily volume in descending order
+    const top20Data = data.tickers
+      .sort((a, b) => b.day.v - a.day.v) // Use 'day.v' for sorting by daily volume
+      .slice(0, 20);
+
+    // Chunk the sorted data into groups of 5
     const chunkSize = 5;
     for (let i = 0; i < top20Data.length; i += chunkSize) {
       chunks.push(top20Data.slice(i, i + chunkSize));
@@ -26,13 +27,14 @@ const MarketOverview = () => {
       <div className="container mx-auto pt-24">
         <div className="flex justify-center items-center gap-4">
           {shouldShowSkeleton ? (
-            // Here, render as many OverviewCards as you need to show the skeleton
+            // Render skeletons
             Array.from({ length: 4 }, (_, index) => (
-              <OverviewCard key={index} data={[]}  isLoading={true} />
+              <OverviewCard key={index} data={null} isLoading={true} />
             ))
           ) : (
+            // Render actual data
             chunks.map((chunk, index) => (
-              <OverviewCard key={index} data={chunk}  isLoading={false} />
+              <OverviewCard key={index} data={chunk} isLoading={false} />
             ))
           )}
         </div>

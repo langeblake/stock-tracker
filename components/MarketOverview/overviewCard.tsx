@@ -14,17 +14,17 @@ export const OverviewCard = ({ data, isLoading }) => {
         ) : (
           // Render actual data
           data.map((item, index) => {
-            const change = item.c - item.o; // Calculate the change
+            const change = item.todaysChange; // Calculate the change
             const isPositiveChange = change >= 0; // Determine if the change is positive
   
             return (
               <div key={index} className="flex py-4 px-2 flex-row justify-between dark:hover:cursor-pointer dark:hover:bg-zinc-800 hover:bg-zinc-100 rounded-md">
-                <h1 className="mr-4 font-medium">{item.T}</h1> {/* Display the ticker */}
+                <h1 className="mr-4 font-medium">{item.ticker}</h1> {/* Display the ticker */}
                 <div className="flex gap-4">
                   <h2 className={`font-light ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>
                     {isPositiveChange ? '+' : ''}{change.toFixed(2)} {/* Display the change */}
                   </h2>
-                  <h2 className="dark:text-green-500 text-green-500 font-regular">${item.c}</h2> {/* Display the closing price */}
+                  <h2 className="dark:text-green-500 text-green-500 font-regular">${item.day.c.toFixed(2)}</h2> {/* Display the closing price */}
                 </div>
               </div>
             );

@@ -3,10 +3,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-const TreeMapScale = ({ data }) => {
+const VolumeHeatMap = ({ data }) => {
   const svgRef = useRef(null);
   const [containerSize, setContainerSize] = useState({ width: 680, height: 580 });
-  
+
+  const dayChange = data.change
+  const positiveDayChange = dayChange >= 0
 
   // Function to update the dimensions state based on the container size
   const updateContainerSize = () => {
@@ -49,6 +51,7 @@ const TreeMapScale = ({ data }) => {
     const svg = d3.select(svgRef.current);
     svg.selectAll('g').remove();
   
+    
     const fader = (color) => d3.interpolateRgb(color, '#00d60b')(0.5);
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10.map(fader));
 
@@ -94,8 +97,9 @@ const TreeMapScale = ({ data }) => {
     nodes.append('rect')
       .attr('width', d => d.x1 - d.x0)
       .attr('height', d => d.y1 - d.y0)
-      .attr('fill', d => colorScale(d.data.category));
-    
+      .attr('fill', d => d.data.change >= 0 ? '#24d44d' : "#fa5a5a");
+      // .attr('fill', d => colorScale(d.data.category));
+      ;
     // Add the name text to each node
     nodes.append('text')
       .attr('x', 10)
@@ -158,4 +162,4 @@ const TreeMapScale = ({ data }) => {
   );
 };
 
-export default TreeMapScale;
+export default VolumeHeatMap;

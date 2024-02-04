@@ -2,14 +2,15 @@
 
 // import TreeMap from "./treeMap";
 import usePolygonDaily from "@/hooks/usePolygonDaily";
-import TreeMapScale from "./treeMapScale";
+import VolumeHeatMap from "./VolumeHeatMap";
 // import { treeMapData as data } from "@/utils/treeMapData";
 // import { treeMapStockData as data } from "@/data/treeMapData-Test01";
-import { transformDataForTreeMap } from "@/utils/transformDataForTreeMap";
 import { Grid, Oval } from "react-loader-spinner";
+import usePolygonAllTickers from "@/hooks/usePolygonAllTickers";
+import { transformTickerDataForTreeMap } from "@/utils/transformTIckerDataForTreeMap";
 
 const GainersLosersTree = () => {
-    const { data, error, isLoading } = usePolygonDaily();
+    const { data, error, isLoading } = usePolygonAllTickers();
 
     if (isLoading) {
         return (
@@ -32,7 +33,10 @@ const GainersLosersTree = () => {
     if (error) return <div>Error loading data</div>;
   
     // Transform the data right before rendering the tree map
-    const treeMapData = transformDataForTreeMap(data);
+    const treeMapData = transformTickerDataForTreeMap(data);
+    console.log("Treemap Data", treeMapData)
+
+    
 
     return ( 
         <div className="w-full max-h-[700px] min-h-[700px]">
@@ -40,7 +44,7 @@ const GainersLosersTree = () => {
             <div className=' w-full h-full rounded-lg'>
                {/* <TreeMap data={data} height={580} width={680}/> */}
                {/* <TreeMapScale data={data}/> */}
-               <TreeMapScale data={treeMapData}/>
+               <VolumeHeatMap data={treeMapData}/>
             </div>
         </div>
      );
