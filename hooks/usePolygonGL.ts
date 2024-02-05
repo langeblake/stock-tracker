@@ -31,12 +31,13 @@ const usePolygonGL = (): { data: MarketData; loading: boolean; error: Error | nu
 
     }, []);
 
-    // useEffect(() => {
-    //     if (data.gainers.tickers.length > 0 || data.losers.tickers.length > 0) {
-    //         console.log(data);
-    //     }
+    useEffect(() => {
+        setLoading(true)
+        if (data.gainers.tickers.length > 0 || data.losers.tickers.length > 0) {
+            setLoading(false)
+        }
 
-    // }, [data]);
+    }, [data]);
 
     return { data, loading, error };
 };

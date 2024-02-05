@@ -95,7 +95,11 @@ const D3VolumeTree = ({ data }) => {
       .attr('width', d => d.x1 - d.x0)
       .attr('height', d => d.y1 - d.y0)
       //Colors show change in price change, not volume. 
-      .attr('fill', d => d.data.value >= 0 ? '#60d17d' : "#f07171");
+      .attr('fill', d => {
+        if (d.data.value > 0) return '#60d17d'; // green for positive values
+        else if (d.data.value < 0) return '#f07171'; // red for negative values
+        else return '#000000'; // white for zero
+    });
       // .attr('fill', d => colorScale(d.data.category));
       ;
     // Add the name text to each node
@@ -129,7 +133,17 @@ const D3VolumeTree = ({ data }) => {
       .append('text')
       .attr('x', 10)
       .attr('y', d => 30 + fontSizeScale(d.value) * gapScale(d.value)) // Calculate gap based on value
-      .text(d => d.data.value >= 0 ? `${d.value.toLocaleString()}%` : `-${d.value.toLocaleString()}%`)
+      .text(d => {
+        if (d.data.value > 0) {
+          return `${d.value.toLocaleString()}%`;
+        } else if (d.data.value < 0) {
+          return `-${d.value.toLocaleString()}%`;
+        } else {
+          // Don't show any text if the value is zero
+          return '';
+        }
+      })
+      
       // .attr('font-size', d => `${fontSizeScale(d.value)}px`)
       .attr('font-size', (d) => {
         const cellWidth = d.x1 - d.x0;
