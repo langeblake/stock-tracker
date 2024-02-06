@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react';
-import ChangeHeatMap from "./ChangeHeatMap";
+import ChangeHeatMap from "./Heatmap/ChangeHeatMap";
 import GainersLosers from "./GainersLosersCard";
-import VolumeHeatMap from "./VolumeHeatMap";
+import VolumeHeatMap from "./Heatmap/VolumeHeatMap";
 
 const MarketChange = () => {
     // State to track which heatmap is selected

@@ -1,9 +1,9 @@
 // GainersLosers.js
 "use client"
 
-import React from 'react';
-import usePolygonGL from '@/hooks/usePolygonGL';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import useGainersLosersStore from '@/store/GainersLosersStore';
 
 const TickerSkeleton = () => {
     return (
@@ -37,7 +37,11 @@ const TickerCard = ({ ticker }) => {
 
 
 const GainersLosers = () => {
-    const { data, loading, error } = usePolygonGL();
+    const { data, loading, error, fetchData } = useGainersLosersStore();
+
+    useEffect(() => {
+        fetchData();
+      }, [fetchData]);
 
     const router = useRouter()
 

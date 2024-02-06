@@ -3,10 +3,10 @@
 "use client"
 
 import React from 'react';
-import usePolygonData from '@/hooks/usePolygonDaily';
+import usePolygonDaily from '@/hooks/usePolygonDaily';
 
 const PolygonDataFetcher = () => {
-  const { data, error } = usePolygonData();
+  const { data, error } = usePolygonDaily();
 
   if (error) {
     return <div>Error fetching data: {error.message}</div>;
@@ -16,7 +16,8 @@ const PolygonDataFetcher = () => {
     return <div>Loading...</div>;
   }
 
-  return <div>Data fetched successfully</div>;
+  console.log(data);
+  return <div>Fetch successful</div>
 };
 
 export default PolygonDataFetcher;

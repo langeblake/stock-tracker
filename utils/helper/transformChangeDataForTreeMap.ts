@@ -1,11 +1,11 @@
 export function transformChangeDataForTreeMap(data) {
     // Assuming `data` contains both `gainers` and `losers` properties
     const topGainers = data.gainers.tickers
-        .sort((a, b) => Math.abs(b.todaysChange) - Math.abs(a.todaysChange))
+        .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
         .slice(0, 5);
 
     const topLosers = data.losers.tickers
-        .sort((a, b) => Math.abs(b.todaysChange) - Math.abs(a.todaysChange))
+        .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
         .slice(0, 5);
 
     // Merge top gainers and losers

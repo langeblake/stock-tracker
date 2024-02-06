@@ -4,14 +4,24 @@
 // import { treeMapData as data } from "@/utils/treeMapData";
 // import { treeMapStockData as data } from "@/data/treeMapData-Test01";
 import { Oval } from "react-loader-spinner";
-import usePolygonGL from "@/hooks/usePolygonGL";
 import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMap";
-import D3ChangeTree from "./D3ChangeTree";
+import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
+import useGainersLosersStore from "@/store/GainersLosersStore"
+import { useEffect } from "react";
+
 
 const ChangeHeatMap = () => {
-    const { data, error, loading } = usePolygonGL();
+    const { data, isLoading, error, fetchData } = useGainersLosersStore();
 
-    if (loading) {
+    useEffect(() => {
+        // Only fetch data if the tickers array is empty (because of Heatmap toggle)
+        if (data.gainers.tickers.length === 0) {
+          fetchData();
+        }
+      }, [data.gainers.tickers.length, fetchData]);
+
+
+    if (isLoading) {
         return (
             <div className="w-full">
                 <div className=' flex w-full h-500px rounded-lg justify-center items-center'>

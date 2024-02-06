@@ -16,7 +16,7 @@ export const OverviewCard = ({ data, isLoading }) => {
           Array.from({ length: 5 }, (_, index) => (
             <div key={index} className="animate-pulse flex py-4 px-2 flex-row justify-between">
               <div className="h-6 bg-gray-600 rounded-full w-2/5"></div> {/* Skeleton for ticker */}
-              <div className="h-6 bg-gray-600 rounded-full w-2/4"></div> 
+              <div className="h-6 bg-gray-600 rounded-full w-2/5"></div> 
             </div>
           ))
         ) : (

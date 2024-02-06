@@ -1,13 +1,23 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import usePolygonAllTickers from '@/hooks/usePolygonAllTickers';
 import { OverviewCard } from './overviewCard';
-import { usePolygonData } from '@/context/polygon/allTickerDataContext';
+import usePolygonAllTickersStore from '@/store/PolygonAllTickersStore';
+
 
 const MarketOverview = () => {
-  const { data, error, isLoading } = usePolygonData();
+  // const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
+  const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
+
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const shouldShowSkeleton = isLoading || (!data && !isLoading);
+
+  if (error) console.log(error.message);
+  
 
   let chunks = [];
   if (data && data.tickers) {
@@ -22,6 +32,7 @@ const MarketOverview = () => {
       chunks.push(top20Data.slice(i, i + chunkSize));
     }
   }
+
 
   return (
     <section id="market-overview" className="hidden lg:flex w-full dark:bg-black overflow-hidden bg-gray-100 pb-16 pt-[85px]">

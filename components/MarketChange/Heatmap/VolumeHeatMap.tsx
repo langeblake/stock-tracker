@@ -1,15 +1,24 @@
 "use client"
 
 // import TreeMap from "./treeMap";
-import D3VolumeTree from "./D3VolumeTree";
+import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
 // import { treeMapData as data } from "@/utils/treeMapData";
 // import { treeMapStockData as data } from "@/data/treeMapData-Test01";
 import { Oval } from "react-loader-spinner";
 import { transformVolumeDataForTreeMap } from "@/utils/helper/transformVolumeDataForTreeMap";
-import { usePolygonData } from "@/context/polygon/allTickerDataContext";
+import usePolygonAllTickersStore from "@/store/PolygonAllTickersStore";
+import { useEffect } from "react";
+
 
 const VolumeHeatMap = () => {
-    const { data, error, isLoading } = usePolygonData();
+    const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
+
+    useEffect(() => {
+        // Only fetch data if the tickers array is empty (because of Heatmap toggle)
+        if (data.tickers.length === 0) {
+          fetchData();
+        }
+      }, [data.tickers.length, fetchData]);
 
     if (isLoading) {
         return (
