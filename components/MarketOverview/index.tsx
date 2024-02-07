@@ -7,12 +7,18 @@ import usePolygonAllTickersStore from '@/store/PolygonAllTickersStore';
 
 const MarketOverview = () => {
   // const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
-  const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
+  const { data, error, isLoading, fetchData, lastFetched } = usePolygonAllTickersStore();
 
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // useEffect(() => {
+  //   const now = Date.now();
+  //   const fiveMinutes = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+  //   // Only fetch data if it hasn't been fetched yet or if it's stale (older than 5 minutes)
+  //   if (!lastFetched || now - lastFetched > fiveMinutes) {
+  //     fetchData();
+  //   }
+  // }, [fetchData, lastFetched]);
 
   const shouldShowSkeleton = isLoading || (!data && !isLoading);
 

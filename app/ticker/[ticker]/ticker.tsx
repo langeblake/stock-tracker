@@ -25,7 +25,7 @@ const Ticker = ({ ticker }) => {
   const isPositiveChange = data.ticker.day.c - data.ticker.day.o;
 
   return (
-    <div className='flex justify-between w-1/4 border rounded-lg '>
+    <div className='flex justify-between w-60 border rounded-lg mt-10'>
       <h1 className='p-4'>{data.ticker.ticker}</h1>
       <p className={`p-4 ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>${data.ticker.day.c}</p>
       {/* Display more ticker information */}
