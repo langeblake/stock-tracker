@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 export const OverviewCard = ({ data, isLoading }) => {
   const router = useRouter()
 
-  const handleClick = (ticker) => {
+  const handleClick = (ticker: string) => {
     router.push(`/ticker/${ticker}`);
 };
 
@@ -32,7 +32,7 @@ export const OverviewCard = ({ data, isLoading }) => {
                   <h2 className={`font-light ${isPositiveChange ? 'text-green-500' : 'text-red-500'}`}>
                     {isPositiveChange ? '+' : ''}{change.toFixed(2)} {/* Display the change */}
                   </h2>
-                  <h2 className="dark:text-green-500 text-green-500 font-regular">${item.day.c.toFixed(2)}</h2> {/* Display the closing price */}
+                  <h2 className="font-regular">${item.day.c.toFixed(2)}</h2> {/* Display the closing price */}
                 </div>
               </div>
             );

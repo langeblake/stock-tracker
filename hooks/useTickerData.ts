@@ -17,6 +17,7 @@ const useTickerData = (ticker: string) => {
         const result = await fetchPolygonTicker(ticker);
         setData(result);
         setError(null);
+        console.log(result)
       } catch (error) {
         setError(error);
         setData(null);

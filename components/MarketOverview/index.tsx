@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect } from 'react';
-import usePolygonAllTickers from '@/hooks/usePolygonAllTickers';
 import { OverviewCard } from './overviewCard';
 import usePolygonAllTickersStore from '@/store/PolygonAllTickersStore';
 

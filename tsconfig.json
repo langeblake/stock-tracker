@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "store/PolygonAllTickersStore.js"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "store/PolygonAllTickersStore.js", "store/TickerStore.js"],
   "exclude": ["node_modules"]
 }
