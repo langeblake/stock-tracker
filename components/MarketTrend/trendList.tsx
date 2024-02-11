@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
+import { IoIosStarOutline } from "react-icons/io";
 
 // Adjust the type to match the expected shape of each ticker's data
 type TickerData = {
@@ -118,7 +119,11 @@ function formatNumber(value) {
       <div>
         <h1 className='font-bold text-2xl py-6'>Trending Tickers</h1>
         <div className="flex w-full justify-between dark:bg-zinc-900/70 bg-zinc-100">
-            <div className=" h-full w-full flex items-center py-3 pl-4">Symbol</div>
+            <div className="flex w-full">
+              <div className=" h-full w-full flex justify-start items-center py-3 "></div>
+              <div className=" h-full w-full flex justify-center items-center py-3 ">Ranking</div>
+            </div> 
+            <div className=" h-full w-full flex justify-start items-center pl-2 py-3">Symbol</div>
             <div className=" h-full w-full flex justify-end items-center py-3">Price</div>
             <div className=" h-full w-full flex justify-end items-center py-3">Change</div>
             <div className=" h-full w-full flex justify-end items-center py-3">% Change</div>
@@ -129,7 +134,11 @@ function formatNumber(value) {
           </div>
         {data.map((stock, index) => (
           <div key={index} onClick={() => handleClick(stock.ticker.ticker)} className={`border-y-[.5px] dark:border-zinc-700 border-zinc-300 flex w-full justify-between dark:hover:bg-zinc-900/80 hover:bg-zinc-100 hover:cursor-pointer`}>
-            <div className={`h-full w-full flex items-center py-3 pl-4 font-light`}>{stock.ticker.ticker}</div>
+            <div className="flex w-full">
+              <div className={`h-full w-full flex justify-center items-center py-3 font-light`}><IoIosStarOutline size={15}/></div>
+              <div className={`h-full w-full flex justify-center  items-center py-3 font-light`}>{index + 1}</div>
+            </div>
+            <div className={`h-full w-full flex items-center py-3 pl-2 font-semibold`}>{stock.ticker.ticker}</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${stock.ticker.day.c}</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChange.toFixed(2)}</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChangePerc.toFixed(2)}%</div>

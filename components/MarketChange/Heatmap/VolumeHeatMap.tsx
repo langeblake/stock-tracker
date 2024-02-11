@@ -45,7 +45,7 @@ const VolumeHeatMap = () => {
     
 
     return ( 
-        <div className="w-full max-h-[700px] min-h-[700px]">
+        <div className="w-full max-h-[700px] min-h-[500px]">
             <div className=' w-full h-full rounded-lg'>
                {/* <TreeMap data={data} height={580} width={680}/> */}
                {/* <TreeMapScale data={data}/> */}

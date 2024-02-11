@@ -10,7 +10,7 @@ const MarketChange = () => {
     const [selectedHeatMap, setSelectedHeatMap] = useState('volume');
 
     return ( 
-        <section id="marketchange" className="py-16 md:py-20 lg:py-28 dark:bg-black bg-gray-100 border-slate-600">
+        <section id="marketchange" className="py-4 md:py-10 lg:py-10 dark:bg-black bg-gray-100 border-slate-600">
             <div className="px-12">
                 
                 <div className="h-fit flex gap-6 flex-col lg:flex-row">
