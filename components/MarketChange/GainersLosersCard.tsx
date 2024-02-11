@@ -67,7 +67,7 @@ const GainersLosers = () => {
                         ))
                     ) : (
                         data.gainers.tickers.sort((a, b) => b.todaysChangePerc - a.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-gainer'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                            <div key={ticker.ticker + '-gainer'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
                                 <TickerCard key={index} ticker={ticker} />
                             </div>
                         ))
@@ -82,7 +82,7 @@ const GainersLosers = () => {
                         ))
                     ) : (
                         data.losers.tickers.sort((a, b) => a.todaysChangePerc - b.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-loser'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900  dark:hover:bg-zinc-800 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                            <div key={ticker.ticker + '-loser'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
                                 <TickerCard key={index} ticker={ticker} />
                             </div>
                         ))
