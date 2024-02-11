@@ -3,7 +3,7 @@
 import { restClient } from '@polygon.io/client-js';
 
 // Create a function to fetch the data for the most recent weekday
-async function fetchPolygonData() {
+async function fetchPolygonDaily() {
   try {
     const rest = restClient(process.env.NEXT_PUBLIC_POLYGON_API_KEY);
     
@@ -27,7 +27,7 @@ async function fetchPolygonData() {
     
     // Fetch data for the most recent weekday
     const data = await rest.stocks.aggregatesGroupedDaily(formattedDate);
-    // const data = await rest.stocks.aggregatesGroupedDaily("2024-01-26");
+    // const data = await rest.stocks.aggregatesGroupedDaily("2024-02-07");
     
     return data;
   } catch (e) {
@@ -36,4 +36,4 @@ async function fetchPolygonData() {
   }
 }
 
-export default fetchPolygonData;
+export default fetchPolygonDaily;

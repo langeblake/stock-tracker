@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import fetchPolygonData from '@/utils/api/fetchPolygonDaily';
+import fetchPolygonDaily from '@/utils/api/fetchPolygonDaily';
 
 const usePolygonDaily = () => {
-  const [data, setData] = useState({ results: [] });
+  const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -10,8 +10,8 @@ const usePolygonDaily = () => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        const result = await fetchPolygonData();
-        // console.log("Data fetched: ", result);
+        const result = await fetchPolygonDaily();
+        console.log("Data fetched: ", result);
         setData(result);
         setIsLoading(false)
       } catch (e) {

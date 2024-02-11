@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 //     tickers: string[];
 //   }
 
-const StockList= ({ tickers }) => {
+export const StockList= ({ tickers }) => {
     const [stocks, setStocks] = useState([]);
   
     useEffect(() => {

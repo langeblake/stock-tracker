@@ -6,12 +6,8 @@ import { useEffect } from 'react';
 import { Oval } from 'react-loader-spinner';
 
 
-const Ticker = ({ ticker }) => {
-  const { data, isLoading, error, fetchData } = TickerStore();
-
-  useEffect(() => { 
-    fetchData(ticker)
-}, [ticker, fetchData])
+const Ticker = () => {
+  const { data, isLoading, error} = TickerStore();
 
   if (isLoading) return <div>
     <Oval

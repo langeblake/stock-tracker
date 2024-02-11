@@ -1,6 +1,8 @@
 import ScrollUp from "@/components/Common/ScrollUp";
 import MarketChange from "@/components/MarketChange";
 import MarketOverview from "@/components/MarketOverview";
+import MarketTrend from "@/components/MarketTrend";
+import fetchPolygonDaily from "@/utils/api/fetchPolygonDaily";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,8 +16,9 @@ export default function Home() {
     <>
       <ScrollUp />
         <MarketOverview />
-        {/* <MarketTrend /> */}
+        <MarketTrend />
         <MarketChange />
     </>
   );
 }
+

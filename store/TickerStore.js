@@ -8,7 +8,7 @@ import fetchPolygonTickerDetails from '@/utils/api/fetchPolygonTickerDetails';
 
 
 const TickerStore = create((set) => ({
-  // data: { request_id: '', status: '', ticker: {}, , market_cap: null},
+  // tickerData: { request_id: '', status: '', ticker: {}, , market_cap: null},
   isLoading: false,
   error: null,
 

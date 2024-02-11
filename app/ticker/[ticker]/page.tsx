@@ -7,8 +7,8 @@ import TickerStore from '@/store/TickerStore';
 
 const TickerPage = ({ params }) => {
     const { ticker } = params;
-    const { data, fetchData } = TickerStore();
-    const name = data?.name
+    const { data, isLoading , fetchData } = TickerStore();
+    const name = isLoading ? '' : data?.name;
 
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const TickerPage = ({ params }) => {
         <>
             <Breadcrumb pageName={ticker} description={name} />
             <div className="container mb-20 ">
-                <Ticker ticker={ticker} />
+                <Ticker />
             </div>
         </>
     );
