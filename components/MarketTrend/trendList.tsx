@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 
@@ -53,6 +54,13 @@ const TrendList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter()
+
+  const handleClick = (ticker: string) => {
+    router.push(`/ticker/${ticker}`);
+  
+  }
+
   useEffect(() => {
     async function fetchTrendingTickers() {
       setLoading(true);
@@ -89,7 +97,7 @@ const TrendList: React.FC = () => {
   }
 
   // Helper function to format large numbers
-function formatMarketCap(value) {
+function formatNumber(value) {
   if (value >= 1e12) {
     return `${(value / 1e12).toFixed(2)}T`;
   } else if (value >= 1e9) {
@@ -109,13 +117,26 @@ function formatMarketCap(value) {
     return (
       <div>
         <h1 className='font-bold text-2xl py-6'>Trending Tickers</h1>
+        <div className="flex w-full justify-between dark:bg-zinc-900/70 bg-zinc-100">
+            <div className=" h-full w-full flex items-center py-3 pl-4">Symbol</div>
+            <div className=" h-full w-full flex justify-end items-center py-3">Price</div>
+            <div className=" h-full w-full flex justify-end items-center py-3">Change</div>
+            <div className=" h-full w-full flex justify-end items-center py-3">% Change</div>
+            <div className=" h-full w-full flex justify-end items-center py-3">Volume</div>
+            <div className=" h-full w-full flex justify-end items-center py-3">Market Cap</div>
+            <div className=" h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div>
+            {/* <div className="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
+          </div>
         {data.map((stock, index) => (
-          <div key={index} className="border flex w-full justify-between py-2">
-            <div className="border h-8 w-20 flex items-center">{stock.ticker.ticker}</div>
-            <div className="border h-8 w-20 flex justify-end items-center">{stock.ticker.day.c}</div>
-            <div className="border h-8 w-20 flex justify-end items-center">{formatMarketCap(stock.market_cap)}</div>
-            <div className="border h-8 w-20 flex justify-end items-center">{stock.$50sma_values.toFixed(2)}</div>
-            <div className="border h-8 w-20 flex justify-end items-center">{stock.$200sma_values.toFixed(2)}</div>
+          <div key={index} onClick={() => handleClick(stock.ticker.ticker)} className={`border-y-[.5px] dark:border-zinc-700 border-zinc-300 flex w-full justify-between dark:hover:bg-zinc-900/80 hover:bg-zinc-100 hover:cursor-pointer`}>
+            <div className={`h-full w-full flex items-center py-3 pl-4 font-light`}>{stock.ticker.ticker}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${stock.ticker.day.c}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChange.toFixed(2)}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChangePerc.toFixed(2)}%</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.ticker.day.v)}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.market_cap)}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 pr-4`}>{stock.$50sma_values.toFixed(2)}</div>
+            {/* <div classNae="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
           </div>
         ))}
       </div>

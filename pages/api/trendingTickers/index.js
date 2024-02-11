@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             return {
                 ticker: tickerDataResponse.ticker,
                 name: tickerDetailsResponse.results.name,
-                price: tickerDataResponse.ticker.c,
+                change: tickerDataResponse.todaysChange,
                 market_cap: tickerDetailsResponse.results.market_cap,
                 $200sma_values: twoHundredDaySMA.results.values[0].value,
                 $50sma_values: fiftyDaySMA.results?.values[0].value,
