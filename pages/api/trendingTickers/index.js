@@ -6,6 +6,14 @@ import fetch50PolygonSMA from '@/utils/api/fetch50PolygonSMA';
 
 
 export default async function handler(req, res) {
+    // Check for API key in headers
+    const apiKey = req.headers['x-api-key'];
+    const expectedApiKey = process.env.NEXT_PUBLIC_BABYQUANT_API_KEY; // Set this in your .env.local file
+
+    // Validate API key
+    if (!apiKey || apiKey !== expectedApiKey) {
+        return res.status(401).json({ message: "Unauthorized access." });
+    }
 
     try {
         // Extract tickers from the query string and split into an array
