@@ -3,11 +3,16 @@ The front-end of this project uses NEXT.js, React, Typescript, Tailwind, and NPM
 </br>
 </br>
 
-## Setting Up API Key (dev branch)
+## Setting Up API Keys (dev branch)
 Before running the project, you'll need to set up your API key for finance data. This project currently uses US stock data from Polygon.io. </br>Create a .env.local file in the project root directory and add your API key as follows:
 
 ```Bash
+External:
 NEXT_PUBLIC_POLYGON_API_KEY=api_key_here
+
+Internal:
+NEXT_PUBLIC_BABYQUANT_API_KEY=BABYQUANT2024
+
 ```
 </br>
 
