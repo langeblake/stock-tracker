@@ -65,37 +65,49 @@ const TrendList: React.FC = () => {
   }
 
   useEffect(() => {
-    async function fetchTrendingTickers() {
+    async function fetchTickersByVolume() {
       setLoading(true);
       try {
-        //Need to implement a way to generate an array of trending tickers.
-        const tickers = [    "TSLA", "AAPL", "AMZN", "GOOGL", "NFLX", 
-        "META", "MSFT", "NVDA", "SQ", "PYPL", 
-        "AMD", "SHOP", "CRM", "ZM", "ROKU", 
-        "NIO", "PLTR", "SPCE", "SNAP", "UBER"].join(',');
-
-        // This API endpoint needs to be secure. Move to server-side!
-        const response = await fetch(`/api/trendingTickers?tickers=${tickers}`, {
+        // Fetch the top tickers by volume
+        const volumeResponse = await fetch('/api/highest-volume', {
           headers: {
-              // Include the API key in the request headers
-              // IMPORTANT: Securely manage and inject the API key in a production environment
-              'X-API-Key': API_KEY!
-          }
-      });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+            'X-API-Key': API_KEY!,
+          },
+        });
+        if (!volumeResponse.ok) {
+          throw new Error('Failed to fetch top tickers by volume');
         }
-        // Use type assertion to expect an array of TickerData objects
-        const jsonData: TickerData[] = await response.json();
-        setData(jsonData);
+        const volumeTickers = await volumeResponse.json();
+
+        // Now fetch the trending tickers using these top volume tickers
+        await fetchTrendingTickers(volumeTickers);
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
-    fetchTrendingTickers();
+    fetchTickersByVolume();
   }, []);
+
+  async function fetchTrendingTickers(tickerSymbols) {
+    try {
+      const tickersQueryString = tickerSymbols.join(',');
+      const detailsResponse = await fetch(`/api/trendingTickers-copy?tickers=${tickersQueryString}`, {
+        headers: {
+          'X-API-Key': API_KEY!,
+        },
+      });
+      if (!detailsResponse.ok) {
+        throw new Error('Failed to fetch ticker details');
+      }
+      const detailsData: TickerData[] = await detailsResponse.json();
+      setData(detailsData);
+    } catch (error) {
+      setError(error.message);
+    }
+  }
 
   if (loading) {
     return <Oval color="#4fa94d" height={80} width={80} />;
@@ -114,7 +126,7 @@ function formatNumber(value) {
   } else if (value >= 1e6) {
     return `${(value / 1e6).toFixed(2)}M`;
   } else {
-    return `${value.toFixed(2)}`;
+    return `${value}`;
   }
 }
 
@@ -137,7 +149,7 @@ function formatNumber(value) {
             <div className=" h-full w-full flex justify-end items-center py-3">% Change</div>
             <div className=" h-full w-full flex justify-end items-center py-3">Volume</div>
             <div className=" h-full w-full flex justify-end items-center py-3">Market Cap</div>
-            <div className=" h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div>
+            {/* <div className=" h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div> */}
             {/* <div className="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
           </div>
         {data.map((stock, index) => (
@@ -151,9 +163,9 @@ function formatNumber(value) {
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChange.toFixed(2)}</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChangePerc.toFixed(2)}%</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.ticker.day.v)}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.market_cap)}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 pr-4`}>{stock.$50sma_values.toFixed(2)}</div>
-            {/* <div classNae="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{stock.market_cap !== undefined ? formatNumber(stock.market_cap) : 'NA'}</div>
+            {/* <div className={`h-full w-full flex justify-end items-center py-3 pr-4`}>{stock.$50sma_values.toFixed(2)}</div> 
+            <div className="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div>  */}
           </div>
         ))}
       </div>
@@ -172,4 +184,3 @@ async function fetchTickers(): Promise<TickerData[]> {
   // For demonstration, returning a static subset of your provided data
   return []; // Return your actual fetched data here
 }
-

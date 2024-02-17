@@ -7,7 +7,7 @@ const Breadcrumb = ({
 }: {
   icon?: string;
   pageName: string;
-  description: string;
+  description?: string;
 }) => {
   return (
     <>

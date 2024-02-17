@@ -1,44 +1,43 @@
 // components/TickerPage.js
-'use client'
-
-import TickerStore from '@/store/TickerStore' 
-import { useEffect } from 'react';
 import { Oval } from 'react-loader-spinner';
 
+const Ticker = ({ data, loading, error }) => {
 
-const Ticker = () => {
-  const { data, isLoading, error} = TickerStore();
+  if (loading) {
+    return <Oval color="#4fa94d" height={80} width={80} />;
+  }
 
-  if (isLoading) return <div>
-    <Oval
-      visible={true}
-      height="80"
-      width="80"
-      color="#4fa94d"
-      ariaLabel="oval-loading"
-      wrapperStyle={{}}
-      wrapperClass=""
-    />
+  if (error) {
+    return <div>Error: {error.toString()}</div>;
+  }
 
-  </div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!data) return <div></div>;
+  if (!data) {
+    return <div>No Data!</div>
+  }
 
+  // Assuming `data` is directly the object you showed from the API fetch
+  const { ticker, marketCap, sma200, sma50 } = data;
 
-  const tickerOpen = data.ticker.day.o
-  const tickerClose = data.ticker.min.c.toFixed(2)
-  const tickerPrevClose = data.ticker.prevDay.c
-  const tickerDayVolume = data.ticker.day.v.toLocaleString()
-  const tickerPrevDayVolume = data.ticker.prevDay.v
-  const tickerPriceChange = data.ticker.todaysChange;
-  const tickerVolumeChange = tickerDayVolume - tickerPrevDayVolume;
-  const first50SMAValue = data.$50sma_values ? data.$50sma_values[0].value.toFixed(2) : 'NA';
-  const first200SMAValue = data.$200sma_values ? data.$200sma_values[0].value.toFixed(2) : 'NA';
+  // Now accessing properties directly from `ticker`
+  const tickerOpen = ticker.day.o;
+  const tickerClose = ticker.min.c.toFixed(2);
+  const tickerPrevClose = ticker.prevDay.c;
+  const tickerDayVolume = ticker.day.v.toLocaleString();
+  const tickerPrevDayVolume = ticker.prevDay.v;
+  const tickerPriceChange = ticker.todaysChange;
+  const tickerVolumeChange = ticker.day.v - ticker.prevDay.v; // Adjusted to use .v for volume
+  const volumeChangePerc = ((ticker.day.v - ticker.prevDay.v) / ticker.prevDay.v) * 100;
+  const first50SMAValue = sma50.toFixed(2);
+  const first200SMAValue = sma200.toFixed(2);
 
   const isPricePositiveChange = tickerPriceChange >= 0;
   const isVolumePositiveChange = tickerVolumeChange >= 0;
+  // Adjust volume change calculation if necessary
 
-  const marketCap = data.market_cap ? Math.floor(data.market_cap) : 0;
+  const formattedMarketCap = formatLargeNumber(marketCap);
+
+  // Your rendering logic follows...
+
   function formatLargeNumber(number: number) {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + 'B'; // Divide by a billion and add 'B'
@@ -52,8 +51,6 @@ const Ticker = () => {
       return 'NA'
     }
   }
-
-  const formattedMarketCap = formatLargeNumber(marketCap);
   
 
   return (
@@ -87,8 +84,8 @@ const Ticker = () => {
       {/* Card 2 */}
       <div className='flex flex-col border dark:border-zinc-700 dark:bg-zinc-900 rounded-lg'>
         <div className='flex justify-between'>
-          <h1 className='p-4'>Volume</h1>
-          {/* <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{tickerVolumeChange.toLocaleString()}</p> */}
+          <h1 className='p-4 w-2/3'>Volume</h1>
+          <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{volumeChangePerc.toFixed(2)}%</p>
           <p className='p-4' >{tickerDayVolume}</p>
         </div>
         <div className='flex justify-between'>
@@ -99,10 +96,6 @@ const Ticker = () => {
           <h1 className='p-4'>200-Day Moving Avg.</h1>
           <p className='p-4' >{first200SMAValue}</p>
         </div>
-        {/* <div className='flex justify-between'>
-          <h1 className='p-4'>200-Day Moving Avg.</h1>
-          <p className='p-4' >{first200SMAValue}</p>
-        </div> */}
         <div className='flex justify-between'>
           <h1 className='p-4'>Market Cap</h1>
           <p className='p-4' >{formattedMarketCap}</p>

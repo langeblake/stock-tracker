@@ -1,7 +1,7 @@
 'use client'
 
 import SectionTitle from "../Common/SectionTitle";
-import TrendList from "./trendList-copy";
+import TrendList from "./trendList";
 
 
 

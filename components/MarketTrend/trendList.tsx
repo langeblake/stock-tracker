@@ -55,6 +55,8 @@ const TrendList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const API_KEY = process.env.NEXT_PUBLIC_BABYQUANT_API_KEY
+
   const router = useRouter()
 
   const handleClick = (ticker: string) => {
@@ -73,7 +75,13 @@ const TrendList: React.FC = () => {
         "NIO", "PLTR", "SPCE", "SNAP", "UBER"].join(',');
 
         // This API endpoint needs to be secure. Move to server-side!
-        const response = await fetch(`/api/trendingTickers?tickers=${tickers}`);
+        const response = await fetch(`/api/trendingTickers?tickers=${tickers}`, {
+          headers: {
+              // Include the API key in the request headers
+              // IMPORTANT: Securely manage and inject the API key in a production environment
+              'X-API-Key': API_KEY!
+          }
+      });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -150,9 +158,7 @@ function formatNumber(value) {
         ))}
       </div>
     );
-  } else {
-    return <div>No data found</div>;
-  }
+  } 
 };
 
 export default TrendList;
@@ -164,4 +170,3 @@ async function fetchTickers(): Promise<TickerData[]> {
   // For demonstration, returning a static subset of your provided data
   return []; // Return your actual fetched data here
 }
-
