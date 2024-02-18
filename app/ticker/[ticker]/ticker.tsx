@@ -12,7 +12,7 @@ const Ticker = ({ data, loading, error }) => {
   }
 
   if (!data) {
-    return <div>No Data!</div>
+    return <div></div>
   }
 
   // Assuming `data` is directly the object you showed from the API fetch

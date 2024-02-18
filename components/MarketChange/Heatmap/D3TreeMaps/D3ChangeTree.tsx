@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 const D3VolumeTree = ({ data }) => {
-  const svgRef = useRef(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 680, height: 580 });
 
   // Function to update the dimensions state based on the container size
@@ -56,7 +56,7 @@ const D3VolumeTree = ({ data }) => {
     // Process the data
     const root = d3.hierarchy(data)
       .sum(d => d.absValue)
-      .sort((a, b) => b.absValue - a.absValue );
+      .sort((a, b) => (b.value || 0) - (a.value || 0));
   
     d3.treemap()
       .size([width, height])
@@ -69,28 +69,28 @@ const D3VolumeTree = ({ data }) => {
   
     // Define a scale for font sizes
     const fontSizeScale = d3.scaleSqrt()
-      .domain([minValue, maxValue])
+      .domain([minValue || 0, maxValue || 0])
       .range([12, 32]); // Adjust font size range as needed
   
     // Sort nodes by value to find the top #
     const topValues = root.leaves()
-      .sort((a, b) => b.value - a.value)
+      .sort((a, b) => (b.value || 0) - (a.value || 0))
       .slice(0, 10)
       .map(node => node.value);
   
     
-     const gapScale = d3.scaleSqrt()
-      .domain([minValue, maxValue])
-      .range([1.5, 1.1]); // Adjust this range to control the gap
-    
+    const gapScale = d3.scaleSqrt()
+    .domain([minValue || 0, maxValue || 0])
+    .range([1.5, 1.1]); // Adjust this range to control the gap
+  
 
     // Draw rectangles for each node
     const nodes = svg.selectAll('g')
-      .data(root.leaves())
-      .enter()
-      .append('g')
-      .attr('transform', d => `translate(${d.x0},${d.y0})`);
-    
+    .data(root.leaves() as d3.HierarchyRectangularNode<any>[])
+    .enter()
+    .append('g')
+    .attr('transform', d => `translate(${d.x0},${d.y0})`);
+  
     nodes.append('rect')
       .attr('width', d => d.x1 - d.x0)
       .attr('height', d => d.y1 - d.y0)
@@ -119,12 +119,12 @@ const D3VolumeTree = ({ data }) => {
       .attr("text-anchor", "start") // Align text to start to fit in smaller cells
       .each(function(d) { // Truncate text to fit in cell
           const self = d3.select(this);
-          let textLength = self.node().getComputedTextLength();
+          let textLength = self.node()!.getComputedTextLength();
           let text = self.text();
           while (textLength > (d.x1 - d.x0 - 6) && text.length > 0) { // Subtract padding or margin as necessary
               text = text.slice(0, -1);
               self.text(`${text}...`);
-              textLength = self.node().getComputedTextLength();
+              textLength = self.node()!.getComputedTextLength();
           }
       });
     
@@ -132,17 +132,20 @@ const D3VolumeTree = ({ data }) => {
     nodes.filter(d => topValues.includes(d.value))
       .append('text')
       .attr('x', 10)
-      .attr('y', d => 30 + fontSizeScale(d.value) * gapScale(d.value)) // Calculate gap based on value
+      .attr('y', d => 30 + fontSizeScale(d.value || 0) * gapScale(d.value || 0)) // Calculate gap based on value
       .text(d => {
-        if (d.data.value > 0) {
-          return `${d.value.toLocaleString()}%`;
+        if (d.data.value) {
+          // If d.data.value is greater than 0
+          return `${d.data.value.toLocaleString()}%`;
         } else if (d.data.value < 0) {
-          return `-${d.value.toLocaleString()}%`;
+          // If d.data.value is less than 0
+          return `-${d.data.value.toLocaleString()}%`;
         } else {
-          // Don't show any text if the value is zero
+          // Don't show any text if the value is zero or undefined
           return '';
         }
       })
+      
       
       // .attr('font-size', d => `${fontSizeScale(d.value)}px`)
       .attr('font-size', (d) => {
@@ -155,12 +158,12 @@ const D3VolumeTree = ({ data }) => {
       .attr('fill', 'white')
       .each(function(d) { // Truncate text to fit in cell
         const self = d3.select(this);
-        let textLength = self.node().getComputedTextLength();
+        let textLength = self.node()!.getComputedTextLength();
         let text = self.text();
         while (textLength > (d.x1 - d.x0 - 6) && text.length > 0) { // Subtract padding or margin as necessary
             text = text.slice(0, -1);
             self.text(`${text}...`);
-            textLength = self.node().getComputedTextLength();
+            textLength = self.node()!.getComputedTextLength();
         }
     });
       

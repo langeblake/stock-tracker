@@ -86,7 +86,7 @@ const TickerPage = ({ params }) => {
         // Example: document.querySelector('meta[name="description"]').content = `Information about the company ${ticker}.`;
     }, [ticker]); // This effect runs when `ticker` prop changes
 
-    const description = loading ? "Loading..." : data ? data.name : "No data available";
+    const description = loading ? "Loading..." : data ? data.name : "";
 
     return (
         <>
