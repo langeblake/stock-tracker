@@ -54,6 +54,7 @@ const GainersLosers = () => {
     // Determine the number of skeletons to render
     const skeletonCount = 4; // Or dynamically determine based on container size or other factors
 
+    console.log(data)
     return (
         <div className='w-full'>
             <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>

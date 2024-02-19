@@ -25,7 +25,9 @@ export default function RootLayout({
       <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
         <Providers>
           <Header />
+          <Suspense>
           {children}
+          </Suspense>
           <Footer />
           <ScrollToTop />
         </Providers>
@@ -34,4 +36,5 @@ export default function RootLayout({
   );
 }
 
-import { Providers } from "./providers";
+import { Providers } from "./providers"; import { Suspense } from "react";
+
