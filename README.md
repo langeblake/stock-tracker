@@ -9,6 +9,7 @@ Before running the project, you'll need to set up your API key for finance data.
 ```Bash
 External:
 NEXT_PUBLIC_POLYGON_API_KEY=api_key_here
+POLYGON_API_KEY=api_key_here
 
 Internal:
 NEXT_PUBLIC_BABYQUANT_API_KEY=BABYQUANT2024
