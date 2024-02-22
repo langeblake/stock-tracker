@@ -1,3 +1,7 @@
+interface PublisherData {
+  logo_url: string;
+  name: string;
+}
 
 interface TickerNewsResponse {
   title: string;
@@ -6,6 +10,7 @@ interface TickerNewsResponse {
   article_url: string;
   image_url: string;
   description: string;
+  publisher: PublisherData;
 }
 
 // Make sure to type the expected structure of the API response correctly
@@ -15,7 +20,7 @@ interface NewsApiResponse {
 
 const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
   const API_KEY = process.env.POLYGON_API_KEY;
-  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=1&apiKey=${API_KEY}`;
+  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=5&apiKey=${API_KEY}`;
   
   try {
     const response = await fetch(url);
@@ -36,9 +41,8 @@ const NewsOverview = async () => {
   const tickerNewsData = await fetchTickerNewsData();
 
   return (
-    <section>
-      <div className="container">
-        <div className="max-w-[300px] shadow-lg rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
+    <section className="container w-full shadow-md rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
+        <div>
           <h3 className="font-bold text-lg mb-6">NEWS</h3>
           {tickerNewsData ? (
             <div className="flex flex-col items-center">
@@ -46,6 +50,9 @@ const NewsOverview = async () => {
               <a href={tickerNewsData.article_url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:underline">
                 {tickerNewsData.title}
               </a>
+              <p className="mt-4 text-sm text-gray-500">
+                {tickerNewsData.publisher.name}
+              </p>
               <p className="mt-2 text-sm text-gray-500">
                 {/* {new Date(tickerNewsData.published_utc).toLocaleDateString()} by {tickerNewsData.author} */}
               </p>
@@ -55,7 +62,6 @@ const NewsOverview = async () => {
             <p>News data not available</p>
           )}
         </div>
-      </div>
     </section>
   );
 }

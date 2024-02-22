@@ -76,9 +76,8 @@ const CryptoOverview = async () => {
 
   // Example of how you might want to display the data
   return (
-    <section>
-      <div className="container min-w-[350px]">
-        <div className="shadow-lg rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
+    <section className="container w-full shadow-md rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
+      <div>
           <h3 className="font-bold text-lg mb-10">Cryptocurrency</h3>
           <div className="flex flex-col gap-10 font-light">
             {currencyTickers.map((ticker, idx) => {
@@ -101,7 +100,6 @@ const CryptoOverview = async () => {
             })}
           </div>
         </div>
-      </div>
     </section>
   );
 }
