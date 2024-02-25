@@ -29,13 +29,14 @@
     "react-modal-video": "^2.0.0",
     "react-query": "^3.39.3",
     "react-toastify": "^10.0.4",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "yahoo-finance": "^0.3.8",
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@types/node": "^20.8.9",
+    "@types/node": "^20.11.20",
     "@types/react": "^18.2.33",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",

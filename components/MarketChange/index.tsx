@@ -12,7 +12,6 @@ const MarketChange = () => {
     return ( 
         <section id="marketchange" className="py-4 md:py-10 lg:py-10 dark:bg-black bg-gray-100 border-slate-600">
             <div className="px-12">
-                
                 <div className="h-fit flex gap-6 flex-col lg:flex-row">
                     <div className="lg:w-1/2">
                         <GainersLosers />

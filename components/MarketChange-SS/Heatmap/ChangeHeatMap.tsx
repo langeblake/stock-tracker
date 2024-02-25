@@ -1,44 +1,67 @@
-"use client"
-
-// import TreeMap from "./treeMap";
-// import { treeMapData as data } from "@/utils/treeMapData";
-// import { treeMapStockData as data } from "@/data/treeMapData-Test01";
-import { Oval } from "react-loader-spinner";
 import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMap";
 import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
-import useGainersLosersStore from "@/store/GainersLosersStore"
-import { useEffect } from "react";
+
+type TickerData = {
+    ticker: {
+      ticker: string;
+      todaysChangePerc: number;
+      todaysChange: number;
+      updated: number;
+      day: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      min: {
+        av: number;
+        t: number;
+        n: number;
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      prevDay: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+    };
+  };
+
+interface GainersLosersResponse {
+    gainers: { tickers: TickerData[] };
+    losers: { tickers: TickerData[] };
+  }
 
 
-const ChangeHeatMap = () => {
-    const { data, isLoading, error, fetchData } = useGainersLosersStore();
-
-    useEffect(() => {
-        // Only fetch data if the tickers array is empty (because of Heatmap toggle)
-        if (data.gainers.tickers.length === 0) {
-          fetchData();
-        }
-      }, [data.gainers.tickers.length, fetchData]);
-
-
-    if (isLoading) {
-        return (
-            <div className="w-full">
-                <div className=' flex w-full h-500px rounded-lg justify-center items-center'>
-                <Oval
-                    visible={true}
-                    height="80"
-                    width="80"
-                    color="#4fa94d"
-                    ariaLabel="oval-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                />
-                </div>
-            </div>
-        );
+const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+      const response = await fetch(`${baseUrl}/api/gainers-losers`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data Gainers-Losers`);
+      }
+      const data = await response.json();
+      return data; // Assuming the API returns the data structured as expected.
+    } catch (error) {
+      console.error(`Error fetching data for Gainers-Losers:`, error);
+      return null;
     }
-    if (error) return <div>Error loading data</div>;
+  };
+
+
+const ChangeHeatMap = async () => {
+    const data = await fetchGainersLosersData();
+
   
     // Transform the data right before rendering the tree map
     const treeMapData = transformChangeDataForTreeMap(data);

@@ -1,4 +1,5 @@
 // GainersLosers.js
+
 import Link from "next/link";
 
 type TickerData = {
@@ -80,34 +81,45 @@ const GainersLosers = async () => {
     if (!data) {
         return <div>Loading...</div>; // Adjust based on your loading state handling
       }
+  
     
+    // Function to filter and sort tickers
+    const processTickers = (tickers) => {
+        return tickers
+            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 1000) // Filter out tickers with change percentage over 1000%
+            .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc)) // Sort by absolute change percentage
+            .slice(0, 4); // Limit to top 4
+    };
 
-    
-  return (
-    <div>
-      <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
-      <div className='flex gap-5'>
-        <div className='flex flex-col gap-4 w-1/2'>
-          {data.gainers.tickers.sort((a, b) => b.ticker.todaysChangePerc - a.ticker.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-            <Link key={`gainer-${index}`} href={`/ticker/${ticker.ticker}`}>
-                <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
-                <TickerCard ticker={ticker} />
+    // Processed gainers and losers
+    const gainers = processTickers(data.gainers.tickers);
+    const losers = processTickers(data.losers.tickers);
+
+    return (
+        <div className='container'>
+            <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
+            <div className='flex gap-5'>
+                <div className='flex flex-col gap-4 w-1/2'>
+                    {gainers.map((ticker, index) => (
+                        <Link key={index} href={`/ticker/${ticker.ticker}`}>
+                            <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                                <TickerCard ticker={ticker} />
+                            </div>
+                        </Link>
+                    ))}
                 </div>
-            </Link>
-          ))}
-        </div>
-        <div className='flex flex-col gap-4 w-1/2'>
-          {data.losers.tickers.sort((a, b) => a.ticker.todaysChangePerc - b.ticker.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-            <Link key={`loser-${index}`} href={`/ticker/${ticker.ticker}`}>
-                <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
-                <TickerCard ticker={ticker} />
+                <div className='flex flex-col gap-4 w-1/2'>
+                    {losers.map((ticker, index) => (
+                        <Link key={index} href={`/ticker/${ticker.ticker}`}>
+                            <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                                <TickerCard ticker={ticker} />
+                            </div>
+                        </Link>
+                    ))}
                 </div>
-            </Link>
-          ))}
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default GainersLosers;

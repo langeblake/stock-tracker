@@ -1,43 +1,26 @@
-"use client"
 
-// import TreeMap from "./treeMap";
-import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
-// import { treeMapData as data } from "@/utils/treeMapData";
-// import { treeMapStockData as data } from "@/data/treeMapData-Test01";
-import { Oval } from "react-loader-spinner";
 import { transformVolumeDataForTreeMap } from "@/utils/helper/transformVolumeDataForTreeMap";
-import usePolygonAllTickersStore from "@/store/PolygonAllTickersStore";
-import { useEffect } from "react";
+import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
 
-
-const VolumeHeatMap = () => {
-    const { data, error, isLoading, fetchData } = usePolygonAllTickersStore();
-
-    useEffect(() => {
-        // Only fetch data if the tickers array is empty (because of Heatmap toggle)
-        if (data.tickers.length === 0) {
-          fetchData();
+const fetchTickerData = async () => {
+    const apiKey = process.env.POLYGON_API_KEY;
+    try {
+        const response = await fetch(`https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=${apiKey}`, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data Gainers-Losers`);
         }
-      }, [data.tickers.length, fetchData]);
+        const data = await response.json();
+        return data; // Assuming the API returns the data structured as expected.
+      } catch (error) {
+        console.error(`Error fetching data for Gainers-Losers:`, error);
+        return null;
+      }
+}
 
-    if (isLoading) {
-        return (
-            <div className="w-full">
-                <div className=' flex w-full h-500px rounded-lg justify-center items-center'>
-                <Oval
-                    visible={true}
-                    height="80"
-                    width="80"
-                    color="#4fa94d"
-                    ariaLabel="oval-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                />
-                </div>
-            </div>
-        );
-    }
-    if (error) return <div>Error loading data</div>;
+
+const VolumeHeatMap = async () => {
+    const data = await fetchTickerData();
+
   
     // Transform the data right before rendering the tree map
     const treeMapData = transformVolumeDataForTreeMap(data);
