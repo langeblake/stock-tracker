@@ -25,9 +25,7 @@ export default function RootLayout({
       <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
         <Providers>
           <Header />
-          <Suspense>
           {children}
-          </Suspense>
           <Footer />
           <ScrollToTop />
         </Providers>

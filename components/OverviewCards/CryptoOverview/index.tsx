@@ -46,6 +46,7 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
       }
 }
 
+
 const currencyTickers = ['X:BTCUSD', 'X:ETHUSD', 'X:ADAUSD', 'X:SOLUSD'];
 
 
@@ -63,6 +64,7 @@ const CryptoOverview = async () => {
   const currencyDataPromises = currencyTickers.map(fetchCryptoData);
   const currencyDataResults = await Promise.all(currencyDataPromises);
 
+
   // Transform the results into a more convenient structure, ensuring each currency has two days of data
   const transformedData = currencyDataResults.reduce((acc, currencyData) => {
     if (currencyData && currencyData.results.length >= 2) {
@@ -79,7 +81,7 @@ const CryptoOverview = async () => {
     <section className="container w-full shadow-md rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
       <div>
           <h3 className="font-bold text-lg mb-10">Cryptocurrency</h3>
-          <div className="flex flex-col gap-10 font-light">
+          <div className="flex flex-col gap-10 ">
             {currencyTickers.map((ticker, idx) => {
               const currencyInfo = transformedData[ticker];
               return (
@@ -87,7 +89,7 @@ const CryptoOverview = async () => {
                   <h1 className="w-3/6">{currencyNames[ticker]}</h1>
                   {currencyInfo ? (
                     <>
-                      <div className={`w-1/6 text-left ${currencyInfo.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      <div className={`w-1/6 text-left font-light ${currencyInfo.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {currencyInfo.change.toFixed(2)}%
                       </div>
                       <div className="w-2/6 text-right">${currencyInfo.currentDay.c?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'N/A'}</div>

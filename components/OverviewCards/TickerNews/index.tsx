@@ -20,7 +20,7 @@ interface NewsApiResponse {
 
 const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
   const API_KEY = process.env.POLYGON_API_KEY;
-  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=5&apiKey=${API_KEY}`;
+  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=20&apiKey=${API_KEY}`;
   
   try {
     const response = await fetch(url);
@@ -29,7 +29,10 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
     }
     // You will need to adjust this according to the actual shape of the response
     const { results } = await response.json() as NewsApiResponse;
-    return results[0]; // Assuming the first result is the article you want
+    
+    // Get a random index between 0 and 19
+    const randomIndex = Math.floor(Math.random() * 20);
+    return results[randomIndex]; // Return a random article
   } catch (error) {
     console.error(`Error fetching news data:`, error);
     return null;
@@ -46,7 +49,7 @@ const NewsOverview = async () => {
           <h3 className="font-bold text-lg mb-6">NEWS</h3>
           {tickerNewsData ? (
             <div className="flex flex-col items-center">
-              <img src={tickerNewsData.image_url} alt={tickerNewsData.title} className="mb-4 w-full h-auto rounded-md" />
+              <img src={tickerNewsData.image_url} alt={tickerNewsData.title} className="mb-4 w-full max-h-48 overflow-hidden rounded-md" />
               <a href={tickerNewsData.article_url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:underline">
                 {tickerNewsData.title}
               </a>

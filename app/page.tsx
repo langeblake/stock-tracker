@@ -1,11 +1,10 @@
 import ScrollUp from "@/components/Common/ScrollUp";
-import MarketChange from "@/components/MarketChange";
-import MarketOverviewSC from "@/components/MarketOverview-SC";
+import MarketChange from "@/components/MarketChange-SS";
+import MarketOverviewSC from "@/components/MarketOverview-SS";
 import MarketOverview from "@/components/MarketOverview";
 import MarketTrend from "@/components/MarketTrend";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import Loading from "./loading";
 import OverviewCards from "@/components/OverviewCards";
 
 export const metadata: Metadata = {
@@ -22,8 +21,8 @@ export default function Home() {
             <MarketOverviewSC />
           </Suspense> */}
         <OverviewCards /> 
-        {/* <MarketTrend /> */}
-        {/* <MarketChange /> */}
+        {/* <MarketTrend />
+        <MarketChange /> */}
     </>
   );
 }

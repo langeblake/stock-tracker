@@ -1,40 +1,28 @@
-// components/TickerPage.js
-import { Oval } from 'react-loader-spinner';
+const Ticker = ({ data }) => {
 
-const Ticker = ({ data, loading, error }) => {
 
-  if (loading) {
-    return <Oval color="#4fa94d" height={80} width={80} />;
-  }
-
-  if (error) {
-    return <div>Error: {error.toString()}</div>;
-  }
 
   if (!data) {
     return <div></div>
   }
 
-  // Assuming `data` is directly the object you showed from the API fetch
-  const { ticker, marketCap, sma200, sma50 } = data;
-
   // Now accessing properties directly from `ticker`
-  const tickerOpen = ticker.day.o;
-  const tickerClose = ticker.min.c.toFixed(2);
-  const tickerPrevClose = ticker.prevDay.c;
-  const tickerDayVolume = ticker.day.v.toLocaleString();
-  const tickerPrevDayVolume = ticker.prevDay.v;
-  const tickerPriceChange = ticker.todaysChange;
-  const tickerVolumeChange = ticker.day.v - ticker.prevDay.v; // Adjusted to use .v for volume
-  const volumeChangePerc = ((ticker.day.v - ticker.prevDay.v) / ticker.prevDay.v) * 100;
-  const first50SMAValue = sma50.toFixed(2);
-  const first200SMAValue = sma200.toFixed(2);
+  const tickerOpen = data.ticker.day.o;
+  const tickerClose = data.ticker.min.c.toFixed(2);
+  const tickerPrevClose = data.ticker.prevDay.c;
+  const tickerDayVolume = data.ticker.day.v.toLocaleString();
+  const tickerPrevDayVolume = data.ticker.prevDay.v;
+  const tickerPriceChange = data.ticker.todaysChange;
+  const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
+  const volumeChangePerc = ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100;
+  const first50SMAValue = data.sma50.toFixed(2);
+  const first200SMAValue = data.sma200.toFixed(2);
 
   const isPricePositiveChange = tickerPriceChange >= 0;
   const isVolumePositiveChange = tickerVolumeChange >= 0;
   // Adjust volume change calculation if necessary
 
-  const formattedMarketCap = formatLargeNumber(marketCap);
+  const formattedMarketCap = formatLargeNumber(data.marketCap);
 
   // Your rendering logic follows...
 
