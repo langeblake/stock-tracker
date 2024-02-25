@@ -24,8 +24,8 @@ export default function Home() {
         <OverviewCards /> 
         <MarketChange 
           GainersLosers={<GainersLosers/>} 
-          VolumeHeatMap={<VolumeHeatMap/>}
-          ChangeHeatMap={<ChangeHeatMap/>}
+          // VolumeHeatMap={<VolumeHeatMap/>}
+          // ChangeHeatMap={<ChangeHeatMap/>}
           >
         </MarketChange>
     </>

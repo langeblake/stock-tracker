@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 const MarketChange = ({ 
     GainersLosers,
-    VolumeHeatMap,
-    ChangeHeatMap,
+    // VolumeHeatMap,
+    // ChangeHeatMap,
  }) => {
     // State to track which heatmap is selected
     const [selectedHeatMap, setSelectedHeatMap] = useState('volume');
@@ -39,7 +39,7 @@ const MarketChange = ({
                         </div>
 
                         {/* Conditional rendering based on selected tab */}
-                        {selectedHeatMap === 'volume' ? (VolumeHeatMap) : (ChangeHeatMap) }
+                        {/* {selectedHeatMap === 'volume' ? VolumeHeatMap : ChangeHeatMap } */}
                     </div>
                 </div>
             </div>
