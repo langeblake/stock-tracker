@@ -30,8 +30,8 @@ export default async function handler(req, res) {
       ticker: tickerDataResponse.ticker, 
       name: tickerDetailsResponse.results.name, 
       marketCap: tickerDetailsResponse.results.market_cap, 
-      sma200: twoHundredDaySMAResponse.results.values[0].value,
-      sma50: fiftyDaySMAResponse.results.values[0].value 
+      sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
+      sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0 // Use 0 if undefined
     };
 
     // Send the combined data back to the client

@@ -1,4 +1,4 @@
-import fetchPolygonDaily from "../api/fetchPolygonDaily";
+import fetchPolygonDaily from "../_UNUSED_api/fetchPolygonDaily";
 
 export const getTickers = async () => {
     const data = await fetchPolygonDaily();

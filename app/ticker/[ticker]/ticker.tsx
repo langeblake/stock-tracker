@@ -73,20 +73,20 @@ const Ticker = ({ data }) => {
       <div className='flex flex-col border dark:border-zinc-700 dark:bg-zinc-900 rounded-lg'>
         <div className='flex justify-between'>
           <h1 className='p-4 w-2/3'>Volume</h1>
-          <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{volumeChangePerc.toFixed(2)}%</p>
+          <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{data.ticker.todaysChangePerc.toFixed(2)}%</p>
           <p className='p-4' >{tickerDayVolume}</p>
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>50-Day Moving Avg.</h1>
-          <p className='p-4' >{first50SMAValue}</p>
+          <p className='p-4' >{first50SMAValue ? first50SMAValue : "NA"}</p>
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>200-Day Moving Avg.</h1>
-          <p className='p-4' >{first200SMAValue}</p>
+          <p className='p-4' >{first200SMAValue ? first200SMAValue : "NA"}</p>
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>Market Cap</h1>
-          <p className='p-4' >{formattedMarketCap}</p>
+          <p className='p-4'>{formattedMarketCap}</p>
         </div>
 
         {/* Display more ticker information */}

@@ -86,7 +86,7 @@ const GainersLosers = async () => {
     // Function to filter and sort tickers
     const processTickers = (tickers) => {
         return tickers
-            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 1000) // Filter out tickers with change percentage over 1000%
+            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 100) // Filter out tickers with change percentage over 1000%
             .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc)) // Sort by absolute change percentage
             .slice(0, 4); // Limit to top 4
     };
@@ -96,7 +96,7 @@ const GainersLosers = async () => {
     const losers = processTickers(data.losers.tickers);
 
     return (
-        <div className='container'>
+        <div>
             <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
             <div className='flex gap-5'>
                 <div className='flex flex-col gap-4 w-1/2'>
