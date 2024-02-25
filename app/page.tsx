@@ -6,6 +6,7 @@ import MarketTrend from "@/components/MarketTrend";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import OverviewCards from "@/components/OverviewCards";
+import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
 
 export const metadata: Metadata = {
   title: "K-MarketView",
@@ -21,8 +22,7 @@ export default function Home() {
             <MarketOverviewSC />
           </Suspense> */}
         <OverviewCards /> 
-        {/* <MarketTrend />
-        <MarketChange /> */}
+        <MarketChange />
     </>
   );
 }

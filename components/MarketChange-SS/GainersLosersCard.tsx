@@ -1,25 +1,62 @@
 // GainersLosers.js
-"use client"
+import Link from "next/link";
 
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import useGainersLosersStore from '@/store/GainersLosersStore';
+type TickerData = {
+    ticker: {
+      ticker: string;
+      todaysChangePerc: number;
+      todaysChange: number;
+      updated: number;
+      day: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      min: {
+        av: number;
+        t: number;
+        n: number;
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      prevDay: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+    };
+  };
 
-const TickerSkeleton = () => {
-    return (
-        <div className='flex flex-col p-6 justify-between gap-4 animate-pulse'>
-            <div className='flex gap-8'>
-                <div className='h-6 bg-gray-600 rounded-full w-1/2'></div>
-                <div className='h-6 bg-gray-600 rounded-full w-1/2'></div>
-            </div>
-            <div className='flex gap-8'>
-                <div className='h-6 bg-gray-600 rounded-full w-1/2'></div>
-                <div className='h-6 bg-gray-600 rounded-full w-1/2'></div>
-            </div>
-        </div>
-    );
-};
+interface GainersLosersResponse {
+    gainers: { tickers: TickerData[] };
+    losers: { tickers: TickerData[] };
+  }
 
+
+const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+      const response = await fetch(`${baseUrl}/api/gainers-losers`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data Gainers-Losers`);
+      }
+      const data = await response.json();
+      return data; // Assuming the API returns the data structured as expected.
+    } catch (error) {
+      console.error(`Error fetching data for Gainers-Losers:`, error);
+      return null;
+    }
+  };
 
 const TickerCard = ({ ticker }) => {
     const changePercClass = ticker.todaysChangePerc >= 0 ? 'text-green-500' : 'text-red-500';
@@ -35,63 +72,42 @@ const TickerCard = ({ ticker }) => {
     );
 };
 
+const GainersLosers = async () => {
+    const data = await fetchGainersLosersData();
 
-const GainersLosers = () => {
-    const { data, loading, error, fetchData } = useGainersLosersStore();
 
-    useEffect(() => {
-        fetchData();
-      }, [fetchData]);
 
-    const router = useRouter()
+    if (!data) {
+        return <div>Loading...</div>; // Adjust based on your loading state handling
+      }
+    
 
-    const handleClick = (ticker) => {
-      router.push(`/ticker/${ticker}`);
-    }
-
-    if (error) return <p>Error loading data: {error.message}</p>;
-
-    // Determine the number of skeletons to render
-    const skeletonCount = 4; // Or dynamically determine based on container size or other factors
-
-    console.log(data)
-    return (
-        <div className='w-full'>
-            <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
-            <div className='flex gap-5'>
-                <div className='flex flex-col gap-4 w-1/2'>
-                    {loading ? (
-                        Array.from({ length: skeletonCount }).map((_, index) => (
-                            <div key={index} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white'>
-                                <TickerSkeleton />
-                            </div>
-                        ))
-                    ) : (
-                        data.gainers.tickers.sort((a, b) => b.todaysChangePerc - a.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-gainer'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
-                                <TickerCard key={index} ticker={ticker} />
-                            </div>
-                        ))
-                    )}
+    
+  return (
+    <div>
+      <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
+      <div className='flex gap-5'>
+        <div className='flex flex-col gap-4 w-1/2'>
+          {data.gainers.tickers.sort((a, b) => b.ticker.todaysChangePerc - a.ticker.todaysChangePerc).slice(0, 4).map((ticker, index) => (
+            <Link key={`gainer-${index}`} href={`/ticker/${ticker.ticker}`}>
+                <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                <TickerCard ticker={ticker} />
                 </div>
-                <div className='flex flex-col gap-4 w-1/2'>
-                    {loading ? (
-                        Array.from({ length: skeletonCount }).map((_, index) => (
-                            <div key={index} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900 bg-white'>
-                                <TickerSkeleton />
-                            </div>
-                        ))
-                    ) : (
-                        data.losers.tickers.sort((a, b) => a.todaysChangePerc - b.todaysChangePerc).slice(0, 4).map((ticker, index) => (
-                            <div key={ticker.ticker + '-loser'} onClick={() => handleClick(ticker.ticker)} className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
-                                <TickerCard key={index} ticker={ticker} />
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
+            </Link>
+          ))}
         </div>
-    );
+        <div className='flex flex-col gap-4 w-1/2'>
+          {data.losers.tickers.sort((a, b) => a.ticker.todaysChangePerc - b.ticker.todaysChangePerc).slice(0, 4).map((ticker, index) => (
+            <Link key={`loser-${index}`} href={`/ticker/${ticker.ticker}`}>
+                <div className='border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70  dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer'>
+                <TickerCard ticker={ticker} />
+                </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default GainersLosers;
