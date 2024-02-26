@@ -10,7 +10,7 @@ const Ticker = ({ data }) => {
   const tickerOpen = data.ticker.day.o;
   const tickerClose = data.ticker.min.c.toFixed(2);
   const tickerPrevClose = data.ticker.prevDay.c;
-  const tickerDayVolume = data.ticker.min.v.toLocaleString();
+  const tickerDayVolume = data.ticker.day.v.toLocaleString();
   const tickerPrevDayVolume = data.ticker.prevDay.v;
   const tickerPriceChange = data.ticker.todaysChange;
   // const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume

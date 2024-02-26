@@ -4,7 +4,8 @@ import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
 const fetchTickerData = async () => {
     const apiKey = process.env.POLYGON_API_KEY;
     try {
-        const response = await fetch(`https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=${apiKey}`, { cache: 'no-store' });
+        const currentDate = new Date().toJSON().slice(0, 10);
+        const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${currentDate}?adjusted=true&apiKey=${apiKey}`, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Failed to fetch data Gainers-Losers`);
         }
