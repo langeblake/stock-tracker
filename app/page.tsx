@@ -18,14 +18,11 @@ export default function Home() {
   return (
     <>
         <ScrollUp />
-          {/* <Suspense fallback={<Loading />}>
-            <MarketOverviewSC />
-          </Suspense> */}
         <OverviewCards /> 
         <MarketChange 
           GainersLosers={<GainersLosers/>} 
-          // VolumeHeatMap={<VolumeHeatMap/>}
-          // ChangeHeatMap={<ChangeHeatMap/>}
+          VolumeHeatMap={<VolumeHeatMap/>}
+          ChangeHeatMap={<ChangeHeatMap/>}
           >
         </MarketChange>
     </>

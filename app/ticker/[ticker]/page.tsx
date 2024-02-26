@@ -1,5 +1,6 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
+import { wait } from "@/utils/helper/wait";
 
 
 type TickerData = {
@@ -50,11 +51,12 @@ type TickerResponse = {
 const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
   try {
     const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
-    const response = await fetch(`${baseUrl}/api/tickerSS?ticker=${ticker}`);
+    const response = await fetch(`${baseUrl}/api/tickerSS?ticker=${ticker}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${ticker}`);
     }
     const data = await response.json();
+    await wait(2000);
     return data; // Assuming the API returns the data structured as expected.
   } catch (error) {
     console.error(`Error fetching data for ${ticker}:`, error);

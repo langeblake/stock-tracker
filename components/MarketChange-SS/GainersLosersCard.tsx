@@ -47,7 +47,7 @@ interface GainersLosersResponse {
 const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
     try {
       const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
-      const response = await fetch(`${baseUrl}/api/gainers-losers`);
+      const response = await fetch(`${baseUrl}/api/gainers-losers`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch data Gainers-Losers`);
       }
@@ -66,7 +66,7 @@ const TickerCard = ({ ticker }) => {
         <div className='flex p-6 justify-between'>
             <h3 className='font-semibold'>{ticker.ticker}</h3>
             <div className='flex flex-col gap-4'>
-                <p>${ticker.day.c.toFixed(2)}</p>
+                <p>${ticker.min.c.toFixed(2)}</p>
                 <p className={changePercClass}>{ticker.todaysChangePerc.toFixed(2)}%</p>
             </div>
         </div>
@@ -76,17 +76,15 @@ const TickerCard = ({ ticker }) => {
 const GainersLosers = async () => {
     const data = await fetchGainersLosersData();
 
-
-
     if (!data) {
-        return <div>Loading...</div>; // Adjust based on your loading state handling
+        return <div></div>; // Adjust based on your loading state handling
       }
   
     
     // Function to filter and sort tickers
     const processTickers = (tickers) => {
         return tickers
-            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 100) // Filter out tickers with change percentage over 1000%
+            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 1000) // Filter out tickers with change percentage over 1000%
             .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc)) // Sort by absolute change percentage
             .slice(0, 4); // Limit to top 4
     };
@@ -94,6 +92,7 @@ const GainersLosers = async () => {
     // Processed gainers and losers
     const gainers = processTickers(data.gainers.tickers);
     const losers = processTickers(data.losers.tickers);
+
 
     return (
         <div>

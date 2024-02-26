@@ -10,16 +10,16 @@ const Ticker = ({ data }) => {
   const tickerOpen = data.ticker.day.o;
   const tickerClose = data.ticker.min.c.toFixed(2);
   const tickerPrevClose = data.ticker.prevDay.c;
-  const tickerDayVolume = data.ticker.day.v.toLocaleString();
+  const tickerDayVolume = data.ticker.min.v.toLocaleString();
   const tickerPrevDayVolume = data.ticker.prevDay.v;
   const tickerPriceChange = data.ticker.todaysChange;
-  const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
-  const volumeChangePerc = ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100;
+  // const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
+  // const volumeChangePerc = ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100;
   const first50SMAValue = data.sma50.toFixed(2);
   const first200SMAValue = data.sma200.toFixed(2);
 
   const isPricePositiveChange = tickerPriceChange >= 0;
-  const isVolumePositiveChange = tickerVolumeChange >= 0;
+  const isVolumePositiveChange = data.ticker.todaysChangePerc >= 0;
   // Adjust volume change calculation if necessary
 
   const formattedMarketCap = formatLargeNumber(data.marketCap);
