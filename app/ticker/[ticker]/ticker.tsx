@@ -1,6 +1,5 @@
+
 const Ticker = ({ data }) => {
-
-
 
   if (!data) {
     return <div></div>
@@ -42,6 +41,7 @@ const Ticker = ({ data }) => {
   
 
   return (
+
     <div className='grid sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-10 lg:mt-0'>
 
       {/* Card 1 */}

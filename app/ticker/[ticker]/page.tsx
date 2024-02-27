@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
-import { wait } from "@/utils/helper/wait";
+import { Suspense } from "react";
 
 
 type TickerData = {
@@ -56,7 +56,6 @@ const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> =
       throw new Error(`Failed to fetch data for ${ticker}`);
     }
     const data = await response.json();
-    await wait(2000);
     return data; // Assuming the API returns the data structured as expected.
   } catch (error) {
     console.error(`Error fetching data for ${ticker}:`, error);
@@ -75,7 +74,7 @@ const TickerPage = async ({ params }) => {
           {/* <Breadcrumb pageName={ticker} description={name} /> */}
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
           <div className="container mb-20 ">
-              <Ticker data={tickerData}/>
+            <Ticker data={tickerData}/>
           </div>
       </>
   );

@@ -8,6 +8,23 @@ const D3VolumeTree = ({ data }) => {
 
   const [containerSize, setContainerSize] = useState({ width: 680, height: 580 });
 
+  useEffect(() => {
+    window.addEventListener('resize', updateContainerSize);
+    // Initial size update
+    updateContainerSize();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateContainerSize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (data && containerSize.width && containerSize.height) {
+      renderTreemap();
+    }
+  }, [data, containerSize]);
+
   // Function to update the dimensions state based on the container size
   const updateContainerSize = () => {
     if (svgRef.current) {
@@ -26,22 +43,7 @@ const D3VolumeTree = ({ data }) => {
 }
 
 
-  useEffect(() => {
-    window.addEventListener('resize', updateContainerSize);
-    // Initial size update
-    updateContainerSize();
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', updateContainerSize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (data && containerSize.width && containerSize.height) {
-      renderTreemap();
-    }
-  }, [data, containerSize]);
+ 
 
   function renderTreemap() {
     // Use the container size for the treemap dimensions

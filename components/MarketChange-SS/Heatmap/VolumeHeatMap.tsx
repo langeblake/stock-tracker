@@ -1,11 +1,26 @@
 import { transformVolumeDataForTreeMap } from "@/utils/helper/transformVolumeDataForTreeMap";
 import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
 
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+
+
 const fetchTickerData = async () => {
     const apiKey = process.env.POLYGON_API_KEY;
     try {
-        const currentDate = new Date().toJSON().slice(0, 10);
-        const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${currentDate}?adjusted=true&apiKey=${apiKey}`, { cache: 'no-store' });
+                // Specify the timezone you want, in this case, Eastern Standard Time
+        const timeZone = 'America/New_York';
+
+        // Get the current date and time in UTC
+        const nowUTC = new Date();
+
+        // Convert UTC to the desired timezone
+        const nowInEST = utcToZonedTime(nowUTC, timeZone);
+
+        // Format the date in the desired format
+        const formattedDate = format(nowInEST, 'yyyy-MM-dd');
+
+        const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${formattedDate}?adjusted=true&apiKey=${apiKey}`, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Failed to fetch data Gainers-Losers`);
         }
@@ -19,11 +34,11 @@ const fetchTickerData = async () => {
 
 
 const VolumeHeatMap = async () => {
-    const data = await fetchTickerData();
+    const tickerData = await fetchTickerData();
 
   
     // Transform the data right before rendering the tree map
-    const treeMapData = transformVolumeDataForTreeMap(data);
+    const treeMapData = transformVolumeDataForTreeMap(tickerData);
 
     
 
