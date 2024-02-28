@@ -1,3 +1,5 @@
+import { truncateString } from "@/utils/helper/truncateString";
+
 interface PublisherData {
   logo_url: string;
   name: string;
@@ -20,7 +22,7 @@ interface NewsApiResponse {
 
 const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
   const API_KEY = process.env.POLYGON_API_KEY;
-  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=20&apiKey=${API_KEY}`;
+  const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=50&apiKey=${API_KEY}`;
   
   try {
     const response = await fetch(url);
@@ -31,7 +33,7 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
     const { results } = await response.json() as NewsApiResponse;
     
     // Get a random index between 0 and 19
-    const randomIndex = Math.floor(Math.random() * 20);
+    const randomIndex = Math.floor(Math.random() * 50);
     return results[randomIndex]; // Return a random article
   } catch (error) {
     console.error(`Error fetching news data:`, error);
@@ -43,6 +45,8 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
 const NewsOverview = async () => {
   const tickerNewsData = await fetchTickerNewsData();
 
+  const truncatedTitle = tickerNewsData && truncateString(tickerNewsData.title, 80);
+
   return (
     <section className="container w-full shadow-md rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
         <div>
@@ -51,7 +55,7 @@ const NewsOverview = async () => {
             <div className="flex flex-col items-center">
               <img src={tickerNewsData.image_url} alt={tickerNewsData.title} className="mb-4 w-full max-h-48 overflow-hidden rounded-md" />
               <a href={tickerNewsData.article_url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:underline">
-                {tickerNewsData.title}
+                {truncatedTitle}
               </a>
               <p className="mt-4 text-sm text-gray-500">
                 {tickerNewsData.publisher.name}

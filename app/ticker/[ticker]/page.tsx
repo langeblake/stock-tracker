@@ -5,7 +5,7 @@ import LoadingOverviewCards from "@/components/Loading/LoadingOverviewCards";
 import { wait } from "@/utils/helper/wait";
 
 
-type TickerData = {
+interface TickerData {
     ticker: {
       ticker: string;
       todaysChangePerc: number;
@@ -41,16 +41,40 @@ type TickerData = {
     };
   };
 
-type TickerResponse = {
+  interface PublisherData {
+    logo_url: string;
+    name: string;
+  }
+  
+  interface TickerNewsData {
+    title: string;
+    author: string;
+    published_utc: string;
+    article_url: string;
+    image_url: string;
+    description: string;
+    publisher: PublisherData;
+  }
+
+interface TickerResponse {
   ticker: TickerData;
   name: string;
   market_cap: number;
   $200sma_value: number;
   $50sma_value: number;
+  fiscalPeriod: string;
+  fiscalYear: string;
+  netIncomLoss: number;
+  grossProfit: number;
+  earingsPerShare: number;
+  revenues: number;
+  tickerNews: TickerNewsData;
 }
 
 
 const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
+const apiKey = process.env.POLYGON_API_KEY
+
   try {
     const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
     const response = await fetch(`${baseUrl}/api/tickerSS?ticker=${ticker}`, { cache: 'no-store' });

@@ -1,3 +1,5 @@
+import { format, utcToZonedTime } from "date-fns-tz";
+
 export default async function handler(req, res) {
   // const apiKey = req.headers['x-api-key'];
   // const expectedApiKey = process.env.POLYGON_API_KEY;
@@ -5,8 +7,24 @@ export default async function handler(req, res) {
   // if (!apiKey || apiKey !== expectedApiKey) {
   //   return res.status(401).json({ message: "Unauthorized access." });
   // }
-  const apiKey = process.env.POLYGON_API_KEY
-  
+    const apiKey = process.env.POLYGON_API_KEY;
+
+    const timeZone = 'America/Los_Angeles';
+    // Get the current date and time in UTC
+    const currentDate = new Date();
+    const oneDayBeforeDate = new Date();
+    oneDayBeforeDate.setDate(currentDate.getDate() - 1);
+    const twoDayBeforeDate = new Date();
+    twoDayBeforeDate.setDate(currentDate.getDate() - 2);
+    // Format the seven days before date as "YYYY-MM-DD"
+    // Convert UTC to the desired timezone
+    const prevInPST = utcToZonedTime(oneDayBeforeDate, timeZone);
+    // Format the date in the desired format
+    const formattedDate = format(prevInPST, 'yyyy-MM-dd');
+    const twoPrevInPST = utcToZonedTime(twoDayBeforeDate, timeZone);
+    // Format the date in the desired format
+    const formattedDateTwo = format(twoPrevInPST, 'yyyy-MM-dd');
+
   try {
     // Retrieve the ticker from the query parameters
     const { ticker } = req.query;
@@ -16,18 +34,27 @@ export default async function handler(req, res) {
     const tickerDetailsURL = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${apiKey}`;
     const twoHundredDaySMAURL = `https://api.polygon.io/v1/indicators/sma/${ticker}?timespan=day&adjusted=true&window=200&series_type=close&order=desc&apiKey=${apiKey}`;
     const fiftyDaySMAURL = `https://api.polygon.io/v1/indicators/sma/${ticker}?timespan=day&adjusted=true&window=50&series_type=close&order=desc&apiKey=${apiKey}`;
-    const financials = `https://api.polygon.io/vX/reference/financials?ticker=${ticker}&timeframe=quarterly&order=desc&limit=10&sort=period_of_report_date&apiKey=${apiKey}`;
-
+    const financialsURL = `https://api.polygon.io/vX/reference/financials?ticker=${ticker}&timeframe=quarterly&order=desc&limit=10&sort=period_of_report_date&apiKey=${apiKey}`;
+    const tickerNewsURL = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&order=desc&limit=20&apiKey=${apiKey}`;
+    const generalNewsURL = `https://api.polygon.io/v2/reference/news?order=desc&limit=50&apiKey=${apiKey}`;
+    const twoPrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDate}?adjusted=true&apiKey=${apiKey}`
+    const threePrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDateTwo}?adjusted=true&apiKey=${apiKey}`
+    // const dailyOpenClose = 
 
     // Fetch data from multiple APIs
-    const [tickerDataResponse, tickerDetailsResponse, twoHundredDaySMAResponse, fiftyDaySMAResponse, financialsResponse] = await Promise.all([
+    const [tickerDataResponse, tickerDetailsResponse, twoHundredDaySMAResponse, fiftyDaySMAResponse, financialsResponse, tickerNewsResponse, generalNewsResponse, twoPrevDayResponse, threePrevDayResponse] = await Promise.all([
       fetch(tickerDataURL).then(res => res.json()),
       fetch(tickerDetailsURL).then(res => res.json()),
       fetch(twoHundredDaySMAURL).then(res => res.json()),
       fetch(fiftyDaySMAURL).then(res => res.json()),
-      fetch(financials).then(res => res.json()),
+      fetch(financialsURL).then(res => res.json()),
+      fetch(tickerNewsURL).then(res => res.json()),
+      fetch(generalNewsURL).then(res => res.json()),
+      fetch(twoPrevDayURL).then(res => res.json()),
+      fetch(threePrevDayURL).then(res => res.json()),
     ]);
 
+    const randomIndex = Math.floor(Math.random() * 50);
     // Combine data into a single structure
     const combinedData = {
       ticker: tickerDataResponse.ticker, 
@@ -41,6 +68,10 @@ export default async function handler(req, res) {
       grossProfit: financialsResponse.results[0]?.financials?.income_statement?.gross_profit?.value,
       earningsPerShare: financialsResponse.results[0]?.financials?.income_statement?.basic_earnings_per_share?.value,
       revenues: financialsResponse.results[0]?.financials?.income_statement?.revenues?.value,
+      tickerNews: tickerNewsResponse?.results[0],
+      generalNews: generalNewsResponse?.results[randomIndex],
+      twoPrevDayTicker: twoPrevDayResponse,
+      threePrevDayTicker: threePrevDayResponse,
     };
 
     // Send the combined data back to the client

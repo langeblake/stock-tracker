@@ -20,7 +20,8 @@ const fetchTickerData = async () => {
         // Format the date in the desired format
         const formattedDate = format(nowInEST, 'yyyy-MM-dd');
 
-        const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${formattedDate}?adjusted=true&apiKey=${apiKey}`, { cache: 'no-store' });
+        // const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${formattedDate}?adjusted=true&apiKey=${apiKey}`, { cache: 'no-store' });
+        const response = await fetch(`https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?apiKey=${apiKey}`, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Failed to fetch data Gainers-Losers`);
         }
