@@ -9,7 +9,7 @@ const fetchTickerData = async () => {
     const apiKey = process.env.POLYGON_API_KEY;
     try {
                 // Specify the timezone you want, in this case, Eastern Standard Time
-        const timeZone = 'America/New_York';
+        const timeZone = 'America/Los_Angeles';
 
         // Get the current date and time in UTC
         const nowUTC = new Date();

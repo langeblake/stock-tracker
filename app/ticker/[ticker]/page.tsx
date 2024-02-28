@@ -1,6 +1,8 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
 import { Suspense } from "react";
+import LoadingOverviewCards from "@/components/Loading/LoadingOverviewCards";
+import { wait } from "@/utils/helper/wait";
 
 
 type TickerData = {
@@ -70,13 +72,11 @@ const TickerPage = async ({ params }) => {
 
 
   return (
-      <>
+      <section className="container mb-20">
           {/* <Breadcrumb pageName={ticker} description={name} /> */}
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
-          <div className="container mb-20 ">
-            <Ticker data={tickerData}/>
-          </div>
-      </>
+          <Ticker data={tickerData}/>
+      </section>
   );
 };
 

@@ -1,3 +1,5 @@
+import { format, utcToZonedTime } from "date-fns-tz";
+
 interface CurrencyDayData {
     v: number;
     vw: number;
@@ -20,18 +22,25 @@ interface CurrencyResponse {
 const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null> => {
     const API_KEY = process.env.POLYGON_API_KEY;
     // Create a new Date object for the current date
-      const currentDate = new Date();
-      // Format the current date as "YYYY-MM-DD"
-      const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+    const timeZone = 'America/Los_Angeles';
+
+    // Get the current date and time in UTC
+    const nowUTC = new Date();
+
+    // Convert UTC to the desired timezone
+    const nowInPST = utcToZonedTime(nowUTC, timeZone);
+
+    // Format the date in the desired format
+    const formattedDate = format(nowInPST, 'yyyy-MM-dd');
       
       // Create a new Date object for seven days before the current date
       const sevenDaysBeforeDate = new Date();
-      sevenDaysBeforeDate.setDate(currentDate.getDate() - 7);
+      sevenDaysBeforeDate.setDate(nowUTC.getDate() - 7);
       // Format the seven days before date as "YYYY-MM-DD"
       const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
       
       // Use the formatted dates in your API fetch URL
-      const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/hour/${formattedSevenDaysBeforeDate}/${formattedCurrentDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
+      const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/hour/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
       
       try {
         const response = await fetch(url);

@@ -16,13 +16,16 @@ export default async function handler(req, res) {
     const tickerDetailsURL = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${apiKey}`;
     const twoHundredDaySMAURL = `https://api.polygon.io/v1/indicators/sma/${ticker}?timespan=day&adjusted=true&window=200&series_type=close&order=desc&apiKey=${apiKey}`;
     const fiftyDaySMAURL = `https://api.polygon.io/v1/indicators/sma/${ticker}?timespan=day&adjusted=true&window=50&series_type=close&order=desc&apiKey=${apiKey}`;
+    const financials = `https://api.polygon.io/vX/reference/financials?ticker=${ticker}&timeframe=quarterly&order=desc&limit=10&sort=period_of_report_date&apiKey=${apiKey}`;
+
 
     // Fetch data from multiple APIs
-    const [tickerDataResponse, tickerDetailsResponse, twoHundredDaySMAResponse, fiftyDaySMAResponse] = await Promise.all([
+    const [tickerDataResponse, tickerDetailsResponse, twoHundredDaySMAResponse, fiftyDaySMAResponse, financialsResponse] = await Promise.all([
       fetch(tickerDataURL).then(res => res.json()),
       fetch(tickerDetailsURL).then(res => res.json()),
       fetch(twoHundredDaySMAURL).then(res => res.json()),
-      fetch(fiftyDaySMAURL).then(res => res.json())
+      fetch(fiftyDaySMAURL).then(res => res.json()),
+      fetch(financials).then(res => res.json()),
     ]);
 
     // Combine data into a single structure
@@ -31,7 +34,13 @@ export default async function handler(req, res) {
       name: tickerDetailsResponse.results.name, 
       marketCap: tickerDetailsResponse.results.market_cap, 
       sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
-      sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0 // Use 0 if undefined
+      sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
+      fiscalPeriod: financialsResponse.results[0]?.fiscal_period,
+      fiscalYear: financialsResponse.results[0]?.fiscal_year,
+      netIncomeLoss: financialsResponse.results[0]?.financials?.income_statement?.net_income_loss?.value,
+      grossProfit: financialsResponse.results[0]?.financials?.income_statement?.gross_profit?.value,
+      earningsPerShare: financialsResponse.results[0]?.financials?.income_statement?.basic_earnings_per_share?.value,
+      revenues: financialsResponse.results[0]?.financials?.income_statement?.revenues?.value,
     };
 
     // Send the combined data back to the client

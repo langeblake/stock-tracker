@@ -1,6 +1,6 @@
 'use client'
 
-import LoadingHeatMap from "@/pages/api/Loading/LoadingHeatMap";
+import LoadingHeatMap from "@/components/Loading/LoadingHeatMap";
 import React, { Suspense, useState } from "react";
 
 const MarketChange = ({ 
