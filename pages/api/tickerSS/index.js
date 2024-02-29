@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       ticker: tickerDataResponse.ticker,
       name: tickerDetailsResponse.results?.name,
       marketCap: tickerDetailsResponse.results?.market_cap, 
-      list_date: tickerDataResponse.results?.list_date,
+      list_date: tickerDetailsResponse.results?.list_date,
       sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       fiscalPeriod: financialsResponse.results[0]?.fiscal_period,

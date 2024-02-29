@@ -102,7 +102,7 @@ const TickerPage = async ({ params }) => {
           {/* <Breadcrumb pageName={ticker} description={name} /> */}
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
           <Ticker data={tickerData}/>
-          <StockAreaChart ticker={ticker} listDate={ticker?.list_date}/>
+          <StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>
       </section>
   );
 };

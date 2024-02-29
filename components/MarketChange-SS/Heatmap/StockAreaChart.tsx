@@ -23,9 +23,9 @@ const fetchAggregateData = async (ticker: string, listDate: string): Promise<Agr
     try {
       const apiKey = process.env.POLYGON_API_KEY;
       const currentDate = new Date().toISOString().split('T')[0]; 
-      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2022-01-09/2024-01-09?adjusted=true&sort=asc&limit=120&apiKey=${apiKey}`, { cache: 'no-store' });
+      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${listDate}/${currentDate}?adjusted=true&sort=desc&limit=10000&apiKey=${apiKey}`, { cache: 'no-store' });
       if (!response.ok) {
-        throw new Error(`Failed to fetch data for ${ticker}`);
+        throw new Error(`Failed to fetch aggregate data for ${ticker}`);
       } 
       const data = await response.json();
       return data; // Assuming the API returns the data structured as expected.
