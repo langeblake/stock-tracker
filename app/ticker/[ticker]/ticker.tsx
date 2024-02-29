@@ -3,11 +3,7 @@ import { format } from "path";
 
 const Ticker = ({ data }) => {
 
-  if (!data) {
-    return <div></div>
-  }
-
-  const tickerClose = data.ticker.day.c !== 0 ? data.ticker.min.c.toFixed(2) : data.twoPrevDayTicker.close.toFixed(2);
+  const tickerClose = data.ticker.day.c !== 0 ? data.ticker.day.c.toFixed(2) : data.twoPrevDayTicker.close.toFixed(2);
   const tickerOpen = data.ticker.day.o !== 0 ? data.ticker.day.o.toFixed(2) : data.ticker.prevDay.o.toFixed(2);
   const tickerHigh = data.ticker.day.h !== 0 ? data.ticker.day.h.toFixed(2) : data.ticker.prevDay.h.toFixed(2);
   const tickerLow = data.ticker.day.l !== 0 ? data.ticker.day.l.toFixed(2) : data.ticker.prevDay.l.toFixed(2);
@@ -15,7 +11,7 @@ const Ticker = ({ data }) => {
   const tickerPrevClose = data.ticker.day.c !== 0 ? data.ticker.prevDay.c.toFixed(2) : data.threePrevDayTicker.close.toFixed(2)
   const tickerDayVolume = data.ticker.day.v.toLocaleString();
   const tickerPrevDayVolume = data.ticker.prevDay.v;
-  const tickerPriceChange = data.ticker.day.c !== 0 ? data.ticker.todaysChange : tickerClose - tickerPrevClose;
+  const tickerPriceChange = tickerClose - tickerPrevClose;
   // const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
   // const volumeChangePerc = ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100;
   const first50SMAValue = data.sma50.toFixed(2);
@@ -38,7 +34,7 @@ const Ticker = ({ data }) => {
   const isVolumePositiveChange = data.ticker.todaysChangePerc >= 0;
 
   const formattedMarketCap = formatLargeNumber(data.marketCap);
-  const formattedVolume = formatLargeNumber(tickerVolume);
+  const formattedVolume = formatLargeVolume(tickerVolume);
   const formattedNetIncomeLoss = formatLargeNumber(netIncomeLoss);
   const formattedGrossProfit = formatLargeNumber(grossProfit);
   const formattedRevenues = formatLargeNumber(revenues);
@@ -58,6 +54,22 @@ const Ticker = ({ data }) => {
       return '$' + (number / 1e3).toFixed(2) + 'K'
     } else if (number > 0) {
       return '$' + number.toFixed(2);
+    } else {
+      return 'NA'
+    }
+  }
+
+  function formatLargeVolume(number: number) {
+    if (number >= 1e12) {
+      return (number / 1e12).toFixed(2) + 'T'; 
+    } else if (number >= 1e9) {
+      return (number / 1e9).toFixed(2) + 'B'; // Divide by a billion and add 'B'
+    } else if (number >= 1e6) {
+      return (number / 1e6).toFixed(2) + 'M'; 
+    } else if (number >= 1e3) {
+      return (number / 1e3).toFixed(2) + 'K'
+    } else if (number > 0) {
+      return number.toFixed(2);
     } else {
       return 'NA'
     }
@@ -98,7 +110,7 @@ const Ticker = ({ data }) => {
         <div className='flex justify-between'>
           <h1 className='p-4 w-2/3'>Volume</h1>
           <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{data.ticker.todaysChangePerc.toFixed(2)}%</p>
-          <p className='p-4' >{formattedVolume}</p>
+          <p className='p-4'>{formattedVolume}</p>
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>50-Day Moving Avg.</h1>

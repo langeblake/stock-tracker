@@ -57,9 +57,9 @@ export default async function handler(req, res) {
     const randomIndex = Math.floor(Math.random() * 50);
     // Combine data into a single structure
     const combinedData = {
-      ticker: tickerDataResponse.ticker, 
-      name: tickerDetailsResponse.results.name, 
-      marketCap: tickerDetailsResponse.results.market_cap, 
+      ticker: tickerDataResponse.ticker,
+      name: tickerDetailsResponse.results?.name,
+      marketCap: tickerDetailsResponse.results?.market_cap, 
       sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       fiscalPeriod: financialsResponse.results[0]?.fiscal_period,

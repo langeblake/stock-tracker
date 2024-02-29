@@ -1,8 +1,7 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
-import { Suspense } from "react";
-import LoadingOverviewCards from "@/components/Loading/LoadingOverviewCards";
-import { wait } from "@/utils/helper/wait";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 
 interface TickerData {
@@ -58,7 +57,7 @@ interface TickerData {
 
 interface TickerResponse {
   ticker: TickerData;
-  name: string;
+  name: string | undefined;
   market_cap: number;
   $200sma_value: number;
   $50sma_value: number;
@@ -73,14 +72,13 @@ interface TickerResponse {
 
 
 const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
-const apiKey = process.env.POLYGON_API_KEY
 
   try {
     const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
     const response = await fetch(`${baseUrl}/api/tickerSS?ticker=${ticker}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${ticker}`);
-    }
+    } 
     const data = await response.json();
     return data; // Assuming the API returns the data structured as expected.
   } catch (error) {
@@ -94,6 +92,9 @@ const TickerPage = async ({ params }) => {
   const { ticker } = params;
   const tickerData = await fetchTickerData(ticker);
 
+  if (!tickerData?.ticker) {
+    redirect('/error')
+  }
 
   return (
       <section className="container mb-20">
