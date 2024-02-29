@@ -1,36 +1,31 @@
-import AboutSectionOne from "@/components/About/AboutSectionOne";
-import AboutSectionTwo from "@/components/About/AboutSectionTwo";
-import Blog from "@/components/Blog";
-import Brands from "@/components/Brands";
 import ScrollUp from "@/components/Common/ScrollUp";
-import Contact from "@/components/Contact";
-import Features from "@/components/Features";
-import Hero from "@/components/Hero";
-import Pricing from "@/components/Pricing";
-import Testimonials from "@/components/Testimonials";
-import Video from "@/components/Video";
+import MarketChange from "@/components/MarketChange-SS";
+
 import { Metadata } from "next";
+// import { Suspense } from "react";
+import OverviewCards from "@/components/OverviewCards";
+import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
+import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
+import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
 
 export const metadata: Metadata = {
-  title: "Free Next.js Template for Startup and SaaS",
-  description: "This is Home for Startup Nextjs Template",
+  title: "K-MarketView",
+  description: "Korean Financial Market Data",
   // other metadata
 };
 
 export default function Home() {
   return (
     <>
-      <ScrollUp />
-      <Hero />
-      <Features />
-      <Video />
-      <Brands />
-      <AboutSectionOne />
-      <AboutSectionTwo />
-      <Testimonials />
-      <Pricing />
-      <Blog />
-      <Contact />
+        <ScrollUp />
+        <OverviewCards /> 
+        <MarketChange 
+          GainersLosers={<GainersLosers/>} 
+          VolumeHeatMap={<VolumeHeatMap/>}
+          ChangeHeatMap={<ChangeHeatMap/>}
+          >
+        </MarketChange>
     </>
   );
 }
+

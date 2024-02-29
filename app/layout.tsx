@@ -22,7 +22,7 @@ export default function RootLayout({
       */}
       <head />
 
-      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
+      <body className={`bg-[#f5f5f5] dark:bg-black ${inter.className}`}>
         <Providers>
           <Header />
           {children}
@@ -34,4 +34,5 @@ export default function RootLayout({
   );
 }
 
-import { Providers } from "./providers";
+import { Providers } from "./providers"; 
+
