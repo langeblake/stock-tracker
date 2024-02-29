@@ -1,7 +1,7 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "./ticker";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import StockAreaChart from "@/components/MarketChange-SS/Heatmap/StockAreaChart";
 
 
 interface TickerData {
@@ -59,6 +59,7 @@ interface TickerResponse {
   ticker: TickerData;
   name: string | undefined;
   market_cap: number;
+  list_date: string;
   $200sma_value: number;
   $50sma_value: number;
   fiscalPeriod: string;
@@ -101,6 +102,7 @@ const TickerPage = async ({ params }) => {
           {/* <Breadcrumb pageName={ticker} description={name} /> */}
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
           <Ticker data={tickerData}/>
+          <StockAreaChart ticker={ticker} listDate={ticker?.list_date}/>
       </section>
   );
 };

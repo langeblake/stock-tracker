@@ -39,7 +39,7 @@ export default async function handler(req, res) {
     const generalNewsURL = `https://api.polygon.io/v2/reference/news?order=desc&limit=50&apiKey=${apiKey}`;
     const twoPrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDate}?adjusted=true&apiKey=${apiKey}`
     const threePrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDateTwo}?adjusted=true&apiKey=${apiKey}`
-    // const dailyOpenClose = 
+
 
     // Fetch data from multiple APIs
     const [tickerDataResponse, tickerDetailsResponse, twoHundredDaySMAResponse, fiftyDaySMAResponse, financialsResponse, tickerNewsResponse, generalNewsResponse, twoPrevDayResponse, threePrevDayResponse] = await Promise.all([
@@ -57,9 +57,11 @@ export default async function handler(req, res) {
     const randomIndex = Math.floor(Math.random() * 50);
     // Combine data into a single structure
     const combinedData = {
+      updated: tickerDataResponse.updated,
       ticker: tickerDataResponse.ticker,
       name: tickerDetailsResponse.results?.name,
       marketCap: tickerDetailsResponse.results?.market_cap, 
+      list_date: tickerDataResponse.results?.list_date,
       sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       fiscalPeriod: financialsResponse.results[0]?.fiscal_period,
