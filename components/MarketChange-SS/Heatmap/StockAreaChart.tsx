@@ -23,7 +23,7 @@ const fetchAggregateData = async (ticker: string, listDate: string): Promise<Agr
     try {
       const apiKey = process.env.POLYGON_API_KEY;
       const currentDate = new Date().toISOString().split('T')[0]; 
-      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${listDate}/${currentDate}?adjusted=true&sort=desc&limit=10000&apiKey=${apiKey}`, { cache: 'no-store' });
+      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${listDate}/${currentDate}?adjusted=true&sort=desc&limit=50000&apiKey=${apiKey}`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch aggregate data for ${ticker}`);
       } 
@@ -46,8 +46,9 @@ const StockAreaChart = async ({ ticker, listDate }) => {
     }
     const chartData = aggregateData.results.map(d => ({
         date: new Date(d.t), // Use `d.t` for the date, assuming `t` represents a timestamp
-        value: d.c, // Use `d.c` for the closing price
+        value: d.c, // Use `d.c` for the closing price)
     }));
+
 
   return <D3AreaChart data={chartData} />;
 };
