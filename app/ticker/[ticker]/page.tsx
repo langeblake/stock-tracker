@@ -1,8 +1,9 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "../../../components/Ticker/ticker";
 import { redirect } from "next/navigation";
-import StockAreaChart from "@/components/Ticker/StockAreaChart";
+import StockAreaChart from "@/components/Ticker/AreaChart/StockAreaChart";
 import { Suspense } from "react";
+import StockCandleStickChart from "@/components/Ticker/CandleStickChart/StockCandleStickChart";
 
 
 interface TickerData {
@@ -106,6 +107,7 @@ const TickerPage = async ({ params }) => {
           <Suspense fallback={<div className="pt-20">Chart Loading...</div>}>
             <StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>
           </Suspense>
+           <StockCandleStickChart ticker={ticker} listDate={tickerData?.list_date} />
       </section>
   );
 };
