@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import D3AreaChart from './Charts/D3AreaChart';
 import { ReAreaChart } from './Rechart-Area';
 
 interface TickerData {
@@ -48,15 +47,14 @@ const StockAreaChart = async ({ ticker, listDate }) => {
     }
   const chartData = aggregateData.results
     .map(d => ({
-      name: new Date(d.t).toISOString().split('T')[0], // Format date as string for the name
+      date: new Date(d.t).toISOString().substring(0, 10), // Format date as string for the name
       close: d.c, // Use `d.c` for the closing price
       // Directly create a Date object for sorting purposes
     }))
 
   return (
     <div>
-    {/* <D3AreaChart data={chartData} /> */}
-    <ReAreaChart data={chartData}/>
+      <ReAreaChart data={chartData}/>
     </div>
   ) 
 };

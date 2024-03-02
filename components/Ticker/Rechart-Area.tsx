@@ -1,18 +1,26 @@
 'use client'
 
-import React, { PureComponent } from 'react';
+import { format, getDate, getMonth, getYear, parseISO } from 'date-fns';
+import React, { PureComponent, useCallback, useRef } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import Ticker from './ticker';
   
 
 export const ReAreaChart = ({ data }) => {
-    // A simple tickFormatter that will display the year
-    const formatXAxis = (tickItem: string) => {
-      // Only extract the year part to display
-      return tickItem.split('-')[0];
-    };
-    
+    // Tick formatter function to be used in the XAxis component
+    const tickFormatter = (str) => {
+        const date = parseISO(str);
+        // Check if the month is January (0) and this is the first tick for this month and year
+        if (getMonth(date) <=1) {
+          // If it's the first tick of the year, return the year
+          return format(date, "yyyy") // Return the year as a string
+        }
+        return ""; // Otherwise, return an empty string to not show the tick
+      };
+
+
     return (
-      <div className='p-20 text-black'>
+      <div className='pt-16 text-black'>
         <ResponsiveContainer width="100%" height={400}>
         <AreaChart
           width={1200}
@@ -25,12 +33,42 @@ export const ReAreaChart = ({ data }) => {
             bottom: 0,
           }}
         >
-          <XAxis dataKey="name" tickFormatter={formatXAxis} />
-          <YAxis orientation="right" dataKey="close" />
-          <Tooltip />
-          <Area type="monotone" dataKey="close" stroke="#8884d8" fill="#8884d8" />
+          <defs>
+            <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="50%" stopColor='#2451B7' stopOpacity={0.9}/>
+                <stop offset="95%" stopColor='#2451B7' stopOpacity={0.1}/>
+            </linearGradient>
+          </defs>
+          <XAxis 
+            dataKey="date" 
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={tickFormatter}
+          />
+          <YAxis 
+            orientation="right" 
+            dataKey="close" 
+            axisLine={false} 
+            tickLine={false} 
+            tickCount={4} 
+            tickFormatter={(number) => `$${number.toFixed(2)}`}
+          />
+          <Tooltip content={<CustomToolTip active={undefined} payload={undefined} label={undefined} />}/>
+          <Area type="monotone" dataKey="close" stroke="#2451B7" fill="url(#color)" />
+          <CartesianGrid opacity={0.1} vertical={false}/>
         </AreaChart>
         </ResponsiveContainer>
       </div>
     );
   };
+
+  const CustomToolTip = ({ active, payload, label }) => {
+    if (active) {
+        return (
+            <div className='flex flex-col justify-content items-center gap-2 bg-zinc-900 text-white p-4 rounded-lg'>
+                <h4 className='font-bold'>{format(parseISO(label), "eeee, d MMM, yyyy")}</h4>
+                <p>${payload[0].value.toFixed(2)}</p>
+            </div>
+        )
+    }
+  }
