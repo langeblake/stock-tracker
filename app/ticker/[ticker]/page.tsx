@@ -1,7 +1,8 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import Ticker from "./ticker";
+import Ticker from "../../../components/Ticker/ticker";
 import { redirect } from "next/navigation";
-import StockAreaChart from "@/components/MarketChange-SS/Heatmap/StockAreaChart";
+import StockAreaChart from "@/components/Ticker/StockAreaChart";
+import { Suspense } from "react";
 
 
 interface TickerData {
@@ -102,7 +103,9 @@ const TickerPage = async ({ params }) => {
           {/* <Breadcrumb pageName={ticker} description={name} /> */}
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
           <Ticker data={tickerData}/>
-          <StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>
+          <Suspense fallback={<div className="pt-20">Chart Loading...</div>}>
+            <StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>
+          </Suspense>
       </section>
   );
 };

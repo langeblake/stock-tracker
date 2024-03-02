@@ -154,8 +154,8 @@ const Ticker = ({ data }) => {
 
       {/* Card 4 */}
       <div className='flex justify-center border bg-white dark:border-zinc-700 dark:bg-zinc-900 rounded-lg'>
-            <div className="flex pt-3 flex-col items-center">
-              <img src={news.image_url} alt={news.title} className="mb-4  max-h-48 overflow-hidden rounded-md" />
+            <div className="flex flex-col items-center xl:w-full">
+              <img src={news.image_url} alt={news.title} className="mb-4 max-h-48 2xl:w-full overflow-hidden rounded-md" />
               <a href={news.article_url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:underline text-center px-2">
                 {truncatedTitle}
               </a>
