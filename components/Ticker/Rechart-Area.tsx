@@ -7,16 +7,22 @@ import Ticker from './ticker';
   
 
 export const ReAreaChart = ({ data }) => {
-    // Tick formatter function to be used in the XAxis component
+    // This variable will hold the last year we showed on the x-axis.
+    let lastYearShown;
+
     const tickFormatter = (str) => {
-        const date = parseISO(str);
-        // Check if the month is January (0) and this is the first tick for this month and year
-        if (getMonth(date) <=1) {
-          // If it's the first tick of the year, return the year
-          return format(date, "yyyy") // Return the year as a string
-        }
-        return ""; // Otherwise, return an empty string to not show the tick
-      };
+    const date = parseISO(str);
+    const year = getYear(date);
+
+    // Check if this tick's year is different from the last one we showed.
+    if (year !== lastYearShown) {
+        lastYearShown = year; // Update the last year shown.
+        return format(date, "yyyy"); // Return the year as a string.
+    }
+    
+    // For all other ticks, return an empty string to not show a label.
+    return "";
+    };
 
 
     return (
