@@ -71,7 +71,7 @@ export const ReAreaChart = ({ data }) => {
   const CustomToolTip = ({ active, payload, label }) => {
     if (active) {
         return (
-            <div className='flex flex-col justify-content items-center gap-2 bg-zinc-900 text-white p-4 rounded-lg'>
+            <div className='flex flex-col justify-content items-center gap-2 bg-zinc-900/70 text-white p-4 rounded-lg'>
                 <h4 className='font-bold'>{format(parseISO(label), "eeee, d MMM, yyyy")}</h4>
                 <p>${payload[0].value.toFixed(2)}</p>
             </div>
