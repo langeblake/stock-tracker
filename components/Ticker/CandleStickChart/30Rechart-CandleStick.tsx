@@ -1,26 +1,28 @@
 'use client'
 
 import { format, getMonth, getYear, parseISO } from 'date-fns';
+import { useTheme } from 'next-themes';
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Rectangle, CartesianGrid } from 'recharts';
 
 // Custom shape for the body of the candlestick
 const CandlestickShape = (props) => {
+
   const { x, y, width, height, payload } = props;
   const [open, close] = payload.open_close;
-  const fill = open < close ? 'green' : 'red';
+  const fill = open < close ? 'rgba(0, 209, 42)' : 'rgba(255, 0, 0)';
   const newY = open < close ? y : y + height;
   const newHeight = Math.abs(height);
 
-  return <Rectangle fill={fill} x={(x + 2.5) - width} y={newY} width={10} height={newHeight} />;
+  return <Rectangle fill={fill} x={(x) - width * 1.2} y={newY} width={20} height={newHeight} />;
 };
 
 // Custom shape for the wick of the candlestick
 const WickShape = (props) => {
   const { x, width, payload, y, height } = props;
   const [open, close, high, low] = [...payload.open_close, ...payload.low_high];
-  const fill = open < close ? 'green' : 'red';
-  const wickX = (x + 2.5)+ width; // Align the wick to the center of the bar
+  const fill = open < close ? 'rgba(30, 255, 0)' : 'rgba(255, 0, 0)';
+  const wickX = (x + 3.5)+ width; // Align the wick to the center of the bar
   const wickStrokeWidth = 1; // Thin wick line
 
   // Calculate top and bottom Y positions based on the scale of YAxis
@@ -45,13 +47,13 @@ const CustomToolTip = ({ active, payload, label }) => {
     const [low, high] = low_high;
 
     // Format the label correctly as a date
-    const dateLabel = format(parseISO(label), "eeee, d MMM, yyyy");
+    const dateLabel = format(parseISO(label), "eeee, MMM d, yyyy");
 
     return (
       <div className='flex flex-col justify-content items-center gap-2 bg-zinc-900/60 text-white p-4 rounded-lg'>
         <h4 className='font-bold'>{dateLabel}</h4>
-        <p>Open: {open?.toFixed(2)}</p>
         <p>Close: {close?.toFixed(2)}</p>
+        <p>Open: {open?.toFixed(2)}</p>
         <p>High: {high?.toFixed(2)}</p>
         <p>Low: {low?.toFixed(2)}</p>
       </div>
@@ -62,7 +64,8 @@ const CustomToolTip = ({ active, payload, label }) => {
 };
 
 
-export const ReCandleStickChart = ({ data }) => {
+export const ThirtyReCandleStickChart = ({ data }) => {
+  const { theme } = useTheme(); // 'light' or 'dark'
 
   const sortedData = [...data].sort((a, b) => {
     const dateA = new Date(a.date).getTime();
@@ -86,11 +89,11 @@ export const ReCandleStickChart = ({ data }) => {
   return "";
   };
 
-  const roundToNearestTen = (num) => Math.round(num / 10) * 10;
-  const YAxisTickFormatter = (tick) => {
-    const roundedTick = roundToNearestTen(tick);
-    return roundedTick.toString();
-  };
+  // const roundToNearestTen = (num) => Math.round(num / 10) * 10;
+  // const YAxisTickFormatter = (tick) => {
+  //   const roundedTick = roundToNearestTen(tick);
+  //   return roundedTick.toString();
+  // };
 
   const maxValue = Math.max(...data.map((d) => d.low_high[1])); // Replace with your actual way to get the max value
   const minValue = Math.min(...data.map((d) => d.low_high[0])); // Replace with your actual way to get the min value
@@ -102,7 +105,8 @@ export const ReCandleStickChart = ({ data }) => {
   const intervalCount = (roundedMax - roundedMin) / 10; 
 
   return (
-    <ResponsiveContainer width="100%" height={500}>
+    <div className='overflow-x-auto lg:overflow-hidden'>
+    <ResponsiveContainer width="100%" minWidth={1000} height={500}>
       <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <XAxis 
           dataKey="date" 
@@ -126,8 +130,9 @@ export const ReCandleStickChart = ({ data }) => {
         {/* Render the body of the candlestick */}
         <Bar dataKey="low_high"  shape={<WickShape />} />
         <Bar dataKey="open_close"  shape={<CandlestickShape width={9}/>} />
-        <CartesianGrid opacity={0.1} vertical={false}/>
+        <CartesianGrid opacity={0.2} vertical={false} stroke={theme === 'dark' ? "white" : "black"}/>
       </BarChart>
     </ResponsiveContainer>
+    </div>
   );
 };

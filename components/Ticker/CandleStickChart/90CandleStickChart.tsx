@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ReCandleStickChart } from './Rechart-CandleStick';
+import { NinetyReCandleStickChart } from './90Rechart-CandleStick';
 
 interface TickerData {
     c: number;
@@ -53,8 +53,8 @@ const chartData = aggregateData.results
   }))
 
   return (
-    <div>
-      <ReCandleStickChart data={chartData}/>
+    <div className='pt-4'>
+      <NinetyReCandleStickChart data={chartData}/>
     </div>
   ) 
 };

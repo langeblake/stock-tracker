@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ReCandleStickChart } from './Rechart-CandleStick';
+import { FifteenReCandleStickChart } from './15Rechart-CandleStick';
 
 interface TickerData {
     c: number;
@@ -24,7 +24,7 @@ const fetchAggregateData = async (ticker: string, listDate: string): Promise<Agr
       const apiKey = process.env.POLYGON_API_KEY;
       const currentDate = new Date().toISOString().split('T')[0]; 
       //Start date is hard-coded because of 5 year limit on historical data. Can use 'listDate' for more hist.data.
-      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2019-01-01/${currentDate}?adjusted=true&sort=desc&limit=7&apiKey=${apiKey}`, { cache: 'no-store' });
+      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2019-01-01/${currentDate}?adjusted=true&sort=desc&limit=15&apiKey=${apiKey}`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch aggregate data for TICKER`);
       } 
@@ -38,7 +38,7 @@ const fetchAggregateData = async (ticker: string, listDate: string): Promise<Agr
   
 
 
-const SevenCandleStickChart = async ({ ticker, listDate }) => {
+const FifteenCandleStickChart = async ({ ticker, listDate }) => {
   const aggregateData = await fetchAggregateData(ticker, listDate);
 
   if (!aggregateData || !aggregateData.results) {
@@ -53,10 +53,10 @@ const chartData = aggregateData.results
   }))
 
   return (
-    <div>
-      <ReCandleStickChart data={chartData}/>
+    <div className='pt-4'>
+      <FifteenReCandleStickChart data={chartData}/>
     </div>
   ) 
 };
 
-export default SevenCandleStickChart;
+export default FifteenCandleStickChart;

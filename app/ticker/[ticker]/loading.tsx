@@ -19,7 +19,7 @@ const SkeletonCard = () => {
 const SkeletonLoader = () => {
 
   return (
-    <>
+    <div className='pb-96'>
     <Breadcrumb />
     <div className="container hidden xl:flex justify-between pt-12 pb-20 gap-3">
       <SkeletonCard />
@@ -27,7 +27,7 @@ const SkeletonLoader = () => {
       <SkeletonCard />
       <SkeletonCard />
     </div>
-    </>
+    </div>
   );
 };
 

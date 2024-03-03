@@ -5,11 +5,10 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "../../../components/Ticker/ticker";
 import ChartSelection from "@/components/Ticker/ChartSelection/ChartSelection";
 
-import AreaChartSelection from "@/components/Ticker/AreaChart/AreaChartSelection";
-import CandleStickChartSelection from "@/components/Ticker/CandleStickChart/CandleStickChartSelection";
-
 import StockAreaChart from "@/components/Ticker/AreaChart/StockAreaChart";
-import StockCandleStickChart from "@/components/Ticker/CandleStickChart/90CandleStickChart";
+import NinetyCandleStickChart from "@/components/Ticker/CandleStickChart/90CandleStickChart";
+import ThirtyCandleStickChart from "@/components/Ticker/CandleStickChart/30CandleStickChart";
+import SevenCandleStickChart from "@/components/Ticker/CandleStickChart/15CandleStickChart";
 
 
 interface TickerData {
@@ -111,13 +110,16 @@ const TickerPage = async ({ params }) => {
           <Breadcrumb pageName={ticker} description={tickerData?.name}/>
           <Ticker data={tickerData}/>
           <ChartSelection 
-            AreaChartSelection={<AreaChartSelection ticker={ticker} listDate={tickerData?.list_date}/>}
-            CandleStickChartSelection={<CandleStickChartSelection ticker={ticker} listDate={tickerData?.list_date}/>}
+            StockAreaChart={<StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>}
+            NinetyCandleStickChart={<NinetyCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}
+            ThirtyCandleStickChart={<ThirtyCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}
+            SevenCandleStickChart={<SevenCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}
           />
           {/* <Suspense fallback={<div className="pt-20">Chart Loading...</div>}>
             <StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>
           </Suspense>
            <StockCandleStickChart ticker={ticker} listDate={tickerData?.list_date} /> */}
+           
       </section>
   );
 };
