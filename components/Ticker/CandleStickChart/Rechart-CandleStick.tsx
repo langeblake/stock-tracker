@@ -70,9 +70,9 @@ export const ReCandleStickChart = ({ data }) => {
     return dateA - dateB;
   });
   
-  let lastMonthShown;
+  let lastMonthShown: number;
 
-  const tickFormatter = (str) => {
+  const XAxistickFormatter = (str: string) => {
   const date = parseISO(str);
   const year = getMonth(date);
 
@@ -86,22 +86,36 @@ export const ReCandleStickChart = ({ data }) => {
   return "";
   };
 
+  const roundToNearestTen = (num) => Math.round(num / 10) * 10;
+  const YAxisTickFormatter = (tick) => {
+    const roundedTick = roundToNearestTen(tick);
+    return roundedTick.toString();
+  };
+
+  const maxValue = Math.max(...data.map((d) => d.close_high[1])); // Replace with your actual way to get the max value
+  const minValue = Math.min(...data.map((d) => d.close_high[0])); // Replace with your actual way to get the min value
+
+  const roundedMax = Math.ceil(maxValue / 10) * 10;
+  const roundedMin = Math.floor(minValue / 10) * 10;
+
+  // The number of intervals you want between ticks
+  const intervalCount = (roundedMax - roundedMin) / 10; 
 
   return (
     <ResponsiveContainer width="100%" height={500}>
       <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <XAxis 
           dataKey="date" 
-          tickFormatter={tickFormatter}
+          tickFormatter={XAxistickFormatter}
           tickLine={false}
           axisLine={false}
         />
         <YAxis 
-          domain={['dataMin - 10', 'dataMax']} 
+          domain={[roundedMin, roundedMax]} 
           orientation="right" 
           tickLine={false}
           axisLine={false}
-          tickCount={9}
+          tickCount={intervalCount + 1}
         />
         <Tooltip 
           content={<CustomToolTip active={undefined} payload={undefined} label={undefined} />} 
