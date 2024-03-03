@@ -1,4 +1,4 @@
-import StockCandleStickChart from '@/components/Ticker/CandleStickChart/StockCandleStickChart'
+import StockCandleStickChart from '@/components/Ticker/CandleStickChart/90CandleStickChart'
 import React from 'react'
 
 const Test = () => {

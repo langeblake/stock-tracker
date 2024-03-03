@@ -18,7 +18,7 @@ const CandlestickShape = (props) => {
 // Custom shape for the wick of the candlestick
 const WickShape = (props) => {
   const { x, width, payload, y, height } = props;
-  const [open, close, high, low] = [...payload.open_close, ...payload.close_high];
+  const [open, close, high, low] = [...payload.open_close, ...payload.low_high];
   const fill = open < close ? 'green' : 'red';
   const wickX = (x + 2.5)+ width; // Align the wick to the center of the bar
   const wickStrokeWidth = 1; // Thin wick line
@@ -39,10 +39,10 @@ const CustomToolTip = ({ active, payload, label }) => {
   if (active && payload) {
     const data = payload.reduce((acc, entry) => ({ ...acc, ...entry.payload }), {});
     
-    // Now data should have the properties { date, open_close, close_high } with the appropriate values
-    const { open_close, close_high } = data;
+    // Now data should have the properties { date, open_close, low_high } with the appropriate values
+    const { open_close, low_high } = data;
     const [open, close] = open_close;
-    const [low, high] = close_high;
+    const [low, high] = low_high;
 
     // Format the label correctly as a date
     const dateLabel = format(parseISO(label), "eeee, d MMM, yyyy");
@@ -92,8 +92,8 @@ export const ReCandleStickChart = ({ data }) => {
     return roundedTick.toString();
   };
 
-  const maxValue = Math.max(...data.map((d) => d.close_high[1])); // Replace with your actual way to get the max value
-  const minValue = Math.min(...data.map((d) => d.close_high[0])); // Replace with your actual way to get the min value
+  const maxValue = Math.max(...data.map((d) => d.low_high[1])); // Replace with your actual way to get the max value
+  const minValue = Math.min(...data.map((d) => d.low_high[0])); // Replace with your actual way to get the min value
 
   const roundedMax = Math.ceil(maxValue / 10) * 10;
   const roundedMin = Math.floor(minValue / 10) * 10;
@@ -124,7 +124,7 @@ export const ReCandleStickChart = ({ data }) => {
           
         />
         {/* Render the body of the candlestick */}
-        <Bar dataKey="close_high"  shape={<WickShape />} />
+        <Bar dataKey="low_high"  shape={<WickShape />} />
         <Bar dataKey="open_close"  shape={<CandlestickShape width={9}/>} />
         <CartesianGrid opacity={0.1} vertical={false}/>
       </BarChart>

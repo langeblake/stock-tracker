@@ -1,9 +1,9 @@
-import ScrollUp from "@/components/Common/ScrollUp";
-import MarketChange from "@/components/MarketChange-SS";
-
 import { Metadata } from "next";
 // import { Suspense } from "react";
+import ScrollUp from "@/components/Common/ScrollUp";
 import OverviewCards from "@/components/OverviewCards";
+import MarketChange from "@/components/MarketChange-SS";
+
 import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
 import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
