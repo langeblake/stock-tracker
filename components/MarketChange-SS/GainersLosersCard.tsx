@@ -96,7 +96,6 @@ const GainersLosers = async () => {
 
     return (
         <div>
-            <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
             <div className='flex gap-5'>
                 <div className='flex flex-col gap-4 w-1/2'>
                     {gainers.map((ticker, index) => (

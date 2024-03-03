@@ -107,7 +107,7 @@ export const NinetyReCandleStickChart = ({ data }) => {
   return (
     <div className='overflow-x-auto lg:overflow-hidden'>
     <ResponsiveContainer width="100%" minWidth={1000} height={500}>
-      <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <BarChart data={sortedData} margin={{ top: 20, right: 0, left: 0, bottom: 5 }}>
         <XAxis 
           dataKey="date" 
           tickFormatter={XAxistickFormatter}

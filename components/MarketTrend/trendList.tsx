@@ -69,13 +69,13 @@ const TrendList: React.FC = () => {
       setLoading(true);
       try {
         //Need to implement a way to generate an array of trending tickers.
-        const tickers = [    "TSLA", "AAPL", "AMZN", "GOOGL", "NFLX", 
+        const tickers = ["TSLA", "AAPL", "AMZN", "GOOGL", "NFLX", 
         "META", "MSFT", "NVDA", "SQ", "PYPL", 
         "AMD", "SHOP", "CRM", "ZM", "ROKU", 
         "NIO", "PLTR", "SPCE", "SNAP", "UBER"].join(',');
 
         // This API endpoint needs to be secure. Move to server-side!
-        const response = await fetch(`/api/trendingTickers?tickers=${tickers}`, {
+        const response = await fetch(`localhost:3000/api/TrendingTickersSS?ticker=${tickers}`, {
           headers: {
               // Include the API key in the request headers
               // IMPORTANT: Securely manage and inject the API key in a production environment

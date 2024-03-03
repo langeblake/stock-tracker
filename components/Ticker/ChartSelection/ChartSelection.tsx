@@ -37,7 +37,7 @@ const ChartSelection = ({
             <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedChartType === 'Area' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
             onClick={() => setSelectedChartType('Area')}>
                 <div className='flex gap-2 px-2'>
-                <FcAreaChart size={20}/> 
+                <FcAreaChart size={20} /> 
                 <p className='font-light'>Area</p>
                 </div>
             </button>

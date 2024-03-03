@@ -16,7 +16,10 @@ const MarketChange = ({
             <div className="container">
                 <div className="h-fit flex gap-6 flex-col lg:flex-row">
                     <div className="lg:w-1/2">
+                    <h1 className='font-bold text-2xl py-6'>Gainers & Losers</h1>
+                    <Suspense>
                         {GainersLosers}
+                    </Suspense>
                     </div>
                     
                     <div className="lg:w-1/2">
