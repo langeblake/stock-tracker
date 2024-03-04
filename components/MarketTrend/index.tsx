@@ -1,5 +1,5 @@
 import SectionTitle from "../Common/SectionTitle";
-import TrendList from "./trendList-copy";
+import TrendList from "./trendList";
 
 
 
@@ -7,7 +7,7 @@ import TrendList from "./trendList-copy";
 const MarketTrend = () => {
     return ( 
         <>
-            <section id="features" className="pt-20 pb-4 md:pt-20 md:pb-2 lg:py-0">
+            <section id="tickerListSection" className="pt-20 pb-4 md:pt-20 md:pb-2 lg:py-0">
                 <div className="container">
                     {/* <SectionTitle
                     title="Market Trend List"

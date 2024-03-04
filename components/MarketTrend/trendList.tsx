@@ -1,10 +1,12 @@
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Oval } from "react-loader-spinner";
+
 import { IoIosStarOutline } from "react-icons/io";
+import { format, utcToZonedTime } from "date-fns-tz";
+import Link from "next/link";
+
+import { TickerList } from "./TickerList";
 
 // Adjust the type to match the expected shape of each ticker's data
-type TickerData = {
+interface TickerResponse {
   ticker: {
     ticker: string;
     todaysChangePerc: number;
@@ -39,71 +41,69 @@ type TickerData = {
     };
   };
   name: string;
-  market_cap: number;
-  $200sma_values: number;
-  $50sma_values: number;
+  marketCap: number;
+  sma200: number;
+  sma50: number;
+  status: string;
 };
-
-
-// This component calls an internal API that fetches data from multiple Polygon APIs (pages/api/trendingTickers)
-// It still needs dynamic data gor the ticker array. Currently uses static data for testing. 
-// Needs data manipulation for the JSX items (e.g Change %)
-
 // Expect an array of TickerData objects
-const TrendList: React.FC = () => {
-  const [data, setData] = useState<TickerData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const API_KEY = process.env.NEXT_PUBLIC_BABYQUANT_API_KEY
-
-  const router = useRouter()
-
-  const handleClick = (ticker: string) => {
-    router.push(`/ticker/${ticker}`);
   
-  }
+  const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
+    const API_KEY = process.env.POLYGON_API_KEY;
+    // Create a new Date object for the current date
+    const timeZone = 'America/Los_Angeles';
 
-  useEffect(() => {
-    async function fetchTrendingTickers() {
-      setLoading(true);
+    // Get the current date and time in UTC
+    const nowUTC = new Date();
+
+    // Convert UTC to the desired timezone
+    const nowInPST = utcToZonedTime(nowUTC, timeZone);
+
+    // Format the date in the desired format
+    const formattedDate = format(nowInPST, 'yyyy-MM-dd');
+      
+      // Create a new Date object for seven days before the current date
+      const sevenDaysBeforeDate = new Date();
+      sevenDaysBeforeDate.setDate(nowUTC.getDate() - 7);
+      // Format the seven days before date as "YYYY-MM-DD"
+      const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
+      
+    
       try {
-        //Need to implement a way to generate an array of trending tickers.
-        const tickers = ["TSLA", "AAPL", "AMZN", "GOOGL", "NFLX", 
-        "META", "MSFT", "NVDA", "SQ", "PYPL", 
-        "AMD", "SHOP", "CRM", "ZM", "ROKU", 
-        "NIO", "PLTR", "SPCE", "SNAP", "UBER"].join(',');
-
-        // This API endpoint needs to be secure. Move to server-side!
-        const response = await fetch(`localhost:3000/api/TrendingTickersSS?ticker=${tickers}`, {
+        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+        const response = await fetch(`${baseUrl}/api/TrendingTickersSS?ticker=${ticker}`, {
           headers: {
               // Include the API key in the request headers
               // IMPORTANT: Securely manage and inject the API key in a production environment
               'X-API-Key': API_KEY!
           }
-      });
+        })
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Failed to fetch data for ${ticker}`);
         }
-        // Use type assertion to expect an array of TickerData objects
-        const jsonData: TickerData[] = await response.json();
-        setData(jsonData);
+        const data = await response.json();
+        return data;
       } catch (error) {
-        setError(error.message);
+        console.error(`Error fetching data for ${ticker}:`, error);
+        return null; // Returning null for failed requests
       }
-      setLoading(false);
-    }
+}
 
-    fetchTrendingTickers();
-  }, []);
 
-  if (loading) {
-    return <Oval color="#4fa94d" height={80} width={80} />;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+// 'FB' is a a test for tickers that don't return data; status !== "OK"
+const tickers = [
+  'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'BRK.A', 'JPM', 'V', 'JNJ',
+  'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'DIS', 'BAC', 'VZ', 'ADBE',
+  'CMCSA', 'KO', 'NFLX', 'PFE', 'T', 'PYPL', 'INTC', 'CSCO', 'PEP', 'XOM',
+  'COST', 'CVX', 'ABT', 'ACN', 'CRM', 'AVGO', 'ABBV', 'WFC', 'MRK', 'TMO',
+  'MCD', 'MDT', 'NKE', 'DHR', 'TXN', 'QCOM', 'HON', 'LIN', 'BMY', 'UNP',
+  'ORCL', 'LLY', 'PM', 'UPS', 'SCHW', 'LOW', 'C', 'BA', 'IBM', 'SBUX',
+  'AMT', 'NEE', 'AMD', 'NOW', 'BLK', 'AMGN', 'GE', 'CAT', 'MMM', 'GS',
+  'MS', 'INTU', 'DE', 'CVS', 'RTX', 'SPGI', 'TGT', 'ISRG', 'BKNG', 'LMT',
+  'SYK', 'MU', 'ZTS', 'GILD', 'FIS', 'MO', 'MDLZ', 'GM', 'TJX', 'BDX',
+  'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
+]
 
   // Helper function to format large numbers
 function formatNumber(value) {
@@ -114,59 +114,23 @@ function formatNumber(value) {
   } else if (value >= 1e6) {
     return `${(value / 1e6).toFixed(2)}M`;
   } else {
-    return `${value.toFixed(2)}`;
+    return `${value}`;
   }
 }
 
 // Use this function in your JSX to display formatted market cap
 
+const TrendList = async () => {
+  const tickerDataPromises = tickers.map(fetchTickerData)
+  const tickerData = await Promise.all(tickerDataPromises)
+  const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK" );
+  const data = dataNotNull.sort((a, b) => b.marketCap - a.marketCap);
 
 
-  if (data && data.length > 0) {
-    return (
-      <div>
-        <h1 className='font-bold text-2xl py-6'>Trending Tickers</h1>
-        <div className="flex w-full justify-between dark:bg-zinc-900/70 bg-zinc-100">
-            <div className="flex w-full">
-              <div className=" h-full w-full flex justify-start items-center py-3 "></div>
-              <div className=" h-full w-full flex justify-center items-center py-3 ">Ranking</div>
-            </div> 
-            <div className=" h-full w-full flex justify-start items-center pl-2 py-3">Symbol</div>
-            <div className=" h-full w-full flex justify-end items-center py-3">Price</div>
-            <div className=" h-full w-full flex justify-end items-center py-3">Change</div>
-            <div className=" h-full w-full flex justify-end items-center py-3">% Change</div>
-            <div className=" h-full w-full flex justify-end items-center py-3">Volume</div>
-            <div className=" h-full w-full flex justify-end items-center py-3">Market Cap</div>
-            <div className=" h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div>
-            {/* <div className="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
-          </div>
-        {data.map((stock, index) => (
-          <div key={index} onClick={() => handleClick(stock.ticker.ticker)} className={`border-y-[.5px] dark:border-zinc-700 border-zinc-300 flex w-full justify-between dark:hover:bg-zinc-900/80 hover:bg-zinc-100 hover:cursor-pointer`}>
-            <div className="flex w-full">
-              <div className={`h-full w-full flex justify-center items-center py-3 font-light`}><IoIosStarOutline size={15}/></div>
-              <div className={`h-full w-full flex justify-center  items-center py-3 font-light`}>{index + 1}</div>
-            </div>
-            <div className={`h-full w-full flex items-center py-3 pl-2 font-semibold`}>{stock.ticker.ticker}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${stock.ticker.day.c}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChange.toFixed(2)}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChangePerc.toFixed(2)}%</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.ticker.day.v)}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.market_cap)}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 pr-4`}>{stock.$50sma_values.toFixed(2)}</div>
-            {/* <div classNae="border-[1px] h-full w-full flex justify-end items-center py-3">{stock.$200sma_values.toFixed(2)}</div> */}
-          </div>
-        ))}
-      </div>
-    );
-  } 
+  return (
+    <TickerList data={data} />
+  )
 };
 
 export default TrendList;
 
-
-// Simulated fetch function, replace this with your actual API call
-async function fetchTickers(): Promise<TickerData[]> {
-  // This is where you would fetch data from an API
-  // For demonstration, returning a static subset of your provided data
-  return []; // Return your actual fetched data here
-}

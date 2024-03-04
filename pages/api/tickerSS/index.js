@@ -32,8 +32,6 @@ export default async function handler(req, res) {
     // Format the date in the desired format
     const formattedDateTwo = format(twoPrevInPST, 'yyyy-MM-dd');
 
-    console.log(formattedDateTwo)
-
   try {
     // Retrieve the ticker from the query parameters
     const { ticker } = req.query;

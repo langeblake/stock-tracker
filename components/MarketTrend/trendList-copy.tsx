@@ -112,12 +112,13 @@ function formatNumber(value) {
 
 // Use this function in your JSX to display formatted market cap
 
-const TickerList = async () => {
+const TrendList = async () => {
   const tickerDataPromises = tickers.map(fetchTickerData)
   const tickerData = await Promise.all(tickerDataPromises)
   const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null);
   const data = dataNotNull.sort((a, b) => b.marketCap - a.marketCap);
-
+  const data_10 = data.slice(0, 10)
+  const data_20 = data.slice(10, 20)
 
     return (
       <div>
@@ -135,7 +136,7 @@ const TickerList = async () => {
             <div className="h-full w-full flex justify-end items-center py-3">Market Cap</div>
             <div className="h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div>
             <div className="h-full w-full flex justify-end items-center py-3 pr-4">200-Day SMA</div>
-          </div>
+        </div>
         {data.map((stock, index) => (
           stock ? (
             <Link href={`/ticker/${stock.ticker.ticker}`} key={stock.ticker.ticker}>
@@ -145,7 +146,7 @@ const TickerList = async () => {
               <div className={`h-full w-full flex justify-center  items-center py-3 font-light`}>{index + 1}</div>
             </div>
             <div className={`h-full w-full flex items-center py-3 pl-2 font-semibold`}>{stock?.ticker.ticker}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${stock?.ticker.day.c}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${stock?.ticker.day.c.toFixed(2)}</div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock?.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {stock?.ticker.todaysChange?.toFixed(2) ?? 'N/A'}
             </div>
@@ -160,9 +161,17 @@ const TickerList = async () => {
         ) : (
           <div key={`no-data-${index}`}>No data...</div>
         )))}
+        <div className="flex gap-1 justify-center pt-4">
+          <button className="w-8 h-8 border rounded-sm">
+            <p>1</p>
+          </button>
+          <button className="w-8 h-8 border rounded-sm">
+            <p>2</p>
+          </button>
+        </div>
       </div>
     )
         };
 
-export default TickerList;
+export default TrendList;
 
