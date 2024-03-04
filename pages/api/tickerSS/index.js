@@ -12,10 +12,17 @@ export default async function handler(req, res) {
     const timeZone = 'America/Los_Angeles';
     // Get the current date and time in UTC
     const currentDate = new Date();
-    const oneDayBeforeDate = new Date();
+    if (currentDate.getDay() === 0) {
+      // If it's Sunday, subtract 2 days to get data for Friday
+      currentDate.setDate(currentDate.getDate() - 2);
+    } else if (currentDate.getDay() === 6) {
+      // If it's Saturday, subtract 1 day to get data for Friday
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+    const oneDayBeforeDate = currentDate;
     oneDayBeforeDate.setDate(currentDate.getDate() - 1);
-    const twoDayBeforeDate = new Date();
-    twoDayBeforeDate.setDate(currentDate.getDate() - 2);
+    const twoDayBeforeDate = currentDate;
+    twoDayBeforeDate.setDate(currentDate.getDate() - 3);
     // Format the seven days before date as "YYYY-MM-DD"
     // Convert UTC to the desired timezone
     const prevInPST = utcToZonedTime(oneDayBeforeDate, timeZone);
@@ -24,6 +31,8 @@ export default async function handler(req, res) {
     const twoPrevInPST = utcToZonedTime(twoDayBeforeDate, timeZone);
     // Format the date in the desired format
     const formattedDateTwo = format(twoPrevInPST, 'yyyy-MM-dd');
+
+    console.log(formattedDateTwo)
 
   try {
     // Retrieve the ticker from the query parameters
@@ -61,7 +70,7 @@ export default async function handler(req, res) {
       ticker: tickerDataResponse.ticker,
       name: tickerDetailsResponse.results?.name,
       marketCap: tickerDetailsResponse.results?.market_cap, 
-      list_date: tickerDetailsResponse.results?.list_date,
+      list_date: tickerDataResponse.results?.list_date,
       sma200: twoHundredDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       sma50: fiftyDaySMAResponse.results?.values?.[0]?.value ?? 0, // Use 0 if undefined
       fiscalPeriod: financialsResponse.results[0]?.fiscal_period,

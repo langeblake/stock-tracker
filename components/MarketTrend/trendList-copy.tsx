@@ -114,7 +114,9 @@ function formatNumber(value) {
 
 const TickerList = async () => {
   const tickerDataPromises = tickers.map(fetchTickerData)
-  const data = await Promise.all(tickerDataPromises)
+  const tickerData = await Promise.all(tickerDataPromises)
+  const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null);
+  const data = dataNotNull.sort((a, b) => b.marketCap - a.marketCap);
 
 
     return (

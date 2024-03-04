@@ -3,12 +3,12 @@ import { format } from "path";
 
 const Ticker = ({ data }) => {
 
-  const tickerClose = data.ticker.day.c !== 0 ? data.ticker.day.c.toFixed(2) : data.twoPrevDayTicker.close.toFixed(2);
-  const tickerOpen = data.ticker.day.o !== 0 ? data.ticker.day.o.toFixed(2) : data.ticker.prevDay.o.toFixed(2);
-  const tickerHigh = data.ticker.day.h !== 0 ? data.ticker.day.h.toFixed(2) : data.ticker.prevDay.h.toFixed(2);
-  const tickerLow = data.ticker.day.l !== 0 ? data.ticker.day.l.toFixed(2) : data.ticker.prevDay.l.toFixed(2);
-  const tickerVolume = data.ticker.day.v !== 0 ? data.ticker.day.v.toFixed(2) : data.ticker.prevDay.v;
-  const tickerPrevClose = data.ticker.day.c !== 0 ? data.ticker.prevDay.c.toFixed(2) : data.threePrevDayTicker.close.toFixed(2)
+  const tickerClose = data.ticker.day.c !== 0 ? data.ticker.day.c : data.ticker.prevDay.c;
+  const tickerOpen = data.ticker.day.o !== 0 ? data.ticker.day.o : data.ticker.prevDay.o;
+  const tickerHigh = data.ticker.day.h !== 0 ? data.ticker.day.h : data.ticker.prevDay.h;
+  const tickerLow = data.ticker.day.l !== 0 ? data.ticker.day.l : data.ticker.prevDay.l;
+  const tickerVolume = data.ticker.day.v !== 0 ? data.ticker.day.v : data.ticker.prevDay.v;
+  const tickerPrevClose = data.ticker.day.c !== 0 ? data.ticker.prevDay.c : data.threePrevDayTicker.close
   const tickerDayVolume = data.ticker.day.v.toLocaleString();
   const tickerPrevDayVolume = data.ticker.prevDay.v;
   const tickerPriceChange = tickerClose - tickerPrevClose;
@@ -85,7 +85,7 @@ const Ticker = ({ data }) => {
         <div className='flex'>
           <h1 className='p-4 w-2/3'>Price</h1>
           <p className={`p-4 ${isPricePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{isPricePositiveChange ? '+' : ''}${tickerPriceChange.toFixed(2)}</p>
-          <p className={`p-4`}>${tickerClose}</p>
+          <p className={`p-4`}>${tickerClose.toFixed(2)}</p>
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>Open</h1>

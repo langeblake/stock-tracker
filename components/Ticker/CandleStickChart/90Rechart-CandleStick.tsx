@@ -52,10 +52,24 @@ const CustomToolTip = ({ active, payload, label }) => {
     return (
       <div className='flex flex-col justify-content items-center gap-2 bg-zinc-900/60 text-white p-4 rounded-lg'>
         <h4 className='font-bold'>{dateLabel}</h4>
-        <p>Close: {close?.toFixed(2)}</p>
-        <p>Open: {open?.toFixed(2)}</p>
-        <p>High: {high?.toFixed(2)}</p>
-        <p>Low: {low?.toFixed(2)}</p>
+        <div className='flex flex-col'>
+          <div className='w-28 flex justify-between'>
+            <p className='font-bold'>Close</p>
+            <p>{close?.toFixed(2)}</p>
+          </div>
+          <div className='w-28 flex justify-between'>
+            <p className='font-bold'>Open</p>
+            <p>{open?.toFixed(2)}</p>
+          </div>
+          <div className='w-28 flex justify-between'>
+          <p className='font-bold'>High</p>
+          <p>{high?.toFixed(2)}</p>
+          </div>
+          <div className='w-28 flex justify-between'>
+            <p className='font-bold'>Low</p>
+            <p>{low?.toFixed(2)}</p>
+          </div>
+        </div>
       </div>
     );
   }
