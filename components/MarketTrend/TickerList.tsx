@@ -26,7 +26,7 @@ function formatNumberString(value: number) {
 export const TickerList = ({ data }) => {
     const [currentPage, setCurrentPage] = useState(0); // currentPage will start at 0 for page 1
     const [currentSortCategory, setSortCategory] = useState("marketCap");
-    const [sortOrder, setSortOrder] = useState("asc");
+    const [sortOrder, setSortOrder] = useState("desc");
 
     const pageSize = 20; // Number of items per page
   
@@ -40,6 +40,7 @@ export const TickerList = ({ data }) => {
         // If already sorting by the same category, reverse the order
         if (currentSortCategory === category) {
             setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+            setCurrentPage(0)
         } else {
             // If sorting by a different category, set the new category and order
             setSortCategory(category);
