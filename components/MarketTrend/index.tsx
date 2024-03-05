@@ -7,7 +7,7 @@ import TrendList from "./trendList";
 const MarketTrend = () => {
     return ( 
         <>
-            <section id="tickerListSection" className="pt-20 pb-4 md:pt-20 md:pb-2 lg:py-0">
+            <section id="tickerListSection" className="pt-20 pb-4 md:pt-20 md:pb-2 lg:py-20">
                 <div className="container">
                     {/* <SectionTitle
                     title="Market Trend List"

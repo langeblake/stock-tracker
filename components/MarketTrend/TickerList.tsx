@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { IoIosStarOutline } from 'react-icons/io'
 import { IoMdArrowDropdown } from "react-icons/io";
-import { Input } from "@/components/ui/input"
+
 
 
 function formatNumber(value) {
@@ -68,6 +68,16 @@ export const TickerList = ({ data }) => {
                 aValue = a.ticker[sortCategory] || 0;
                 bValue = b.ticker[sortCategory] || 0;
                 break;
+            case 'day.c':
+                // Check if day.c is available, if not, use prevDay.c
+                aValue = a.ticker.day.c !== 0 ? a.ticker.day.c : a.ticker.prevDay.c || 0;
+                bValue = b.ticker.day.c !== 0 ? b.ticker.day.c : b.ticker.prevDay.c || 0;
+                break;
+            case 'day.v':
+                // Check if day.c is available, if not, use prevDay.c
+                aValue = a.ticker.day.v !== 0 ? a.ticker.day.v : a.ticker.prevDay.v || 0;
+                bValue = b.ticker.day.v !== 0 ? b.ticker.day.v : b.ticker.prevDay.v || 0;
+                break;
             default:
                 // Access the properties from the 'ticker' object using bracket notation
                 aValue = getProperty(a.ticker, sortCategory) || 0;
@@ -107,9 +117,8 @@ export const TickerList = ({ data }) => {
 
 
   return (
-    <div>
-        <h1 className='font-bold text-2xl py-6'>Trending Tickers</h1>
-        <div className="flex w-full justify-between pr-6 dark:bg-zinc-900/70 bg-zinc-100">
+    <div className='overflow-x-auto lg:overflow-hidden min-w-[1200px]'>
+        <div className="relative flex w-full justify-between pr-6 dark:bg-zinc-900/70 bg-zinc-100">
             <div className="flex w-full">
               <div className="h-full w-full flex justify-start items-center py-3 "></div>
               <div className="h-full w-full flex justify-center items-center py-3 pr-4">Ranking</div>
@@ -147,19 +156,23 @@ export const TickerList = ({ data }) => {
         {currentData.map((stock, index) => (
           stock ? (
             <Link href={`/ticker/${stock.ticker.ticker}`} key={stock.ticker.ticker}>
-          <div key={index} className={`border-y-[.5px] pr-6 dark:border-zinc-700 border-zinc-300 flex w-full justify-between dark:hover:bg-zinc-900/80 hover:bg-zinc-100 hover:cursor-pointer`} >
+          <div key={index} className={`border-y-[.5px] pr-6 dark:border-zinc-700 border-zinc-300 flex w-full justify-between dark:hover:bg-zinc-900/80 hover:bg-zinc-200 hover:cursor-pointer`} >
             <div className="flex w-full">
               <div className={`h-full w-full flex justify-center items-center py-3 font-light`}><IoIosStarOutline size={15}/></div>
               <div className={`h-full w-full flex justify-center  items-center py-3 font-light pr-4`}>{startIndex + index + 1}</div>
             </div>
             <div className={`h-full w-full flex items-center py-3 pl-2 font-semibold`}>{stock?.ticker.ticker}</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>${formatNumberString(stock?.ticker.day.c)}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>
+                ${stock?.ticker.day.c !== 0 ? formatNumberString(stock?.ticker.day.c) : formatNumberString(stock?.ticker.prevDay.c)}
+            </div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock?.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {stock?.ticker.todaysChange?.toFixed(2) ?? 'N/A'}
             </div>
 
             <div className={`h-full w-full flex justify-end items-center py-3 font-light ${stock.ticker.todaysChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>{stock.ticker.todaysChangePerc.toFixed(2)}%</div>
-            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.ticker.day.v)}</div>
+            <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>
+                {stock?.ticker.day.v !== 0 ? formatNumber(stock?.ticker.day.v) : formatNumber(stock?.ticker.prevDay.v)}    
+            </div>
             <div className={`h-full w-full flex justify-end items-center py-3 font-light`}>{formatNumber(stock.marketCap)}</div>
             <div className={`h-full w-full flex justify-end items-center py-3`}>{formatNumberString(stock.sma50)}</div> 
             <div className={`h-full w-full flex justify-end items-center py-3`}>{formatNumberString(stock.sma200)}</div> 
@@ -179,6 +192,6 @@ export const TickerList = ({ data }) => {
           </button>
         ))}
       </div>
-      </div>
+    </div>
   )
 }

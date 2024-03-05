@@ -1,9 +1,8 @@
 
-import { IoIosStarOutline } from "react-icons/io";
 import { format, utcToZonedTime } from "date-fns-tz";
-import Link from "next/link";
-
+import { Input } from "@/components/ui/input"
 import { TickerList } from "./TickerList";
+import { FiSearch } from "react-icons/fi";
 
 // Adjust the type to match the expected shape of each ticker's data
 interface TickerResponse {
@@ -113,7 +112,22 @@ const TrendList = async () => {
 
 
   return (
-    <TickerList data={data} />
+    <section >
+      <div className="flex items-center">
+        <h1 className='w-2/5 font-bold text-2xl py-6'>Trending Tickers</h1>
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <FiSearch className="dark:text-gray-400" />
+          </span>
+          <Input
+            className="pl-10 bg-zinc-100 dark:bg-black w-64 focus:border-none"
+          />
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <TickerList data={data} />
+      </div>
+    </section>
   )
 };
 
