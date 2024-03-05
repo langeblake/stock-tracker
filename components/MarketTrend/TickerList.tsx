@@ -44,6 +44,7 @@ export const TickerList = ({ data }) => {
             // If sorting by a different category, set the new category and order
             setSortCategory(category);
             setSortOrder("asc"); // Initially sort in ascending order
+            setCurrentPage(0);
         }
     };
 
@@ -113,7 +114,7 @@ export const TickerList = ({ data }) => {
             <div className="h-full w-full flex justify-start items-center pl-2 py-3">Symbol</div>
             <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('day.c')}>Price</div>
             <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('todaysChange')}>Change</div>
-            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer">% Change</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('todaysChangePerc')}>% Change</div>
             <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('day.v')}>Volume</div>
             <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('marketCap')}>Market Cap</div>
             <div className="h-full w-full flex justify-end items-center py-3 pr-4 hover:cursor-pointer" onClick={() => handleSort('sma50')}>50-Day SMA</div>
