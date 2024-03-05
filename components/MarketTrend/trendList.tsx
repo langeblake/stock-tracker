@@ -105,21 +105,6 @@ const tickers = [
   'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
 ]
 
-  // Helper function to format large numbers
-function formatNumber(value) {
-  if (value >= 1e12) {
-    return `${(value / 1e12).toFixed(2)}T`;
-  } else if (value >= 1e9) {
-    return `${(value / 1e9).toFixed(2)}B`;
-  } else if (value >= 1e6) {
-    return `${(value / 1e6).toFixed(2)}M`;
-  } else {
-    return `${value}`;
-  }
-}
-
-// Use this function in your JSX to display formatted market cap
-
 const TrendList = async () => {
   const tickerDataPromises = tickers.map(fetchTickerData)
   const tickerData = await Promise.all(tickerDataPromises)
