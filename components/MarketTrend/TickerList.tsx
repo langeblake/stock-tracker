@@ -25,15 +25,65 @@ function formatNumberString(value: number) {
 
 export const TickerList = ({ data }) => {
     const [currentPage, setCurrentPage] = useState(0); // currentPage will start at 0 for page 1
+    const [currentSortCategory, setSortCategory] = useState("marketCap");
+    const [sortOrder, setSortOrder] = useState("asc");
+
     const pageSize = 20; // Number of items per page
   
     // Calculate the slice of data to be displayed
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentData = data.slice(startIndex, endIndex);
+
+    
+    // Function to handle sorting
+    const handleSort = (category) => {
+        // If already sorting by the same category, reverse the order
+        if (currentSortCategory === category) {
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+        } else {
+            // If sorting by a different category, set the new category and order
+            setSortCategory(category);
+            setSortOrder("asc"); // Initially sort in ascending order
+        }
+    };
+
+    // Sort data based on selected category and order
+    const sortedData = data.sort((a, b) => {
+        let aValue, bValue;
+        switch (currentSortCategory) {
+            case 'marketCap':
+            case 'sma50':
+            case 'sma200':
+                // Access the properties directly from the parent object
+                aValue = a[currentSortCategory] || 0;
+                bValue = b[currentSortCategory] || 0;
+                break;
+            case 'todaysChange':
+            case 'todaysChangePerc':
+                // Access the properties directly from the 'ticker' object
+                aValue = a.ticker[currentSortCategory] || 0;
+                bValue = b.ticker[currentSortCategory] || 0;
+                break;
+            default:
+                // Access the properties from the 'ticker' object using bracket notation
+                aValue = getProperty(a.ticker, currentSortCategory) || 0;
+                bValue = getProperty(b.ticker, currentSortCategory) || 0;
+                break;
+        }
+        // Compare the values based on the current sort order
+        return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
+    });
+    
+    // Function to get nested property using bracket notation
+    function getProperty(obj: any, path: string) {
+        return path.split('.').reduce((acc, key) => (acc && acc[key] !== 'undefined') ? acc[key] : undefined, obj);
+    }
+
+    const currentData = sortedData.slice(startIndex, endIndex);
   
+
     // Handle page click
-    const handlePageClick = (pageNumber) => {
+    const handlePageClick = (pageNumber: number) => {
       setCurrentPage(pageNumber);
       const sectionElement = document.getElementById('tickerListSection');
       // Check if the section element exists
@@ -49,6 +99,8 @@ export const TickerList = ({ data }) => {
       }
       
     };
+    
+
 
   return (
     <div>
@@ -59,13 +111,13 @@ export const TickerList = ({ data }) => {
               <div className="h-full w-full flex justify-center items-center py-3 ">Ranking</div>
             </div> 
             <div className="h-full w-full flex justify-start items-center pl-2 py-3">Symbol</div>
-            <div className="h-full w-full flex justify-end items-center py-3">Price</div>
-            <div className="h-full w-full flex justify-end items-center py-3">Change</div>
-            <div className="h-full w-full flex justify-end items-center py-3">% Change</div>
-            <div className="h-full w-full flex justify-end items-center py-3">Volume</div>
-            <div className="h-full w-full flex justify-end items-center py-3">Market Cap</div>
-            <div className="h-full w-full flex justify-end items-center py-3 pr-4">50-Day SMA</div>
-            <div className="h-full w-full flex justify-end items-center py-3 pr-4">200-Day SMA</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('day.c')}>Price</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('todaysChange')}>Change</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer">% Change</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('day.v')}>Volume</div>
+            <div className="h-full w-full flex justify-end items-center py-3 hover:cursor-pointer" onClick={() => handleSort('marketCap')}>Market Cap</div>
+            <div className="h-full w-full flex justify-end items-center py-3 pr-4 hover:cursor-pointer" onClick={() => handleSort('sma50')}>50-Day SMA</div>
+            <div className="h-full w-full flex justify-end items-center py-3 pr-4 hover:cursor-pointer" onClick={() => handleSort('sma200')}>200-Day SMA</div>
         </div>
         {currentData.map((stock, index) => (
           stock ? (
