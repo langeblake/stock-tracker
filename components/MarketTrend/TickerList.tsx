@@ -181,7 +181,7 @@ export const TickerList = ({ data }) => {
         ) : (
           <div key={`no-data-${index}`}>No data...</div>
         )))}
-      <div className="flex gap-1 justify-end pt-4">
+      <div className="absolute flex end-0 justify-end pt-6 pr-4 2xl:pr-10">
         {[...Array(5)].map((_, i) => ( // Assuming you have 5 pages
           <button
             key={i}

@@ -7,30 +7,29 @@ export default async function handler(req, res) {
   // if (!apiKey || apiKey !== expectedApiKey) {
   //   return res.status(401).json({ message: "Unauthorized access." });
   // }
-    const apiKey = process.env.POLYGON_API_KEY;
+  const apiKey = process.env.POLYGON_API_KEY;
 
-    const timeZone = 'America/Los_Angeles';
-    // Get the current date and time in UTC
-    const currentDate = new Date();
-    if (currentDate.getDay() === 0) {
-      // If it's Sunday, subtract 2 days to get data for Friday
-      currentDate.setDate(currentDate.getDate() - 2);
-    } else if (currentDate.getDay() === 6) {
-      // If it's Saturday, subtract 1 day to get data for Friday
-      currentDate.setDate(currentDate.getDate() - 1);
-    }
-    const oneDayBeforeDate = currentDate;
-    oneDayBeforeDate.setDate(currentDate.getDate() - 1);
-    const twoDayBeforeDate = currentDate;
-    twoDayBeforeDate.setDate(currentDate.getDate() - 3);
-    // Format the seven days before date as "YYYY-MM-DD"
-    // Convert UTC to the desired timezone
-    const prevInPST = utcToZonedTime(oneDayBeforeDate, timeZone);
-    // Format the date in the desired format
-    const formattedDate = format(prevInPST, 'yyyy-MM-dd');
-    const twoPrevInPST = utcToZonedTime(twoDayBeforeDate, timeZone);
-    // Format the date in the desired format
-    const formattedDateTwo = format(twoPrevInPST, 'yyyy-MM-dd');
+  const timeZone = 'America/Los_Angeles';
+  // Get the current date and time in UTC, then convert to the desired timezone
+  let currentDate = new Date();
+  currentDate = utcToZonedTime(currentDate, timeZone);
+
+  // Adjust for weekends
+  if (currentDate.getDay() === 0) { // Sunday
+    currentDate.setDate(currentDate.getDate() - 2); // Adjust to Friday
+  } else if (currentDate.getDay() === 6) { // Saturday
+    currentDate.setDate(currentDate.getDate() - 1); // Adjust to Friday
+  }
+
+  // Make copies of the currentDate for manipulation
+  const oneDayBeforeDate = new Date(currentDate.getTime());
+  oneDayBeforeDate.setDate(currentDate.getDate() - 1);
+  const twoDayBeforeDate = new Date(currentDate.getTime());
+  twoDayBeforeDate.setDate(currentDate.getDate() - 2);
+
+  // Format the dates as "YYYY-MM-DD" in the desired timezone
+  const formattedDate = format(oneDayBeforeDate, 'yyyy-MM-dd', { timeZone });
+  const formattedDateTwo = format(twoDayBeforeDate, 'yyyy-MM-dd', { timeZone });
 
   try {
     // Retrieve the ticker from the query parameters
