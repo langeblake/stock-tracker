@@ -1,5 +1,8 @@
 "use client"
 
+import '/styles/tickerTable.css'
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+
 
 
 import {
@@ -64,14 +67,16 @@ export function DataTable<TData extends { symbol: string }, TValue>({
   return (
     <>
         {/* Table */}
-        <div className="border-b border-zinc-600 ">
+        <div className="border-b border-zinc-600">
         <Table>
-            <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-16">
+            <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-14 sticky top-0 z-50">
             {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="border-zinc-600">
                 {headerGroup.headers.map((header) => {
+                    
                     return (
-                    <TableHead key={header.id} >
+                        //The 'left-[] has to correspond to the 
+                        <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left' : 'text-right w-40'}`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -88,17 +93,22 @@ export function DataTable<TData extends { symbol: string }, TValue>({
             {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                 <TableRow
-                    className="border-b border-zinc-600 dark:hover:bg-zinc-900 hover:bg-zinc-200 hover:cursor-pointer transition-none"
+                    className="group border-b border-zinc-600 dark:hover:bg-zinc-900 hover:bg-zinc-200 hover:cursor-pointer transition-none"
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     onClick={() => handleRowClick(row.original.symbol)}
                 >
                     {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                    key={cell.id}
+                    className={
+                    cell.column.id === 'favorite' || cell.column.id === 'symbol' ? 'group-hover:dark:bg-zinc-900 group-hover:bg-zinc-200 dark:bg-black bg-zinc-100 sticky-column ' + cell.column.id : 'pr-10'
+                    }
+                >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                     ))}
-                </TableRow>
+                </TableRow> 
                 ))
             ) : (
                 <TableRow>
@@ -119,7 +129,8 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
         >
-        Prev
+        <IoIosArrowBack size={16}/>
+
         </Button>
         <Button
         variant="outline"
@@ -167,7 +178,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
         >
-        Next
+        <IoIosArrowForward size={16}/>
         </Button>
         </div>
     </>

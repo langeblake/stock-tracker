@@ -1,0 +1,17 @@
+  
+  /* Sticky column style */
+  .sticky-column {
+    position: sticky;
+    z-index: 1;
+  }
+  
+  /* Specific left positions for your sticky columns */
+  .sticky-column.favorite {
+    left: 0;
+  }
+  
+  .sticky-column.symbol {
+    left: 80px; /* Adjust based on the actual width of the "Favorite" column */
+  }
+  
+  

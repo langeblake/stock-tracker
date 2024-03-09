@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { IoIosStarOutline } from 'react-icons/io';
 
 export type TrendingTicker = {
       symbol: string;
@@ -32,18 +33,27 @@ const formatNumber = (value: number) => {
 export const columns: ColumnDef<TrendingTicker>[] = [
     {
         accessorKey: 'favorite',
-        header: 'Favorite'
+        header: ' ',
+        cell: () => <div className="flex justify-center hover:scale-125 w-12 " ><IoIosStarOutline /></div>
     },
-    {
-        accessorKey: 'ranking',
-        header: 'Ranking'
-    },
+    // {
+    //     accessorKey: 'ranking',
+    //     header: 'Ranking',
+    //     cell: ({ row, table }) => {
+    //         const pageIndex = table.getState().pagination.pageIndex;
+    //         const pageSize = table.getState().pagination.pageSize;
+    //         const sortedData = table.getState().sortedData || []; // Make sure to handle cases where sortedData might be undefined or null
+    //         const sortedIndex = sortedData.findIndex(item => item === row.original);
+    //         const rank = sortedIndex !== -1 ? (sortedIndex + pageIndex * pageSize + 1) : (pageIndex * pageSize + row.index + 1);
+    //         return <div>{rank}</div>;
+    //     },
+    // },
     {
         accessorKey: 'symbol',
         header: 'Symbol',
         cell: ({ row }) => {
             const symbol = row.getValue("symbol");
-            return <div>{symbol !== undefined ? symbol?.toString() : 'N/A'}</div>;
+            return <div className="font-bold text-left">{symbol !== undefined ? symbol?.toString() : 'N/A'}</div>;
             }
     },
     {

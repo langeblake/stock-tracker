@@ -95,7 +95,7 @@ interface TickerResponse {
 
 // 'FB' is a a test for tickers that don't return data; status !== "OK"
 const tickers = [
-  'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'BRK.A', 'JPM', 'V', 'JNJ',
+  'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AVAV', 'JPM', 'V', 'JNJ',
   'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'DIS', 'BAC', 'VZ', 'ADBE',
   'CMCSA', 'KO', 'NFLX', 'PFE', 'T', 'PYPL', 'INTC', 'CSCO', 'PEP', 'XOM',
   'COST', 'CVX', 'ABT', 'ACN', 'CRM', 'AVGO', 'ABBV', 'WFC', 'MRK', 'TMO',
@@ -111,7 +111,7 @@ const TrendList = async () => {
   const tickerDataPromises = tickers.map(fetchTickerData);
   const tickerData = await Promise.all(tickerDataPromises);
   const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK" );
-  const data = dataNotNull.sort((a, b) => b.marketCap - a.marketCap);
+  const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
   function formatNumber(value) {
     if (value >= 1e12) {
