@@ -108,10 +108,39 @@ const tickers = [
 ]
 
 const TrendList = async () => {
-  const tickerDataPromises = tickers.map(fetchTickerData)
-  const tickerData = await Promise.all(tickerDataPromises)
+  const tickerDataPromises = tickers.map(fetchTickerData);
+  const tickerData = await Promise.all(tickerDataPromises);
   const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK" );
   const data = dataNotNull.sort((a, b) => b.marketCap - a.marketCap);
+
+  function formatNumber(value) {
+    if (value >= 1e12) {
+      return `${(value / 1e12).toFixed(2)}T`;
+    } else if (value >= 1e9) {
+      return `${(value / 1e9).toFixed(2)}B`;
+    } else if (value >= 1e6) {
+      return `${(value / 1e6).toFixed(2)}M`;
+    } else if (value >= 1e3) {
+      return value.toLocaleString();
+    } else {
+      return `${value}`;
+    }
+  }
+
+  function formatNumberString(value: number) {
+    return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  const tableData = data.map(stock => ({
+    symbol: stock.ticker.ticker,
+    price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
+    change: stock.ticker.todaysChange.toFixed(2),
+    todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
+    volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
+    marketCap: stock.marketCap.toFixed(2),
+    sma50: formatNumberString(stock.sma50),
+    sma200: formatNumberString(stock.sma200),
+  }))
 
 
   return (
@@ -129,7 +158,7 @@ const TrendList = async () => {
       </div>
       <div className="overflow-x-auto">
         {/* <TickerList data={data} /> */}
-        <DataTable columns={columns} data={data}/>
+        <DataTable columns={columns} data={tableData}/>
       </div>
     </section>
   )

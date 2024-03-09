@@ -1,49 +1,33 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 export type TrendingTicker = {
-    ticker: {
-        ticker: string;
-        todaysChangePerc: number;
-        todaysChange: number;
-        updated: number;
-        day: {
-          o: number;
-          h: number;
-          l: number;
-          c: number;
-          v: number;
-          vw: number;
-        };
-        min: {
-          av: number;
-          t: number;
-          n: number;
-          o: number;
-          h: number;
-          l: number;
-          c: number;
-          v: number;
-          vw: number;
-        };
-        prevDay: {
-          o: number;
-          h: number;
-          l: number;
-          c: number;
-          v: number;
-          vw: number;
-        };
-      };
-      name: string;
-      marketCap: number;
-      sma200: number;
-      sma50: number;
-      status: string;
+      symbol: string;
+      price: number;
+      change: number | string;
+      todaysChangePerc: number | string;
+      volume: number;
+      marketCap: number | string;
+      sma200: number | string;
+      sma50: number | string;
     };
 
-
+const formatNumber = (value: number) => {
+    if (value >= 1e12) {
+        return `${(value / 1e12).toFixed(2)}T`;
+    } else if (value >= 1e9) {
+        return `${(value / 1e9).toFixed(2)}B`;
+    } else if (value >= 1e6) {
+        return `${(value / 1e6).toFixed(2)}M`;
+    } else if (value >= 1e3) {
+        return value.toLocaleString();
+    } else {
+        return `${value}`;
+    }
+    }
 
 export const columns: ColumnDef<TrendingTicker>[] = [
     {
@@ -55,35 +39,144 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         header: 'Ranking'
     },
     {
-        accessorKey: 'ticker.ticker',
-        header: 'Symbol'
+        accessorKey: 'symbol',
+        header: 'Symbol',
+        cell: ({ row }) => {
+            const symbol = row.getValue("symbol");
+            return <div>{symbol !== undefined ? symbol?.toString() : 'N/A'}</div>;
+            }
     },
     {
-        accessorKey: 'ticker.day.c',
-        header: 'Price'
+        accessorKey: 'price',
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="text-right"
+              >
+                Price
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const price = parseFloat(row.getValue("price"))
+        const formatted = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+        }).format(price)
+    
+        return <div className="text-right font-medium">{formatted}</div>
+        },
     },
     {
-        accessorKey: 'ticker.todaysChange',
-        header: 'Change'
+        accessorKey: 'change',
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                Change
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const change = parseFloat(row.getValue("change"))
+        const formatted = new Intl.NumberFormat("en-US").format(change)
+        return <div className={`text-right font-medium ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatted}</div>
+        },
     },
     {
-        accessorKey: 'ticker.todaysChangePerc',
-        header: '% Change'
+        accessorKey: 'todaysChangePerc',
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                % Change
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"))
+        return <div className="text-right font-medium">{formatNumber(todaysChangePerc)}</div>
+        },
     },
     {
-        accessorKey: 'ticker.day.v',
-        header: 'Volume'
+        accessorKey: 'volume',
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                Volume
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const volume = parseFloat(row.getValue("volume"))
+        return <div className="text-right font-medium">{formatNumber(volume)}</div>
+        },
     },
     {
         accessorKey: 'marketCap',
-        header: 'Market Cap'
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                Market Cap
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const marketCap = parseFloat(row.getValue("marketCap"))
+        return <div className="text-right  font-medium">{formatNumber(marketCap)}</div>
+        },
     },
     {
         accessorKey: 'sma50',
-        header: '50-Day SMA'
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                50-Day SMA
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const sma50 = parseFloat(row.getValue("sma50"))
+        return <div className="text-right  font-medium">{formatNumber(sma50)}</div>
+        },
     },
     {
         accessorKey: 'sma200',
-        header: '200-Day SMA'
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                200-Day SMA
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+        cell: ({ row }) => {
+        const sma200 = parseFloat(row.getValue("sma200"))
+        return <div className="text-right  font-medium">{formatNumber(sma200)}</div>
+        },
     },
 ]
