@@ -117,7 +117,7 @@ export const TickerList = ({ data }) => {
 
 
   return (
-    <div className='overflow-x-auto lg:overflow-hidden min-w-[1200px]'>
+    <div className='overflow-x-auto lg:overflow-hidden min-w-[1300px]'>
         <div className="relative flex w-full justify-between pr-6 dark:bg-zinc-900/70 bg-zinc-100">
             <div className="flex w-full">
               <div className="h-full w-full flex justify-start items-center py-3 "></div>

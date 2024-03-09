@@ -3,6 +3,9 @@ import { format, utcToZonedTime } from "date-fns-tz";
 import { Input } from "@/components/ui/input"
 import { TickerList } from "./TickerList";
 import { FiSearch } from "react-icons/fi";
+import TickerTable from "./TickerTable/_TickerTable";
+import { DataTable } from "./TickerTable/data-table";
+import { columns } from "./TickerTable/columns";
 
 // Adjust the type to match the expected shape of each ticker's data
 interface TickerResponse {
@@ -125,7 +128,8 @@ const TrendList = async () => {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <TickerList data={data} />
+        {/* <TickerList data={data} /> */}
+        <DataTable columns={columns} data={data}/>
       </div>
     </section>
   )
