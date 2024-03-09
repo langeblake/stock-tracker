@@ -145,8 +145,8 @@ const TrendList = async () => {
 
   return (
     <section >
-      <div className="flex items-center">
-        <h1 className='w-2/5 font-bold text-2xl py-6'>Trending Tickers</h1>
+      <div className="flex items-center flex-col pb-4 sm:pb-0 sm:flex-row">
+        <h1 className='sm:w-2/5 font-bold text-2xl py-6'>Trending Tickers</h1>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <FiSearch className="dark:text-gray-400" />

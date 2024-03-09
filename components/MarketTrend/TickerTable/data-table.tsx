@@ -68,7 +68,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
     <>
         {/* Table */}
         <div className="border-b border-zinc-600">
-        <Table>
+        <Table className='relative'>
             <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-14 sticky top-0 z-50">
             {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="border-zinc-600">
