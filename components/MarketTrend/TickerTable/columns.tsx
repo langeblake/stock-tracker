@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { IoIosStarOutline } from 'react-icons/io';
+import { IoIosStarOutline, IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
 export type TrendingTicker = {
       symbol: string;
@@ -58,18 +58,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'price',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                className="text-right"
-              >
-                Price
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    Price
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const price = parseFloat(row.getValue("price"))
         const formatted = new Intl.NumberFormat("en-US", {
@@ -82,17 +95,30 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'change',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                Change
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        // Use the same corrected approach as 'price'
+                        if (column.getIsSorted() === undefined) {
+                            column.getAutoSortDir();
+                        } else {
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    Change
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const change = parseFloat(row.getValue("change"))
         const formatted = new Intl.NumberFormat("en-US").format(change)
@@ -101,17 +127,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'todaysChangePerc',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                % Change
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    % Change
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"))
         return <div className="text-right font-medium">{formatNumber(todaysChangePerc)}</div>
@@ -119,17 +159,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'volume',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                Volume
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    Volume
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const volume = parseFloat(row.getValue("volume"))
         return <div className="text-right font-medium">{formatNumber(volume)}</div>
@@ -137,17 +191,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'marketCap',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                Market Cap
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    Market Cap
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const marketCap = parseFloat(row.getValue("marketCap"))
         return <div className="text-right  font-medium">{formatNumber(marketCap)}</div>
@@ -155,17 +223,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'sma50',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                50-Day SMA
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    50-Day SMA
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const sma50 = parseFloat(row.getValue("sma50"))
         return <div className="text-right  font-medium">{formatNumber(sma50)}</div>
@@ -173,17 +255,31 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     },
     {
         accessorKey: 'sma200',
+        sortDescFirst: true,
         header: ({ column }) => {
             return (
-              <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              >
-                200-Day SMA
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        if (column.getIsSorted() === undefined) {
+                            // If not sorted, sort in descending order first
+                            column.getSortingFn();
+                        } else {
+                            // Toggle sorting if already sorted
+                            column.toggleSorting();
+                        }
+                    }}
+                    className="text-right"
+                >
+                    200-Day SMA
+                    {column.getIsSorted() === 'asc' ? (
+                        <IoMdArrowDropdown size={20}/>
+                    ) : column.getIsSorted() === 'desc' ? (
+                        <IoMdArrowDropup size={20}/>
+                    ) : <div className="w-5"></div>}
+                </Button>
             )
-          },
+        },
         cell: ({ row }) => {
         const sma200 = parseFloat(row.getValue("sma200"))
         return <div className="text-right  font-medium">{formatNumber(sma200)}</div>
