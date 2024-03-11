@@ -144,7 +144,7 @@ const TrendList = async () => {
 
 
   return (
-    <section >
+    <section id="tickerListSection" className="px-4 container 2xl:container pt-20 pb-4 md:pt-20 md:pb-2 lg:pt-28 xl:pt-10">
       <div className="flex items-center flex-col pb-4 sm:pb-0 sm:flex-row">
         <h1 className='sm:w-2/5 font-bold text-2xl py-6'>Trending Tickers</h1>
         <div className="relative">
@@ -156,7 +156,7 @@ const TrendList = async () => {
           />
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="">
         {/* <TickerList data={data} /> */}
         <DataTable columns={columns} data={tableData}/>
       </div>

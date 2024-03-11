@@ -8,6 +8,7 @@ import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
 import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
 import MarketTrend from "@/components/MarketTrend";
+import TrendList from "@/components/MarketTrend/TrendList";
 
 export const metadata: Metadata = {
   title: "K-MarketView",
@@ -20,7 +21,8 @@ export default function Home() {
     <>
         <ScrollUp />
         <OverviewCards /> 
-        <MarketTrend />
+        {/* <MarketTrend /> */}
+        <TrendList />
         <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}

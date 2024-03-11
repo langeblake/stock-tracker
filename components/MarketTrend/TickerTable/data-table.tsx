@@ -26,6 +26,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import React from 'react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface DataTableProps<TData extends { symbol: string }, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -43,6 +45,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
     })        
 
   const router = useRouter(); // initialize the router
+
 
   // Define a function that navigates to your desired path
   const handleRowClick = (symbol: string) => {
@@ -64,32 +67,34 @@ export function DataTable<TData extends { symbol: string }, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   })
 
+  
   return (
     <>
         {/* Table */}
-        <div className="border-b border-zinc-600">
-        <Table className='relative'>
-            <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-14 sticky top-0 z-50">
+      <div className='w-full overflow-x-auto'>
+        <Table className="border-b border-zinc-600">
+            <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-14">
             {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="border-zinc-600">
                 {headerGroup.headers.map((header) => {
                     
                     return (
                         //The 'left-[] has to correspond to the 
-                        <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left' : 'text-right w-40'}`}>
+                      <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left ' : 'text-right w-40'} overflow-auto`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                             )}
-                    </TableHead>
+                      </TableHead>
                     )
                 })}
                 </TableRow>
             ))}
             </TableHeader>
-            <TableBody>
+            
+            <TableBody className=''>
             {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -101,9 +106,9 @@ export function DataTable<TData extends { symbol: string }, TValue>({
                     {row.getVisibleCells().map((cell) => (
                     <TableCell
                     key={cell.id}
-                    className={
-                    cell.column.id === 'favorite' || cell.column.id === 'symbol' ? 'group-hover:dark:bg-zinc-900 group-hover:bg-zinc-200 dark:bg-black bg-zinc-100 sticky-column ' + cell.column.id : 'pr-10'
-                    }
+                    className={`
+                    ${cell.column.id === 'favorite' || cell.column.id === 'symbol' ? 'group-hover:dark:bg-zinc-900 group-hover:bg-zinc-200 dark:bg-black  bg-zinc-100  sticky-column ' + cell.column.id : 'pr-10'
+                    }`}
                 >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
@@ -120,7 +125,6 @@ export function DataTable<TData extends { symbol: string }, TValue>({
             </TableBody>
         </Table>
         </div>
-
         {/* Pagination */}
         <div className="flex items-center justify-end space-x-2 py-4">
         <Button
