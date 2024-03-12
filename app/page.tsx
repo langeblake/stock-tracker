@@ -16,19 +16,27 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-export default function Home() {
+export default function Home({
+  searchParams
+}: {
+  searchParams: string
+}) {
+
+  const search = typeof searchParams.search === 'string' ? searchParams.search : undefined
+
+
   return (
     <>
         <ScrollUp />
         <OverviewCards /> 
-        {/* <MarketTrend /> */}
-        <TrendList />
-        <MarketChange 
+        <MarketTrend query={search}/>
+        {/* <TrendList /> */}
+        {/* <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}
           ChangeHeatMap={<ChangeHeatMap/>}
           >
-        </MarketChange>
+        </MarketChange> */}
     </>
   );
 }

@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import React from 'react';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
 
 interface DataTableProps<TData extends { symbol: string }, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -75,17 +75,17 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         <Table className="border-b border-zinc-600">
             <TableHeader className="dark:bg-zinc-900 bg-zinc-200 h-14">
             {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="border-zinc-600">
+                <TableRow key={headerGroup.id} className="border-zinc-600 ">
                 {headerGroup.headers.map((header) => {
                     
                     return (
                         //The 'left-[] has to correspond to the 
-                      <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left ' : 'text-right w-40'} overflow-auto`}>
+                      <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left ' : 'text-right w-40'}`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext() 
                             )}
                       </TableHead>
                     )
@@ -98,7 +98,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
             {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                 <TableRow
-                    className="group border-b border-zinc-600 dark:hover:bg-zinc-900 hover:bg-zinc-200 hover:cursor-pointer transition-none"
+                    className="group border-b border-zinc-600 dark:hover:bg-zinc-900 hover:bg-zinc-200 hover:cursor-pointer transition-none "
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     onClick={() => handleRowClick(row.original.symbol)}
@@ -107,7 +107,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
                     <TableCell
                     key={cell.id}
                     className={`
-                    ${cell.column.id === 'favorite' || cell.column.id === 'symbol' ? 'group-hover:dark:bg-zinc-900 group-hover:bg-zinc-200 dark:bg-black  bg-zinc-100  sticky-column ' + cell.column.id : 'pr-10'
+                    ${cell.column.id === 'favorite' || cell.column.id === 'symbol' ? 'group-hover:dark:bg-zinc-900 group-hover:bg-zinc-200 dark:bg-black sticky-column ' + cell.column.id : 'pr-10 '
                     }`}
                 >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -33,7 +33,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
     {
         accessorKey: 'favorite',
         header: ' ',
-        cell: () => <div className="flex justify-center hover:scale-125 w-12 " ><IoIosStarOutline /></div>
+        cell: () => <div className="flex justify-center hover:scale-125 w-12" ><IoIosStarOutline /></div>
     },
     // {
     //     accessorKey: 'ranking',
@@ -153,7 +153,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"))
-        return <div className="text-right font-medium">{formatNumber(todaysChangePerc)}</div>
+        return <div className={`text-right font-medium ${todaysChangePerc >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatNumber(todaysChangePerc)}</div>
         },
     },
     {
@@ -217,7 +217,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const marketCap = parseFloat(row.getValue("marketCap"))
-        return <div className="text-right  font-medium">{formatNumber(marketCap)}</div>
+        return <div className="text-right font-medium">{marketCap ? formatNumber(marketCap) : 'NA'}</div>
         },
     },
     {

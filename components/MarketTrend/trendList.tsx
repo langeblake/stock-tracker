@@ -1,8 +1,6 @@
 
 import { format, utcToZonedTime } from "date-fns-tz";
-import { Input } from "@/components/ui/input"
-import { TickerList } from "./TickerList";
-import { FiSearch } from "react-icons/fi";
+import { TickerList } from "./_TickerList";
 import TickerTable from "./TickerTable/_TickerTable";
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
@@ -85,6 +83,7 @@ interface TickerResponse {
           throw new Error(`Failed to fetch data for ${ticker}`);
         }
         const data = await response.json();
+        console.log(data)
         return data;
       } catch (error) {
         console.error(`Error fetching data for ${ticker}:`, error);
@@ -107,61 +106,76 @@ const tickers = [
   'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
 ]
 
-const TrendList = async () => {
-  const tickerDataPromises = tickers.map(fetchTickerData);
-  const tickerData = await Promise.all(tickerDataPromises);
-  const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK" );
-  const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
-  function formatNumber(value) {
-    if (value >= 1e12) {
-      return `${(value / 1e12).toFixed(2)}T`;
-    } else if (value >= 1e9) {
-      return `${(value / 1e9).toFixed(2)}B`;
-    } else if (value >= 1e6) {
-      return `${(value / 1e6).toFixed(2)}M`;
-    } else if (value >= 1e3) {
-      return value.toLocaleString();
-    } else {
-      return `${value}`;
-    }
-  }
-
-  function formatNumberString(value: number) {
+const formatNumberString = (value: number | undefined) => {
+  if (value !== undefined) {
     return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
+  return ""; // Or any default value you prefer if the value is undefined
+}
 
-  const tableData = data.map(stock => ({
-    symbol: stock.ticker.ticker,
-    price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-    change: stock.ticker.todaysChange.toFixed(2),
-    todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
-    volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
-    marketCap: stock.marketCap.toFixed(2),
-    sma50: formatNumberString(stock.sma50),
-    sma200: formatNumberString(stock.sma200),
-  }))
+const TrendList = async ({ query }: { query: string | undefined }) => {
+  let tableData: any[] = [];
 
+  if (query === undefined || null ) {
+    // Static ticker array data
+    const tickerDataPromises = tickers.map(fetchTickerData);
+    const tickerData = await Promise.all(tickerDataPromises);
+    const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
+    const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
+
+    tableData = data.map(stock => ({
+      symbol: stock.ticker.ticker,
+      price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
+      change: stock.ticker.todaysChange.toFixed(2),
+      todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
+      volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
+      marketCap: stock.marketCap.toFixed(2),
+      sma50: formatNumberString(stock.sma50),
+      sma200: formatNumberString(stock.sma200),
+    }));
+  } else {
+    const queryTickerData = await fetchTickerData(query);
+    if (queryTickerData !== null) {
+      // Check if all necessary properties exist in the response data
+      // if (queryTickerData.ticker && queryTickerData.ticker.ticker &&
+      //     queryTickerData.ticker.day && queryTickerData.ticker.day.c &&
+      //     queryTickerData.ticker.prevDay && queryTickerData.ticker.prevDay.c &&
+      //     queryTickerData.ticker.todaysChange && queryTickerData.ticker.todaysChangePerc &&
+      //     queryTickerData.ticker.day.v && queryTickerData.marketCap &&
+      //     queryTickerData.sma50 && queryTickerData.sma200) {
+        // Manipulate data based on the query
+        tableData = [{
+          symbol: queryTickerData.ticker?.ticker,
+          price: queryTickerData.ticker.day.c !== 0 ? queryTickerData.ticker.day.c : queryTickerData.ticker.prevDay.c,
+          change: queryTickerData.ticker.todaysChange.toFixed(2),
+          todaysChangePerc: queryTickerData.ticker.todaysChangePerc.toFixed(2),
+          volume: queryTickerData.ticker.day.v !== 0 ? queryTickerData.ticker.day.v : queryTickerData.ticker.prevDay.v,
+          marketCap: queryTickerData.marketCap !== 0 ? queryTickerData.marketCap?.toFixed(2) : 'NA',
+          sma50: formatNumberString(queryTickerData.sma50),
+          sma200: formatNumberString(queryTickerData.sma200),
+        }];
+      } else {
+        console.error("Incomplete data received for the query:", query);
+        // Handle the case where necessary properties are missing from the response data
+        // You can set a default value or display an error message
+      }
+    // } else {
+    //   console.error("Failed to fetch data for the query:", query);
+    //   // Handle the case where the query response is not OK
+    //   // You can set a default value or display an error message
+    // }
+  }
+
+  console.log(tableData)
 
   return (
-    <section id="tickerListSection" className="px-4 container 2xl:container pt-20 pb-4 md:pt-20 md:pb-2 lg:pt-28 xl:pt-10">
-      <div className="flex items-center flex-col pb-4 sm:pb-0 sm:flex-row">
-        <h1 className='sm:w-2/5 font-bold text-2xl py-6'>Trending Tickers</h1>
-        <div className="relative">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FiSearch className="dark:text-gray-400" />
-          </span>
-          <Input
-            className="pl-10 bg-zinc-100 dark:bg-black w-64 focus:border-none"
-          />
-        </div>
-      </div>
+    <section id="tickerListSection" className="">
       <div className="">
-        {/* <TickerList data={data} /> */}
         <DataTable columns={columns} data={tableData}/>
       </div>
     </section>
-  )
+  );
 };
 
 export default TrendList;
