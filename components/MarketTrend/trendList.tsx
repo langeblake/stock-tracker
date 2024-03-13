@@ -83,7 +83,6 @@ interface TickerResponse {
           throw new Error(`Failed to fetch data for ${ticker}`);
         }
         const data = await response.json();
-        console.log(data)
         return data;
       } catch (error) {
         console.error(`Error fetching data for ${ticker}:`, error);
@@ -136,7 +135,7 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
     }));
   } else {
     const queryTickerData = await fetchTickerData(query);
-    if (queryTickerData !== null) {
+    if (queryTickerData !== null && queryTickerData.status === "OK") {
       // Check if all necessary properties exist in the response data
       // if (queryTickerData.ticker && queryTickerData.ticker.ticker &&
       //     queryTickerData.ticker.day && queryTickerData.ticker.day.c &&
@@ -155,19 +154,17 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
           sma50: formatNumberString(queryTickerData.sma50),
           sma200: formatNumberString(queryTickerData.sma200),
         }];
-      } else {
-        console.error("Incomplete data received for the query:", query);
-        // Handle the case where necessary properties are missing from the response data
-        // You can set a default value or display an error message
-      }
-    // } else {
-    //   console.error("Failed to fetch data for the query:", query);
-    //   // Handle the case where the query response is not OK
-    //   // You can set a default value or display an error message
-    // }
+      // } else {
+      //   console.error("Incomplete data received for the query:", query);
+      //   // Handle the case where necessary properties are missing from the response data
+      //   // You can set a default value or display an error message
+      // }
+    } else {
+      console.error("Failed to fetch data for the query:", query);
+      // Handle the case where the query response is not OK
+      // You can set a default value or display an error message
+    }
   }
-
-  console.log(tableData)
 
   return (
     <section id="tickerListSection" className="">

@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { IoIosStarOutline, IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import { useState } from "react";
+import { IoIosStarOutline, IoIosStar, IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 
 export type TrendingTicker = {
       symbol: string;
@@ -29,11 +30,27 @@ const formatNumber = (value: number) => {
     }
     }
 
+
 export const columns: ColumnDef<TrendingTicker>[] = [
+
     {
         accessorKey: 'favorite',
         header: ' ',
-        cell: () => <div className="flex justify-center hover:scale-125 w-12" ><IoIosStarOutline /></div>
+        cell: ({ row }) => {
+            const [isStarFilled, setIsStarFilled] = useState(false); // State to track the icon state
+    
+            // Function to handle icon click and toggle between filled and outline star
+            const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                event.stopPropagation();
+                setIsStarFilled(!isStarFilled); // Toggle the icon state
+            };
+    
+            return (
+                <div className="flex justify-center hover:scale-125 w-12" onClick={handleClick}>
+                    {isStarFilled ? <IoIosStar size={16}/> : <IoIosStarOutline size={16}/>}
+                </div>
+            );
+        },
     },
     // {
     //     accessorKey: 'ranking',
@@ -120,7 +137,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const change = parseFloat(row.getValue("change"))
-        const formatted = new Intl.NumberFormat("en-US").format(change)
+        const formatted = change.toFixed(2)
         return <div className={`text-right font-medium ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatted}</div>
         },
     },
@@ -249,7 +266,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const sma50 = parseFloat(row.getValue("sma50"))
-        return <div className="text-right  font-medium">{formatNumber(sma50)}</div>
+        return <div className="text-right  font-medium">{sma50.toFixed(2)}</div>
         },
     },
     {
@@ -281,7 +298,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const sma200 = parseFloat(row.getValue("sma200"))
-        return <div className="text-right  font-medium">{formatNumber(sma200)}</div>
+        return <div className="text-right  font-medium">{sma200.toFixed(2)}</div>
         },
     },
 ]

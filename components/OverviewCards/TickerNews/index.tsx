@@ -25,7 +25,7 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
   const url = `https://api.polygon.io/v2/reference/news?order=desc&limit=50&apiKey=${API_KEY}`;
   
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { next: { revalidate: 3600 } });
     if (!response.ok) {
       throw new Error(`Failed to fetch news data`);
     }
@@ -34,7 +34,8 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
     
     // Get a random index between 0 and 19
     const randomIndex = Math.floor(Math.random() * 50);
-    return results[randomIndex]; // Return a random article
+    // return results[randomIndex]; // Return a random article
+    return results[1]
   } catch (error) {
     console.error(`Error fetching news data:`, error);
     return null;
@@ -50,7 +51,7 @@ const NewsOverview = async () => {
   return (
     <section className="container w-full shadow-md rounded-lg p-4 border dark:border-zinc-700 dark:bg-zinc-900">
         <div>
-          <h3 className="font-bold text-lg mb-6">NEWS</h3>
+          <h3 className="font-bold text-lg mb-6">News</h3>
           {tickerNewsData ? (
             <div className="flex flex-col items-center">
               <img src={tickerNewsData.image_url} alt={tickerNewsData.title} className="mb-4 w-full max-h-48 overflow-hidden rounded-md" />

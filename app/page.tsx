@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   // other metadata
 };
 
+
+
 export default function Home({
   searchParams
 }: {
@@ -31,12 +33,12 @@ export default function Home({
         <OverviewCards /> 
         <MarketTrend query={search}/>
         {/* <TrendList /> */}
-        {/* <MarketChange 
+        <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}
           ChangeHeatMap={<ChangeHeatMap/>}
           >
-        </MarketChange> */}
+        </MarketChange>
     </>
   );
 }
