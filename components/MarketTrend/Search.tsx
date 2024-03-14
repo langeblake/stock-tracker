@@ -13,9 +13,9 @@ export const Search = () => {
 
     useEffect(() => {
         if (!query) {
-            router.push('/');
+            router.push('/', { scroll: false });
         } else {
-            router.push(`?search=${query}`);
+            router.push(`?search=${query}`, { scroll: false });
         }
     }, [query, router]);
 

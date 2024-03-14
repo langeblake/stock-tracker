@@ -35,4 +35,5 @@ export default function RootLayout({
 }
 
 import { Providers } from "./providers"; 
+import Script from "next/script";
 
