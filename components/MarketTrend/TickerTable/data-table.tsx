@@ -132,6 +132,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         size="sm"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
+        className={`${table.getCanPreviousPage() && 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         <IoIosArrowBack size={16}/>
 
@@ -140,7 +141,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         variant="outline"
         size="sm"
         onClick={() => table.setPageIndex(table.getPageCount() - 5)}
-        className={`${pagination.pageIndex === 0 && 'dark:bg-zinc-700 bg-zinc-300' }`}
+        className={`${pagination.pageIndex === 0 ? 'dark:bg-zinc-600 bg-zinc-300' : 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         1
         </Button>
@@ -148,7 +149,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         variant="outline"
         size="sm"
         onClick={() => table.setPageIndex(table.getPageCount() - 4)}
-        className={`${pagination.pageIndex === 1 && 'dark:bg-zinc-700 bg-zinc-300' }`}
+        className={`${pagination.pageIndex === 1 ? 'dark:bg-zinc-600 bg-zinc-300' : 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         2
         </Button>
@@ -156,7 +157,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         variant="outline"
         size="sm"
         onClick={() => table.setPageIndex(table.getPageCount() - 3)}
-        className={`${pagination.pageIndex === 2 && 'dark:bg-zinc-700 bg-zinc-300' }`}
+        className={`${pagination.pageIndex === 2 ? 'dark:bg-zinc-600 bg-zinc-300' : 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         3
         </Button>
@@ -164,7 +165,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         variant="outline"
         size="sm"
         onClick={() => table.setPageIndex(table.getPageCount() - 2)}
-        className={`${pagination.pageIndex === 3 && 'dark:bg-zinc-700 bg-zinc-300' }`}
+        className={`${pagination.pageIndex === 3 ? 'dark:bg-zinc-600 bg-zinc-300' : 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         4
         </Button>
@@ -172,7 +173,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         variant="outline"
         size="sm"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        className={`${pagination.pageIndex === 4 && 'dark:bg-zinc-700 bg-zinc-300' }`}
+        className={`${pagination.pageIndex === 4 ? 'dark:bg-zinc-600 bg-zinc-300' : 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         5
         </Button>
@@ -181,6 +182,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         size="sm"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
+        className={`${table.getCanNextPage() && 'dark:hover:bg-zinc-700/60 hover:bg-zinc-200'}`}
         >
         <IoIosArrowForward size={16}/>
         </Button>
