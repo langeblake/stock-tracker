@@ -22,6 +22,7 @@ interface CurrencyResponse {
 const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null> => {
     const API_KEY = process.env.POLYGON_API_KEY;
     // Create a new Date object for the current date
+
     const timeZone = 'America/Los_Angeles';
 
     // Get the current date and time in UTC
@@ -40,7 +41,7 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
     const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
     
     // Use the formatted dates in your API fetch URL
-    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/hour/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
+    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
     
     try {
       const response = await fetch(url);

@@ -82,7 +82,7 @@ interface TickerResponse {
 const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
 
   try {
-    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/tickerSS?ticker=${ticker}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${ticker}`);

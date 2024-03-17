@@ -30,12 +30,12 @@ const search = typeof searchParams.search === 'string' ? searchParams.search : u
         <ScrollUp />
         <OverviewCards /> 
         <MarketTrend query={search}/>
-        <MarketChange 
+        {/* <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}
           ChangeHeatMap={<ChangeHeatMap/>}
           >
-        </MarketChange>
+        </MarketChange> */}
         
     </>
   );

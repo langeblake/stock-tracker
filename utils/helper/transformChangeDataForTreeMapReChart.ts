@@ -28,7 +28,6 @@ export function transformChangeDataForTreeMap(data) {
         })),
     };
 
-    console.log(treeMapData)
 
     return [treeMapData];
 }

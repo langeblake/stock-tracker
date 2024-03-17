@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
+import useFavoritesStore from "@/store/favortiesStore";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { IoIosStarOutline, IoIosStar, IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
@@ -33,25 +34,25 @@ const formatNumber = (value: number) => {
 
 export const columns: ColumnDef<TrendingTicker>[] = [
 
-    {
-        accessorKey: 'favorite',
-        header: ' ',
-        cell: ({ row }) => {
-            const [isStarFilled, setIsStarFilled] = useState(false); // State to track the icon state
-    
-            // Function to handle icon click and toggle between filled and outline star
+        {
+            accessorKey: 'favorite',
+            header: ' ',
+            cell: ({ row }) => {
+            const { favorites, toggleFavorite } = useFavoritesStore();
+            const isFavorite = favorites.includes(row.original.symbol);
+        
             const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                event.stopPropagation();
-                setIsStarFilled(!isStarFilled); // Toggle the icon state
+                event.stopPropagation(); // Prevents the event from propagating further
+                toggleFavorite(row.original.symbol);
             };
-    
+        
             return (
                 <div className="flex justify-center hover:scale-125 w-12" onClick={handleClick}>
-                    {isStarFilled ? <IoIosStar size={16}/> : <IoIosStarOutline size={16}/>}
+                {isFavorite ? <IoIosStar size={16}/> : <IoIosStarOutline size={16}/>}
                 </div>
             );
+            },
         },
-    },
     // {
     //     accessorKey: 'ranking',
     //     header: 'Ranking',

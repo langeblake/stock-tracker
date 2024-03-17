@@ -71,7 +71,7 @@ interface TickerResponse {
       
     
       try {
-        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
         const response = await fetch(`${baseUrl}/api/TrendingTickersSS?ticker=${ticker}`, {
           headers: {
               // Include the API key in the request headers

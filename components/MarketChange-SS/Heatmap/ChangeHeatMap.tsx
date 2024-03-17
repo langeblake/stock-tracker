@@ -46,7 +46,7 @@ interface GainersLosersResponse {
 
 const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
     try {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://your-production-domain.com';
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
       const response = await fetch(`${baseUrl}/api/gainers-losers`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch data Gainers-Losers`);
@@ -66,8 +66,6 @@ const ChangeHeatMap = async () => {
 
     // Transform the data right before rendering the tree map
     const treeMapData = transformChangeDataForTreeMap(data);
-
-    console.log(treeMapData)
 
     return ( 
         <div className="w-full max-h-[700px] min-h-[500px]">
