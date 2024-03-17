@@ -75,7 +75,7 @@ const ChangeHeatMap = async () => {
                {/* <TreeMap data={data} height={580} width={680}/> */}
                {/* <TreeMapScale data={data}/> */}
                {/* <D3ChangeTree data={treeMapData}/> */}
-               <ChangeTreeMap />
+               <ChangeTreeMap data={treeMapData}/>
             </div>
         </div>
      );
