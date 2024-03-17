@@ -1,10 +1,11 @@
-import StockCandleStickChart from '@/components/Ticker/CandleStickChart/90CandleStickChart'
+
+import ChangeTreeMap from '@/components/MarketChange-SS/Heatmap/ReChartTreeMaps/ChangeTreeMap'
 import React from 'react'
 
 const Test = () => {
   return (
     <div className='container pt-32'>
-        {/* <StockCandleStickChart /> */}
+        <ChangeTreeMap />
     </div>
   )
 }

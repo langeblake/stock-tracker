@@ -16,15 +16,13 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-
-
 export default function Home({
   searchParams
 }: {
   searchParams: string
 }) {
 
-  const search = typeof searchParams.search === 'string' ? searchParams.search : undefined
+const search = typeof searchParams.search === 'string' ? searchParams.search : undefined
 
 
   return (
@@ -32,7 +30,6 @@ export default function Home({
         <ScrollUp />
         <OverviewCards /> 
         <MarketTrend query={search}/>
-        {/* <TrendList /> */}
         <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}

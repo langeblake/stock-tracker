@@ -1,9 +1,8 @@
 'use client'
 
 import { format, getDate, getMonth, getYear, parseISO } from 'date-fns';
-import React, { PureComponent, useCallback, useRef } from 'react';
+import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import Ticker from '../ticker';
 import { useTheme } from 'next-themes';
 
 

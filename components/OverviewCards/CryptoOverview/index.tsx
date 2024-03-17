@@ -33,26 +33,26 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
     // Format the date in the desired format
     const formattedDate = format(nowInPST, 'yyyy-MM-dd');
       
-      // Create a new Date object for seven days before the current date
-      const sevenDaysBeforeDate = new Date();
-      sevenDaysBeforeDate.setDate(nowUTC.getDate() - 7);
-      // Format the seven days before date as "YYYY-MM-DD"
-      const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
-      
-      // Use the formatted dates in your API fetch URL
-      const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/hour/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
-      
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data for ${ticker}`);
-        }
-        const data = await response.json();
-        return { ...data, ticker };
-      } catch (error) {
-        console.error(`Error fetching data for ${ticker}:`, error);
-        return null; // Returning null for failed requests
+    // Create a new Date object for seven days before the current date
+    const sevenDaysBeforeDate = new Date();
+    sevenDaysBeforeDate.setDate(nowUTC.getDate() - 7);
+    // Format the seven days before date as "YYYY-MM-DD"
+    const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
+    
+    // Use the formatted dates in your API fetch URL
+    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/hour/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
+    
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data for ${ticker}`);
       }
+      const data = await response.json();
+      return { ...data, ticker };
+    } catch (error) {
+      console.error(`Error fetching data for ${ticker}:`, error);
+      return null; // Returning null for failed requests
+    }
 }
 
 

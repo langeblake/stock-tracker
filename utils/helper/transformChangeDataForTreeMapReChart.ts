@@ -23,7 +23,7 @@ export function transformChangeDataForTreeMap(data) {
     const treeMapData = {
         children: sortedTickers.map(ticker => ({
             name: ticker.ticker,
-            absValue: Math.abs(ticker.todaysChangePerc),
+            size: Math.abs(ticker.todaysChangePerc),
             value: ticker.todaysChangePerc, // Absolute change percentage used as value
             // You could include other properties here as needed
         })),

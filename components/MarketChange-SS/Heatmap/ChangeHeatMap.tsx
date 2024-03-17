@@ -1,5 +1,6 @@
-import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMap";
+import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMapReChart";
 import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
+import ChangeTreeMap from "./ReChartTreeMaps/ChangeTreeMap";
 
 type TickerData = {
     ticker: {
@@ -66,13 +67,15 @@ const ChangeHeatMap = async () => {
     // Transform the data right before rendering the tree map
     const treeMapData = transformChangeDataForTreeMap(data);
 
-    
+    console.log(treeMapData)
+
     return ( 
         <div className="w-full max-h-[700px] min-h-[500px]">
             <div className=' w-full h-full rounded-lg'>
                {/* <TreeMap data={data} height={580} width={680}/> */}
                {/* <TreeMapScale data={data}/> */}
-               <D3ChangeTree data={treeMapData}/>
+               {/* <D3ChangeTree data={treeMapData}/> */}
+               <ChangeTreeMap />
             </div>
         </div>
      );

@@ -37,7 +37,8 @@ const fetchTickerData = async () => {
 const VolumeHeatMap = async () => {
     const tickerData = await fetchTickerData();
 
-  
+    // console.log(tickerData)
+
     // Transform the data right before rendering the tree map
     const treeMapData = transformVolumeDataForTreeMap(tickerData);
 
@@ -46,8 +47,6 @@ const VolumeHeatMap = async () => {
     return ( 
         <div className="w-full max-h-[700px] min-h-[500px]">
             <div className=' w-full h-full rounded-lg'>
-               {/* <TreeMap data={data} height={580} width={680}/> */}
-               {/* <TreeMapScale data={data}/> */}
                <D3VolumeTree data={treeMapData}/>
             </div>
         </div>
