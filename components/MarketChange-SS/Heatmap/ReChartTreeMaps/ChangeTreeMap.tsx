@@ -9,38 +9,6 @@ const COLORS = {
     negative: '#f07171', // red for negative values
   };
   
-//   const CustomizedContent = ({ depth, x, y, width, height, payload }) => {
-//     const value = payload.value;
-//     const fillColor = value > 0 ? COLORS.positive : COLORS.negative;
-  
-//     return (
-//       <g>
-//         <rect x={x} y={y} width={width} height={height} fill={fillColor} />
-//         {depth === 1 && (
-//           <>
-//             <text
-//               x={x + width / 2}
-//               y={y + height / 2 + 7}
-//               textAnchor="middle"
-//               fill="#fff"
-//               fontSize={14}
-//             >
-//               {payload.name}
-//             </text>
-//             <text
-//               x={x + 4}
-//               y={y + 18}
-//               fill="#fff"
-//               fontSize={16}
-//               fillOpacity={0.9}
-//             >
-//               {`${value.toFixed(2)}%`}
-//             </text>
-//           </>
-//         )}
-//       </g>
-//     );
-//   };
 const data = [
     {
       children: [
@@ -85,7 +53,15 @@ const data = [
 const ChangeTreeMap = () => {
     return (
         <ResponsiveContainer width="100%" height={500}>
-          <Treemap width={400} height={200} data={data} dataKey="size" aspectRatio={4 / 3} stroke="#fff" fill="#8884d8" />
+          <Treemap 
+            width={400} 
+            height={200} 
+            data={data} 
+            dataKey="size" 
+            aspectRatio={4 / 3} 
+            stroke="#fff" 
+            fill="#8884d8" 
+          />
         </ResponsiveContainer>
       );
 }
