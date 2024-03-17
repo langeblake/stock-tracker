@@ -1,8 +1,9 @@
-import { transformVolumeDataForTreeMap } from "@/utils/helper/transformVolumeDataForTreeMap";
-import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
+import { transformVolumeDataForTreeMap } from "@/utils/helper/transformVolumeDataForTreeMapReChart";
+// import D3VolumeTree from "./D3TreeMaps/D3VolumeTree";
 
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import VolumeTreeMap from "./ReChartTreeMaps/VolumeTreeMap";
 
 
 const fetchTickerData = async () => {
@@ -47,7 +48,8 @@ const VolumeHeatMap = async () => {
     return ( 
         <div className="w-full max-h-[700px] min-h-[500px]">
             <div className=' w-full h-full rounded-lg'>
-               <D3VolumeTree data={treeMapData}/>
+               {/* <D3VolumeTree data={treeMapData}/> */}
+                <VolumeTreeMap data={treeMapData}/>
             </div>
         </div>
      );

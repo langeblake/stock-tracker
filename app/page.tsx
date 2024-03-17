@@ -5,10 +5,10 @@ import OverviewCards from "@/components/OverviewCards";
 import MarketChange from "@/components/MarketChange-SS";
 
 import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
-import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
 import MarketTrend from "@/components/MarketTrend";
 import TrendList from "@/components/MarketTrend/TrendList";
+import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 
 export const metadata: Metadata = {
   title: "K-MarketView",

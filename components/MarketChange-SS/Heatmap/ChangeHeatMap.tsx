@@ -1,5 +1,5 @@
 import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDataForTreeMapReChart";
-import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
+// import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
 import ChangeTreeMap from "./ReChartTreeMaps/ChangeTreeMap";
 
 type TickerData = {

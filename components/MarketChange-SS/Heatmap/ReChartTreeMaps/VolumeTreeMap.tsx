@@ -10,14 +10,28 @@ const COLORS = {
   };
 
   const CustomizedContent = (props) => {
-    const { x, y, width, height, name, actualValue } = props;
+    const { x, y, width, height, name, size, actualValue } = props;
     
   
     // Determine fill color based on the sign of the value
     const fillColor = actualValue > 0 ? COLORS.positive : COLORS.negative;
   
-    const relativeFontSize = Math.min(width, height) / 6; // Example scaling factor
+    const relativeFontSize = Math.min(width, height) / 5; // Example scaling factor
     const fontWeight = 'bold';
+
+    const formatNumber = (value: number) => {
+      if (value >= 1e12) {
+          return `${(value / 1e12).toFixed(2)}T`;
+      } else if (value >= 1e9) {
+          return `${(value / 1e9).toFixed(2)}B`;
+      } else if (value >= 1e6) {
+          return `${(value / 1e6).toFixed(2)}M`;
+      } else if (value >= 1e3) {
+          return value.toLocaleString();
+      } else {
+          return `${value}`;
+      }
+      }
 
     return (
       <g>
@@ -53,13 +67,13 @@ const COLORS = {
           fontSize={relativeFontSize * 0.7} // Slightly smaller font size for the value
           dominantBaseline="central" // Vertically center the text
         >
-          {actualValue}%
+          {formatNumber(size)}
         </text>
       </g>
     );
   };
   
-const ChangeTreeMap = ({ data }) => {
+const VolumeTreeMap = ({ data }) => {
     return (
         <ResponsiveContainer width="100%" height={500}>
           <Treemap 
@@ -77,4 +91,4 @@ const ChangeTreeMap = ({ data }) => {
       );
 }
 
-export default ChangeTreeMap
+export default VolumeTreeMap
