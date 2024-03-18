@@ -67,6 +67,9 @@ export function DataTable<TData extends { symbol: string }, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   })
 
+  const totalRowCount = table.getCoreRowModel().rows.length;
+  const shouldShowPagination = totalRowCount > pagination.pageSize;
+
   
   return (
     <>
@@ -126,6 +129,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         </Table>
         </div>
         {/* Pagination */}
+        {shouldShowPagination && (
         <div className="flex items-center justify-end space-x-2 py-4">
         <Button
         variant="outline"
@@ -187,6 +191,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
         <IoIosArrowForward size={16}/>
         </Button>
         </div>
+        )}
     </>
   )
 }

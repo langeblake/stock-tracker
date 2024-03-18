@@ -78,7 +78,7 @@ interface TickerResponse {
               // IMPORTANT: Securely manage and inject the API key in a production environment
               'X-API-Key': API_KEY!
           }
-        })
+        },)
         if (!response.ok) {
           throw new Error(`Failed to fetch data for ${ticker}`);
         }
@@ -134,8 +134,12 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       sma200: formatNumberString(stock.sma200),
     }));
   } else {
-    const queryTickerData = await fetchTickerData(query);
-    if (queryTickerData !== null && queryTickerData.status === "OK") {
+    const queryTickers = query.split(",");
+    const queryTickersPromises = queryTickers.map(fetchTickerData)
+    const queryTickersData = await Promise.all(queryTickersPromises);
+    const queryTickersDataNotNull = queryTickersData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
+    const data = queryTickersDataNotNull;
+    if (data) {
       // Check if all necessary properties exist in the response data
       // if (queryTickerData.ticker && queryTickerData.ticker.ticker &&
       //     queryTickerData.ticker.day && queryTickerData.ticker.day.c &&
@@ -144,16 +148,16 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       //     queryTickerData.ticker.day.v && queryTickerData.marketCap &&
       //     queryTickerData.sma50 && queryTickerData.sma200) {
         // Manipulate data based on the query
-        tableData = [{
-          symbol: queryTickerData.ticker?.ticker,
-          price: queryTickerData.ticker.day.c !== 0 ? queryTickerData.ticker.day.c : queryTickerData.ticker.prevDay.c,
-          change: queryTickerData.ticker.todaysChange.toFixed(2),
-          todaysChangePerc: queryTickerData.ticker.todaysChangePerc.toFixed(2),
-          volume: queryTickerData.ticker.day.v !== 0 ? queryTickerData.ticker.day.v : queryTickerData.ticker.prevDay.v,
-          marketCap: queryTickerData.marketCap !== 0 ? queryTickerData.marketCap?.toFixed(2) : 'NA',
-          sma50: formatNumberString(queryTickerData.sma50),
-          sma200: formatNumberString(queryTickerData.sma200),
-        }];
+        tableData = data.map(stock => ({
+          symbol: stock.ticker.ticker,
+          price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
+          change: stock.ticker.todaysChange.toFixed(2),
+          todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
+          volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
+          marketCap: stock.marketCap.toFixed(2),
+          sma50: formatNumberString(stock.sma50),
+          sma200: formatNumberString(stock.sma200),
+        }));
       // } else {
       //   console.error("Incomplete data received for the query:", query);
       //   // Handle the case where necessary properties are missing from the response data

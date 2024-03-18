@@ -1,7 +1,7 @@
 export function transformChangeDataForTreeMap(data) {
     // Filter out tickers with change percentage over 1000% before sorting
-    const filteredGainers = data.gainers.tickers.filter((ticker: { todaysChangePerc: number; })  => Math.abs(ticker.todaysChangePerc) <= 1000);
-    const filteredLosers = data.losers.tickers.filter((ticker: { todaysChangePerc: number; }) => Math.abs(ticker.todaysChangePerc) <= 1000);
+    const filteredGainers = data?.gainers?.tickers.filter((ticker: { todaysChangePerc: number; })  => Math.abs(ticker.todaysChangePerc) <= 1000);
+    const filteredLosers = data?.losers?.tickers.filter((ticker: { todaysChangePerc: number; }) => Math.abs(ticker.todaysChangePerc) <= 1000);
 
 
     // Sort and slice the filtered arrays
