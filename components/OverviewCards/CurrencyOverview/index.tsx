@@ -36,7 +36,7 @@ const fetchCurrencyData = async (ticker: string): Promise<CurrencyResponse | nul
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Failed to fetch data for ${ticker}`);
+          throw new Error(`Failed with ${response.status}`);
         }
         const data = await response.json();
         return { ...data, ticker };
