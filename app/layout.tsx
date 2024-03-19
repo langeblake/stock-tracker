@@ -1,5 +1,8 @@
 "use client";
 
+import { Providers } from "./providers"; 
+import Script from "next/script";
+import ToasterProvider from "./providers/ToasterProvider";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -24,6 +27,7 @@ export default function RootLayout({
 
       <body className={`bg-[#f5f5f5] dark:bg-black ${inter.className}`}>
         <Providers>
+          <ToasterProvider />
           <Header />
           {children}
           <Footer />
@@ -34,6 +38,4 @@ export default function RootLayout({
   );
 }
 
-import { Providers } from "./providers"; 
-import Script from "next/script";
 

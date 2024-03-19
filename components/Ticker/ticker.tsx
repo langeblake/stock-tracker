@@ -97,11 +97,11 @@ const Ticker = ({ data }) => {
         </div>
         <div className='flex justify-between'>
           <h1 className='p-4'>Low</h1>
-          <p className='p-4'>${tickerLow}</p>
+          <p className='p-4'>${tickerLow.toFixed(2)}</p>
         </div>
         <div className='flex justify-between'>
         <h1 className='p-4'>Previous Close</h1>
-          <p className={`p-4`}>${tickerPrevClose}</p>
+          <p className={`p-4`}>${tickerPrevClose.toFixed(2)}</p>
         </div>
       </div>
 
