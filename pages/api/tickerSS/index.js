@@ -10,26 +10,38 @@ export default async function handler(req, res) {
   const apiKey = process.env.POLYGON_API_KEY;
 
   const timeZone = 'America/Los_Angeles';
+
+  // Function to adjust date to the previous Friday if it's on a weekend
+  function adjustDateIfWeekend(date) {
+    const day = date.getDay();
+    if (day === 6) { // Saturday
+      return new Date(date.setDate(date.getDate() - 1)); // Move to Friday
+    } else if (day === 0) { // Sunday
+      return new Date(date.setDate(date.getDate() - 2)); // Move to Friday
+    }
+    return date;
+  }
+
   // Get the current date and time in UTC, then convert to the desired timezone
   let currentDate = new Date();
   currentDate = utcToZonedTime(currentDate, timeZone);
 
   // Adjust for weekends
-  if (currentDate.getDay() === 0) { // Sunday
-    currentDate.setDate(currentDate.getDate() - 2); // Adjust to Friday
-  } else if (currentDate.getDay() === 6) { // Saturday
-    currentDate.setDate(currentDate.getDate() - 1); // Adjust to Friday
-  }
+  currentDate = adjustDateIfWeekend(currentDate);
 
   // Make copies of the currentDate for manipulation
-  const oneDayBeforeDate = new Date(currentDate.getTime());
+  let oneDayBeforeDate = new Date(currentDate.getTime());
   oneDayBeforeDate.setDate(currentDate.getDate() - 1);
-  const twoDayBeforeDate = new Date(currentDate.getTime());
+  oneDayBeforeDate = adjustDateIfWeekend(oneDayBeforeDate); // Adjust if weekend
+
+  let twoDayBeforeDate = new Date(currentDate.getTime());
   twoDayBeforeDate.setDate(currentDate.getDate() - 2);
+  twoDayBeforeDate = adjustDateIfWeekend(twoDayBeforeDate); // Adjust if weekend
 
   // Format the dates as "YYYY-MM-DD" in the desired timezone
   const formattedDate = format(oneDayBeforeDate, 'yyyy-MM-dd', { timeZone });
   const formattedDateTwo = format(twoDayBeforeDate, 'yyyy-MM-dd', { timeZone });
+
 
   try {
     // Retrieve the ticker from the query parameters
