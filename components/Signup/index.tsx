@@ -99,7 +99,7 @@ const Signup = () => {
                 </button>
 
                 <button
-                    onClick={handleSubmit(onSubmit)}
+                    // onClick={handleSubmit(onSubmit)}
                     disabled={isLoading}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
                 >
@@ -123,7 +123,7 @@ const Signup = () => {
                   </p>
                   <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color/50 sm:block"></span>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-8">
                     <label
                       htmlFor="name"
@@ -133,6 +133,7 @@ const Signup = () => {
                       Full Name{" "}
                     </label>
                     <input
+                      {...register("name", { required: true })}
                       type="text"
                       name="name"
                       placeholder="Enter your full name"
@@ -148,6 +149,7 @@ const Signup = () => {
                       Email{" "}
                     </label>
                     <input
+                      {...register("email", { required: true })}
                       type="email"
                       name="email"
                       placeholder="Enter your Email"
@@ -163,6 +165,7 @@ const Signup = () => {
                       Password{" "}
                     </label>
                     <input
+                      {...register("password", { required: true })}
                       type="password"
                       name="password"
                       placeholder="Enter your Password"
@@ -214,8 +217,8 @@ const Signup = () => {
                     </label>
                   </div>
                   <div className="mb-6">
-                    <button 
-                      onClick={handleSubmit(onSubmit)}
+                    <button
+                      type="submit"
                       disabled={isLoading}
                       className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
                       Sign up
