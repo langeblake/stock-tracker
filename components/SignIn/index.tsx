@@ -52,8 +52,15 @@ const SignIn = () => {
                 toast.error(callback.error);
             }
         })
-      }
+    };
     
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_API_BASE_URL
+
+    const handleSocialSignIn = async (provider: string) => {
+    setIsLoading(true);
+    signIn(provider, { callbackUrl: baseUrl })
+    
+    };
 
     return (
         <>
@@ -105,7 +112,10 @@ const SignIn = () => {
                       Sign in with Google
                     </button>
     
-                    <button className="border-stroke dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none">
+                    <button 
+                        onClick={() => handleSocialSignIn('github')}
+                        disabled={isLoading}
+                        className="border-stroke dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none">
                       <span className="mr-3">
                         <svg
                           fill="currentColor"
