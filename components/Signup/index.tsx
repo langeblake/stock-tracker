@@ -1,6 +1,6 @@
 'use client'
-import axios from "axios";
 import Link from "next/link";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,6 +10,7 @@ import {
   useForm
 } from 'react-hook-form'
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 const Signup = () => {
   const router = useRouter();
@@ -34,14 +35,33 @@ const Signup = () => {
 
     axios.post('/api/register', data)
         .then(() => {
-            router.push('/')
+            toast.success('Signup successful!')
         })
         .catch((error) => {
             toast.error('Something went wrong');
         })
         .finally(() => {
-            setIsLoading(false);
+            signIn('credentials', {
+                ...data,
+                redirect: false,
+            })
+            .then((callback) => {
+                setIsLoading(false);
+        
+                if (callback?.ok) {
+                    toast.success('Logged in!');
+                    router.push('/');
+                    router.refresh();
+                }
+        
+                if (callback?.error) {
+                    toast.error(callback.error);
+                }
+            })
+            setIsLoading(false)
         })
+
+    
   }
 
   return (
@@ -58,7 +78,7 @@ const Signup = () => {
                   It’s totally free and super easy
                 </p>
                 <button 
-                    onClick={handleSubmit(onSubmit)}
+                    // onClick={handleSubmit(onSubmit)}
                     disabled={isLoading}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
                 >
@@ -99,7 +119,7 @@ const Signup = () => {
                 </button>
 
                 <button
-                    // onClick={handleSubmit(onSubmit)}
+                    onClick={() => signIn('github')}
                     disabled={isLoading}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
                 >

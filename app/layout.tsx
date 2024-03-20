@@ -1,5 +1,3 @@
-"use client";
-
 import { Providers } from "./providers"; 
 import Script from "next/script";
 import ToasterProvider from "./providers/ToasterProvider";
@@ -9,14 +7,17 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { Inter } from "next/font/google";
 import "node_modules/react-modal-video/css/modal-video.css";
 import "../styles/index.css";
+import getCurrentUser from "./actions/getCurrentUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
+
   return (
     <html suppressHydrationWarning lang="en">
       {/*
@@ -24,11 +25,10 @@ export default function RootLayout({
         head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-
       <body className={`bg-[#f5f5f5] dark:bg-black ${inter.className}`}>
         <Providers>
           <ToasterProvider />
-          <Header />
+          <Header currentUser={currentUser}/>
           {children}
           <Footer />
           <ScrollToTop />
