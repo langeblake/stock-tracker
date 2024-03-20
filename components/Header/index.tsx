@@ -7,6 +7,7 @@ import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/types/user";
+import Avatar from "./Avatar";
 
 interface HeaderProps {
   currentUser?: SafeUser | null;
@@ -176,11 +177,14 @@ const Header: React.FC<HeaderProps> = ({
                     Logout
                   </button>
                   <Link
-                    href="/"
+                    href="/dashboard"
                     className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
                   >
                     Dashboard
                   </Link>
+                  <div className="px-4">
+                    <Avatar src={currentUser?.image}/>
+                  </div>
                 </>
                 ) : ( 
                 <>

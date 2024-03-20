@@ -36,7 +36,6 @@ const search = typeof searchParams.search === 'string' ? searchParams.search : u
           ChangeHeatMap={<ChangeHeatMap/>}
           >
         </MarketChange>
-        
     </>
   );
 }
