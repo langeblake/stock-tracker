@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header
-        className={`header left-0 top-0 z-40 flex w-full items-center ${
+        className={`header left-0 top-0 z-[9999] flex w-full items-center ${
           sticky
             ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
             : "absolute bg-transparent"
@@ -164,6 +164,38 @@ const Header: React.FC<HeaderProps> = ({
                         )}
                       </li>
                     ))}
+
+                    {/* Conditional Auth and Profile Options */}
+                      {currentUser ? (
+                        <>
+                          <li>
+                            <Link href="/dashboard" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                              Dashboard
+                            </Link>
+                          </li>
+                          <li>
+                            <button
+                              onClick={() => signOut()}
+                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                            >
+                              Logout
+                            </button>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <Link href="/signin" className="py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                              Sign In
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href="/signup" className="py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                              Sign Up
+                            </Link>
+                          </li>
+                        </>
+                      )}
                   </ul>
                 </nav>
               </div>

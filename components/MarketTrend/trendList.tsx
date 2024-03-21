@@ -154,7 +154,7 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
           change: stock.ticker.todaysChange.toFixed(2),
           todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
           volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
-          marketCap: stock.marketCap.toFixed(2),
+          marketCap: stock.marketCap?.toFixed(2),
           sma50: formatNumberString(stock.sma50),
           sma200: formatNumberString(stock.sma200),
         }));

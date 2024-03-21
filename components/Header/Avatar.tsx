@@ -16,6 +16,6 @@ const Avatar: React.FC<AvatarProps> = ({ src }) => {
       src={src || '/images/placeholder.jpg'}
     />
    );
-}
+}   
  
 export default Avatar;
