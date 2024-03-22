@@ -164,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({
                         )}
                       </li>
                     ))}
-
+                    
                     {/* Conditional Auth and Profile Options */}
                       {currentUser ? (
                         <>
@@ -185,12 +185,12 @@ const Header: React.FC<HeaderProps> = ({
                       ) : (
                         <>
                           <li>
-                            <Link href="/signin" className="py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                            <Link href="/signin" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
                               Sign In
                             </Link>
                           </li>
                           <li>
-                            <Link href="/signup" className="py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                            <Link href="/signup" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
                               Sign Up
                             </Link>
                           </li>
@@ -200,6 +200,9 @@ const Header: React.FC<HeaderProps> = ({
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
+                <div className="px-4">
+                  <ThemeToggler />
+                </div>
                 {currentUser ? (
                   <>
                   <button
@@ -234,9 +237,7 @@ const Header: React.FC<HeaderProps> = ({
                   </Link>
                 </>
                 )}
-                <div>
-                  <ThemeToggler />
-                </div>
+
               </div>
             </div>
           </div>
