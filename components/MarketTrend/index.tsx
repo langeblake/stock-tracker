@@ -5,10 +5,16 @@ import { Input } from "../ui/input";
 import { Search } from "./Search";
 import Favorites from "./Favorites";
 
+export interface ITickerListParams {
+    search?: string;
+    favorites?: string;
+
+  }
 
 
+const MarketTrend = ({search, favorites}) => {
+    const query = favorites ? favorites : search;
 
-const MarketTrend = ({query}) => {
     return ( 
         <>
             <section id="tickerListSection" className="pt-20 pb-4 md:pt-28 md:pb-2 xl:pt-0">

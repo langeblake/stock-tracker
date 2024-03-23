@@ -6,30 +6,31 @@ import MarketChange from "@/components/MarketChange-SS";
 
 import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
 import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
-import MarketTrend from "@/components/MarketTrend";
-import TrendList from "@/components/MarketTrend/TrendList";
+import MarketTrend, { ITickerListParams } from "@/components/MarketTrend";
 import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 
 export const metadata: Metadata = {
-  title: "K-MarketView",
-  description: "Korean Financial Market Data",
+  title: "Lumiere",
+  description: "Stock Tracker",
   // other metadata
 };
 
-export default function Home({
-  searchParams
-}: {
-  searchParams: string
-}) {
+interface HomeProps {
+  searchParams: ITickerListParams;
+}
 
-const search = typeof searchParams.search === 'string' ? searchParams.search : undefined
+const Home = async ({ searchParams }: HomeProps) => {
+
+const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
+const favorites = typeof searchParams.favorites === 'string' ? searchParams.favorites : undefined;
+
 
 
   return (
     <>
         <ScrollUp />
         <OverviewCards /> 
-        <MarketTrend query={search}/>
+        <MarketTrend search={search} favorites={favorites}/>
         <MarketChange 
           GainersLosers={<GainersLosers/>} 
           VolumeHeatMap={<VolumeHeatMap/>}
@@ -40,3 +41,4 @@ const search = typeof searchParams.search === 'string' ? searchParams.search : u
   );
 }
 
+export default Home;

@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import useFavoritesStore from "@/store/favortiesStore";
+import { useFavoritesStore } from "@/store/favortiesStore";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { IoIosStarOutline, IoIosStar, IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';

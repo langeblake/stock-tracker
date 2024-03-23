@@ -5,19 +5,36 @@ import { FiSearch, FiX } from 'react-icons/fi'
 import { Input } from '../ui/input'
 import { useRouter } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
+import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
 
 export const Search = () => {
     const router = useRouter();
     const [text, setText] = useState<string>('');
     const [query] = useDebounce(text, 500);
+    const { favorites } = useFavoritesStore();
+    const { favoriteToggle } = useUIStore();
 
     useEffect(() => {
-        if (!query) {
-            router.push('/', { scroll: false });
-        } else {
-            router.push(`?search=${query}`, { scroll: false });
+        let url = '/';
+
+        if (favoriteToggle) {
+            if (favorites.length > 0 && query && favorites.includes(query)) {
+                // If favorites are toggled and query is a favorite, navigate with search parameter.
+                url = `/?search=${query}`;
+            } else if (favorites.length > 0 && !query ) {
+                // If favorites are toggled but query is not a favorite or is empty, show all favorites.
+                url = `/?favorites=${favorites.join(',')}`;
+            } else if (query && !favorites.includes(query)) {
+                // If there's a query that's not in favorites, navigate with "NoResult".
+                url = `/?search=NoResult`;
+            }
+        } else if (query) {
+            // Show search results if there's a query and favorites are not toggled.
+            url = `/?search=${query}`;
         }
-    }, [query, router]);
+        
+        router.push(url, { scroll: false });
+    }, [query, favoriteToggle, favorites, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value.toUpperCase());

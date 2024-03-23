@@ -3,31 +3,21 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation';
-import useFavoritesStore from '@/store/favortiesStore';
+import { useFavoritesStore, useUIStore } from '@/store/favortiesStore';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 
 const Favorites = () => {
     const router = useRouter();
     const { favorites } = useFavoritesStore();
-    const [favoriteToggle, setFavoriteToggle] = useState<boolean>(false);
-
-    // useEffect(() => {
-    //     if (favoriteTickers.length === 0) {
-    //         router.push('/', { scroll: false });
-    //     } else {
-    //         router.push(`?search=${favoriteTickers}`, { scroll: false });
-    //     }
-    // }, [favoriteTickers, router]);
+    const { favoriteToggle, toggleFavoriteVisibility } = useUIStore();
 
     const handleChange = () => {
-        console.log(favorites)
-        if (favoriteToggle === true) {
+        if (favoriteToggle) {
             router.push('/', { scroll: false });
-            setFavoriteToggle(false)
         } else {
-            router.push(`?search=${favorites.join(',')}`, { scroll: false }); 
-            setFavoriteToggle(true)
+            router.push(`?favorites=${favorites.join(',')}`, { scroll: false }); 
         }
+        toggleFavoriteVisibility();
     };
     
   return (
