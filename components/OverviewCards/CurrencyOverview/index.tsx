@@ -34,7 +34,7 @@ const fetchCurrencyData = async (ticker: string): Promise<CurrencyResponse | nul
       const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedSevenDaysBeforeDate}/${formattedCurrentDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
       
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, { next: { revalidate: 360 } });
         if (!response.ok) {
           throw new Error(`Failed with ${response.status}`);
         }

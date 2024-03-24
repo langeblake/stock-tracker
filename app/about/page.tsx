@@ -1,5 +1,6 @@
 // import AboutSectionOne from "@/components/About/AboutSectionOne";
 // import AboutSectionTwo from "@/components/About/AboutSectionTwo";
+import AboutSectionOne from "@/components/About/AboutSectionOne";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
 import { Metadata } from "next";
@@ -13,12 +14,12 @@ export const metadata: Metadata = {
 const AboutPage = () => {
   return (
     <>
-      <Breadcrumb
+      {/* <Breadcrumb
         pageName="About Page"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
-      />
-      {/* <AboutSectionOne />
-      <AboutSectionTwo /> */}
+        description="Welcome to Lumiere, an ongoing project dedicated to showcasing the power of modern web technologies in charting and data analytics."
+      /> */}
+      <AboutSectionOne />
+
     </>
   );
 };

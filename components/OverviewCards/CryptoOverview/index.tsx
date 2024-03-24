@@ -20,7 +20,7 @@ interface CurrencyResponse {
   }
 
 const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null> => {
-    const API_KEY = process.env.POLYGON_API_KEY;
+    const API_KEY = process.env.POLYGON_API_KEY2;
     // Create a new Date object for the current date
 
     const timeZone = 'America/Los_Angeles';
@@ -44,7 +44,7 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
     
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { next: { revalidate: 360 } });
       if (!response.ok) {
         throw new Error(`Failed to fetch data for ${ticker}`);
       }
@@ -58,6 +58,7 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
 
 
 const currencyTickers = ['X:BTCUSD', 'X:ETHUSD', 'X:ADAUSD', 'X:SOLUSD'];
+// const currencyTickers = ['X:BTCUSD'];
 
 
 const currencyNames = {

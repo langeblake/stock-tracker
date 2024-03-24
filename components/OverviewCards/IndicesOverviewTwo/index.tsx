@@ -47,7 +47,7 @@ const fetchIndexData = async (ticker: string): Promise<IndexResponse | null> => 
 
 
 // const indicesTickers = ['I:COMP', 'I:DJA', 'I:SPX', 'I:RUT'];
-const indicesTickers = ['I:NDX'];
+const indicesTickers = ['I:COMP'];
 
 function formatNumber(value) {
   if (value >= 0) {
@@ -57,7 +57,7 @@ function formatNumber(value) {
   }
 }
 
-const IndicesOverview = async () => {
+const IndicesOverviewTwo = async () => {
   // Fetch data for each index ticker
   const indicesDataPromises = indicesTickers.map(fetchIndexData);
   const indicesData = await Promise.all(indicesDataPromises);
@@ -69,7 +69,7 @@ const IndicesOverview = async () => {
             // Check if indexData is not null or undefined before rendering the card
             indexData ? (
               <div key={idx} >
-                <h3 className="font-bold text-lg mb-10">NASDAQ-100</h3>
+                <h3 className="font-bold text-lg mb-10">NASDAQ Composite</h3>
                 <div className="flex flex-col gap-10">
                   {/* Use optional chaining (?.) and the nullish coalescing operator (??) to handle undefined values */}
                   <div className='flex justify-between gap-4'>
@@ -103,4 +103,4 @@ const IndicesOverview = async () => {
   );
 };
 
-export default IndicesOverview;
+export default IndicesOverviewTwo;
