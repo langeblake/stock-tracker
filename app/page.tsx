@@ -9,6 +9,7 @@ import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
 import MarketTrend, { ITickerListParams } from "@/components/MarketTrend";
 import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 
+
 export const metadata: Metadata = {
   title: "Lumiere",
   description: "Stock Tracker",
@@ -23,7 +24,6 @@ const Home = async ({ searchParams }: HomeProps) => {
 
 const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
 const favorites = typeof searchParams.favorites === 'string' ? searchParams.favorites : undefined;
-
 
 
   return (
