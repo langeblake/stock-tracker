@@ -10,8 +10,8 @@ const Avatar: React.FC<AvatarProps> = ({ src }) => {
   return ( 
     <Image 
       className="rounded-full" 
-      height="50" 
-      width="50" 
+      height="60" 
+      width="60" 
       alt="Avatar" 
       src={src || '/images/placeholder.jpg'}
     />
