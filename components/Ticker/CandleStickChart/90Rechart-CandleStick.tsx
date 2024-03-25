@@ -91,12 +91,12 @@ export const NinetyReCandleStickChart = ({ data }) => {
 
   const XAxistickFormatter = (str: string) => {
   const date = parseISO(str);
-  const year = getMonth(date);
+  const month = getMonth(date);
 
-  // Check if this tick's year is different from the last one we showed.
-  if (year !== lastMonthShown) {
-      lastMonthShown = year; // Update the last year shown.
-      return format(date, "MMM"); // Return the year as a string.
+  // Check if this tick's month is different from the last one we showed.
+  if (month !== lastMonthShown) {
+      lastMonthShown = month; // Update the last month shown.
+      return format(date, "MMM"); // Return the month as a string.
   }
   
   // For all other ticks, return an empty string to not show a label.

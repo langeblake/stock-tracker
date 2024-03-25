@@ -6,11 +6,11 @@ export function transformChangeDataForTreeMap(data) {
 
     // Sort and slice the filtered arrays
     const topGainers = filteredGainers
-        .sort((a: { todaysChangePerc: number; }, b: { todaysChangePerc: number; }) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
+        ?.sort((a: { todaysChangePerc: number; }, b: { todaysChangePerc: number; }) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
         .slice(0, 5);
 
     const topLosers = filteredLosers
-        .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
+        ?.sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc))
         .slice(0, 5);
 
     // Merge top gainers and losers

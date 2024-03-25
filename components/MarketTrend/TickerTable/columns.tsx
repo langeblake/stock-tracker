@@ -36,7 +36,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
 
         {
             accessorKey: 'favorite',
-            header: ' ',
+            header: 'Favorite',
             cell: ({ row }) => {
             const { favorites, toggleFavorite } = useFavoritesStore();
             const isFavorite = favorites.includes(row.original.symbol);

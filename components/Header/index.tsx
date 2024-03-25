@@ -47,6 +47,10 @@ const Header: React.FC<HeaderProps> = ({
 
   const usePathName = usePathname();
 
+  const closeNavbar = () => {
+    setNavbarOpen(false);
+  };
+
   return (
     <>
       <header
@@ -129,6 +133,7 @@ const Header: React.FC<HeaderProps> = ({
                         {menuItem.path ? (
                           <Link
                             href={menuItem.path}
+                            onClick={closeNavbar}
                             className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
                               usePathName === menuItem.path
                                 ? "text-primary dark:text-white"
@@ -182,7 +187,11 @@ const Header: React.FC<HeaderProps> = ({
                     {currentUser ? (
                         <>
                           <li>
-                            <Link href="/dashboard" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                            <Link 
+                              href="/dashboard"
+                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                              onClick={closeNavbar}
+                            >
                               Dashboard
                             </Link>
                           </li>
@@ -198,12 +207,20 @@ const Header: React.FC<HeaderProps> = ({
                       ) : (
                         <>
                           <li>
-                            <Link href="/signin" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                            <Link 
+                              href="/signin" 
+                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                              onClick={closeNavbar}
+                            >
                               Sign In
                             </Link>
                           </li>
                           <li>
-                            <Link href="/signup" className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white">
+                            <Link 
+                              href="/signup" 
+                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                              onClick={closeNavbar}
+                            >
                               Sign Up
                             </Link>
                           </li>

@@ -9,6 +9,9 @@ import StockAreaChart from "@/components/Ticker/AreaChart/StockAreaChart";
 import NinetyCandleStickChart from "@/components/Ticker/CandleStickChart/90CandleStickChart";
 import ThirtyCandleStickChart from "@/components/Ticker/CandleStickChart/30CandleStickChart";
 import SevenCandleStickChart from "@/components/Ticker/CandleStickChart/15CandleStickChart";
+import YearStockAreaChart from "@/components/Ticker/AreaChart/YearStockAreaChart";
+import LoadingTickerCharts from "@/components/Loading/LoadingTickerCharts";
+// import MonthStockAreaChart from "@/components/Ticker/AreaChart/MonthStockAreaChart";
 
 
 interface TickerData {
@@ -111,6 +114,8 @@ const TickerPage = async ({ params }) => {
           <Ticker data={tickerData}/>
           <ChartSelection 
             StockAreaChart={<StockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>}
+            YearStockAreaChart={<YearStockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>}
+            // MonthStockAreaChart={<MonthStockAreaChart ticker={ticker} listDate={tickerData?.list_date}/>}
             NinetyCandleStickChart={<NinetyCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}
             ThirtyCandleStickChart={<ThirtyCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}
             SevenCandleStickChart={<SevenCandleStickChart ticker={ticker} listDate={tickerData?.list_date}/>}

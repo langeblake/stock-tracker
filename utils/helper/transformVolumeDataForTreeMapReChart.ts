@@ -1,5 +1,5 @@
 export function transformVolumeDataForTreeMap(data) {
-    const topTickers = data.tickers
+    const topTickers = data?.tickers
         .sort((a, b) => {
             // Use day.v if available, otherwise fall back to prevDay.v for sorting
             const volumeA = a.day.v !== 0 ? a.day.v : a.prevDay.v;

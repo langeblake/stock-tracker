@@ -44,7 +44,7 @@ const fetchCryptoData = async (ticker: string): Promise<CurrencyResponse | null>
     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedSevenDaysBeforeDate}/${formattedDate}?sort=desc&limit=120&apiKey=${API_KEY}`;
     
     try {
-      const response = await fetch(url, { next: { revalidate: 360 } });
+      const response = await fetch(url, { next: { revalidate: 720 } });
       if (!response.ok) {
         throw new Error(`Failed to fetch data for ${ticker}`);
       }

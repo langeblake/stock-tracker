@@ -82,8 +82,7 @@ export function DataTable<TData extends { symbol: string }, TValue>({
                 {headerGroup.headers.map((header) => {
                     
                     return (
-                        //The 'left-[] has to correspond to the 
-                      <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky left-0 z-2 w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left ' : 'text-right w-40'}`}>
+                      <TableHead key={header.id} className={`${header.id === 'favorite' ? 'sticky text-transparent left-0 z-4 px-[13px] w-20 dark:bg-zinc-900 bg-zinc-200' : header.id === 'symbol' ? 'sticky left-[80px] z-1 pl-3 pr-10 dark:bg-zinc-900 bg-zinc-200 text-left ' : 'text-right w-40'}`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -120,8 +119,8 @@ export function DataTable<TData extends { symbol: string }, TValue>({
                 ))
             ) : (
                 <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                    No results.
+                <TableCell colSpan={columns.length} className={`h-24 `}>
+                    <div className='w-full flex justify-center'>No results</div>
                 </TableCell>
                 </TableRow>
             )}

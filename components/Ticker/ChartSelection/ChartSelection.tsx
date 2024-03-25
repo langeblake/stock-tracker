@@ -1,23 +1,36 @@
 'use client'
+import LoadingTickerCharts from '@/components/Loading/LoadingTickerCharts';
 import React, { Suspense, useState } from 'react';
 import { FcCandleSticks } from "react-icons/fc";
 import { FcAreaChart } from "react-icons/fc";
 
 const ChartSelection = ({
     StockAreaChart,
+    YearStockAreaChart,
+    // MonthStockAreaChart,
     NinetyCandleStickChart,
     ThirtyCandleStickChart,
     SevenCandleStickChart,
 }) => {
     const [selectedChartType, setSelectedChartType] = useState("Area")
-    const [selectedChartRange, setSelectedChartRange] = useState("90")
+    const [selectedAreaChartRange, setSelectedAreaChartRange] = useState("5yr")
+    const [selectedCandleChartRange, setSelectedCandleChartRange] = useState("120")
 
     const renderChart = () => {
         if (selectedChartType === "Area") {
-            return StockAreaChart;
+            switch (selectedAreaChartRange) {
+                case "5yr":
+                    return StockAreaChart
+                case "1yr":
+                    return YearStockAreaChart;
+                // case "1mo":
+                //     return MonthStockAreaChart;
+                default:
+                    return null; // or some default component
+            }
         } else if (selectedChartType === "Candlestick") {
-            switch (selectedChartRange) {
-                case "90":
+            switch (selectedCandleChartRange) {
+                case "120":
                     return NinetyCandleStickChart
                 case "30":
                     return ThirtyCandleStickChart;
@@ -51,23 +64,36 @@ const ChartSelection = ({
         </div>
         {selectedChartType === "Candlestick" ? (
             <div className='max-w-fit mt-2 border border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1  rounded-lg'>
-            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedChartRange === '90' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
-            onClick={() => setSelectedChartRange('90')}>
-                <p className='font-light'>90d</p>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '120' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedCandleChartRange('120')}>
+                <p className='font-light'>120d</p>
             </button>
-            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedChartRange === '30' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
-            onClick={() => setSelectedChartRange('30')}>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '30' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedCandleChartRange('30')}>
                 <p className='font-light'>30d</p>
             </button>
-            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedChartRange === '15' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
-            onClick={() => setSelectedChartRange('15')}>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '15' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedCandleChartRange('15')}>
                 <p className='font-light'>15d</p>
             </button>
             </div>
         ) : (
-            <div></div>
+            <div className='max-w-fit mt-2 border border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1  rounded-lg'>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedAreaChartRange === '5yr' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedAreaChartRange('5yr')}>
+                <p className='font-light'>5yr</p>
+            </button>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedAreaChartRange === '1yr' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedAreaChartRange('1yr')}>
+                <p className='font-light'>1yr</p>
+            </button>
+            {/* <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedAreaChartRange === '15' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedAreaChartRange('1mo')}>
+                <p className='font-light'>1mo</p>
+            </button> */}
+            </div>
         )}
-        <Suspense fallback={<div className='h-96'></div>}>
+        <Suspense fallback={<LoadingTickerCharts />}>
         {renderChart()}
         </Suspense>
     </section>

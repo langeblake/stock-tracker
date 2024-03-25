@@ -39,6 +39,8 @@ const NewsLatterBox = () => {
             No spam guaranteed, So please don’t send any spam mail.
           </p>
         </div>
+        <input type="hidden" name="_subject" value="New Mailing List submission!" />
+        <input type="hidden" name="_captcha" value="false" />
         </form>
       <div>
         <span className="absolute left-2 top-7">
