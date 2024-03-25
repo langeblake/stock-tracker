@@ -25,7 +25,7 @@ const AboutSectionOne = () => {
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 xl:w-1/2">
               <SectionTitle
-                title="Welcome to Lumiere!"
+                title="Welcome to Lumière!"
                 paragraph="The core purpose of this project is to highlight my ability to build intuitive, data-driven interfaces that cater to the needs of users interested in stock tracking and financial analysis. As an ongoing project, it reflects my commitment to continuous development and my ambition to stay at the forefront of industry trends and best practices for software engineering."
                 mb="44px"
                 center

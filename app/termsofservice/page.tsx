@@ -19,7 +19,7 @@ const TermsOfService = () => {
                 <h3 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">
                   Terms of Service
                 </h3>
-                <p className="mb-10 text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
+                <p className="mb-10 text-base text-justify font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
                 Please be aware that our website is a platform intended for educational and experimental purposes only. The information provided is for developing and demonstrating data analytics features within a stock tracking context and is not to be construed as financial advice. Users should not rely on this information for making any investment decisions.
                 <br /><br />
                 By using our site, you acknowledge and agree that Lumière is not responsible for any financial losses or damages arising from the use of our service. This project is designed to showcase technological capabilities and should be used as a tool for learning and exploration in the field of data analytics.

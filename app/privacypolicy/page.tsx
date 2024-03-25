@@ -19,7 +19,7 @@ const TermsOfService = () => {
                 <h3 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">
                   Privacy Policy
                 </h3>
-                <p className="mb-10 text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
+                <p className="mb-10 text-base text-justify font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
                 Thank you for using Lumière. We prioritize your privacy and handle your personal information with care. The only user data we collect is the information necessary for login purposes to provide access to the advanced features of our platform. This information is solely for enhancing your user experience and is not used for any other purpose.
                 </p>
                 <Link
