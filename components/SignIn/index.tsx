@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -53,8 +52,8 @@ const SignIn = () => {
         })
     };
     
-    // const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_API_BASE_URL
-    const baseUrl = 'https://lumiere-pied.vercel.app'
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' :' lumiere-pied.vercel.app'
+    // const baseUrl = 'lumiere-pied.vercel.app'
 
     const handleSocialSignIn = async (provider: string) => {
     setIsLoading(true);

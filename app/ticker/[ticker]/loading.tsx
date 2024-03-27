@@ -20,15 +20,15 @@ const SkeletonCard = () => {
 const SkeletonLoader = () => {
 
   return (
-    <div className='pb-96'>
+    <div className='container pb-96'>
       <Breadcrumb />
-      <div className="container hidden xl:flex justify-between pt-12 pb-20 gap-3">
+      <div className=" flex justify-between pt-12 pb-20 gap-3">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
       </div>
-      <div className='ml-[228px] max-w-fit border flex gap-1 border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1 rounded-lg animate-pulse'>
+      <div className='max-w-fit border flex gap-1 border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1 rounded-lg animate-pulse'>
             <button className={`py-1.5 px-3 text-sm hover:cursor-pointerhover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg`}>
                 <div className='flex gap-2 px-2'>
                 <FcAreaChart size={20} /> 
