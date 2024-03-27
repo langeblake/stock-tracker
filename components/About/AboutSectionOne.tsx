@@ -36,13 +36,13 @@ const AboutSectionOne = () => {
                 data-wow-delay=".15s"
               >
                 <div className="mx-auto flex gap-x-3">
-                  <div className="w-full px-3 ">
+                  <div className="w-full ">
                     <List text="Next.js" />
                     <List text="React" />
                     <List text="Tailwind CSS" />
                   </div>
 
-                  <div className="w-full px-3 ">
+                  <div className="w-full ">
                     <List text="Mongo DB" />
                     <List text="Prisma" />
                     <List text="Recharts" />
