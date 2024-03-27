@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { FiSearch, FiX } from 'react-icons/fi'
-import { Input } from '../ui/input'
 import { useRouter } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
 import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'

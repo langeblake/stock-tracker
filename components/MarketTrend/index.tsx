@@ -1,7 +1,4 @@
-import { FiSearch } from "react-icons/fi";
-import SectionTitle from "../Common/SectionTitle";
 import TrendList from "./TrendList";
-import { Input } from "../ui/input";
 import { Search } from "./Search";
 import Favorites from "./Favorites";
 

@@ -1,7 +1,5 @@
 
 import { format, utcToZonedTime } from "date-fns-tz";
-import { TickerList } from "./_TickerList";
-import TickerTable from "./TickerTable/_TickerTable";
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
 

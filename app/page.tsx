@@ -1,9 +1,7 @@
 import { Metadata } from "next";
-// import { Suspense } from "react";
 import ScrollUp from "@/components/Common/ScrollUp";
 import OverviewCards from "@/components/OverviewCards";
 import MarketChange from "@/components/MarketChange-SS";
-
 import GainersLosers from "@/components/MarketChange-SS/GainersLosersCard";
 import ChangeHeatMap from "@/components/MarketChange-SS/Heatmap/ChangeHeatMap";
 import MarketTrend, { ITickerListParams } from "@/components/MarketTrend";
@@ -13,7 +11,6 @@ import VolumeHeatMap from "@/components/MarketChange-SS/Heatmap/VolumeHeatMap";
 export const metadata: Metadata = {
   title: "Lumiere",
   description: "Stock Tracker",
-  // other metadata
 };
 
 interface HomeProps {
