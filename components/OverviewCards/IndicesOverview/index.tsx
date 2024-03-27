@@ -51,9 +51,9 @@ const indicesTickers = ['I:NDX'];
 
 function formatNumber(value) {
   if (value >= 0) {
-    return `+${value.toFixed(2)}`;
+    return `+$${value.toFixed(2)}`;
   } else {
-    return `-${value.toFixed(2)}`;
+    return `${value.toFixed(2)}`;
   }
 }
 
