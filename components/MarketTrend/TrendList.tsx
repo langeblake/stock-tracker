@@ -70,7 +70,7 @@ interface TickerResponse {
     
       try {
         const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_API_BASE_URL;
-        const response = await fetch(`/api/TrendingTickersSS?ticker=${ticker}`, {
+        const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
           headers: {
               // Include the API key in the request headers
               // IMPORTANT: Securely manage and inject the API key in a production environment
