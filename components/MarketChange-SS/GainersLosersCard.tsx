@@ -47,7 +47,7 @@ interface GainersLosersResponse {
 const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
     try {
       const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
-      const response = await fetch(`${baseUrl}/api/gainers-losers`, { cache: 'no-store' });
+      const response = await fetch(`/api/gainers-losers`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch data Gainers-Losers`);
       }
