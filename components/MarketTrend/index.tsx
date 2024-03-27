@@ -1,6 +1,7 @@
-import TrendList from "./TrendList";
+
 import { Search } from "./Search";
 import Favorites from "./Favorites";
+import TrendList from "./TrendList";
 
 export interface ITickerListParams {
     search?: string;
