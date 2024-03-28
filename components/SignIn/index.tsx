@@ -52,8 +52,8 @@ const SignIn = () => {
         })
     };
     
-    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' :' lumiere-pied.vercel.app'
-    // const baseUrl = 'lumiere-pied.vercel.app'
+    // const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' :' lumiere-pied.vercel.app'
+    const baseUrl = 'https://lumiere-pied.vercel.app/'
 
     const handleSocialSignIn = async (provider: string) => {
     setIsLoading(true);
