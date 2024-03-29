@@ -27,8 +27,8 @@ export const ReAreaChart = ({ data }) => {
 
 
     return (
-      <div className='pt-16 text-black'>
-        <ResponsiveContainer width="100%" height={400}>
+      <div className='pt-16 text-black overflow-x-auto lg:overflow-hidden'>
+        <ResponsiveContainer width="100%" minWidth={1000} height={500}>
         <AreaChart
           width={1200}
           height={400}
