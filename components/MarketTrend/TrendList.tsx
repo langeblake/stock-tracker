@@ -181,8 +181,10 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
         tableData = data.map(stock => ({
           symbol: stock.ticker.ticker,
           price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-          change: stock.ticker.todaysChange.toFixed(2),
-          todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
+          change: stock.ticker.todaysChange ? 
+          stock.ticker.todaysChange.toFixed(2) : 
+          ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2), 
+          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
           volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
           marketCap: stock.marketCap?.toFixed(2),
           sma50: formatNumberString(stock.sma50),
