@@ -42,9 +42,35 @@ interface TickerResponse {
   marketCap: number;
   sma200: number;
   sma50: number;
+  twoPrevDayTicker: TwoPrevDayTicker;
+  threePrevDayTicker: ThreePrevDayTicker;
   status: string;
 };
-// Expect an array of TickerData objects
+
+interface TwoPrevDayTicker {
+  afterHours: number,
+  close: number | null,
+  from: Date,
+  high: number,
+  low: number,
+  open: number,
+  preMarket: number,
+  status: string,
+  symbol: string,
+  volume: number
+}
+interface ThreePrevDayTicker {
+  afterHours: number,
+  close: number | null,
+  from: Date,
+  high: number,
+  low: number,
+  open: number,
+  preMarket: number,
+  status: string,
+  symbol: string,
+  volume: number
+}
 
   
   const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
@@ -121,15 +147,21 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
     const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
     const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
+    console.log(data)
+
     tableData = data.map(stock => ({
       symbol: stock.ticker.ticker,
       price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-      change: stock.ticker.todaysChange.toFixed(2),
-      todaysChangePerc: stock.ticker.todaysChangePerc.toFixed(2),
+      change: stock.ticker.todaysChange ? 
+      stock.ticker.todaysChange.toFixed(2) : 
+      ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
+      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
       volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
       marketCap: stock.marketCap.toFixed(2),
       sma50: formatNumberString(stock.sma50),
       sma200: formatNumberString(stock.sma200),
+      prevClose: stock.twoPrevDayTicker.close,  
+      twoPrevClose: stock.threePrevDayTicker.close
     }));
   } else {
     const queryTickers = query.split(",");
@@ -155,6 +187,8 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
           marketCap: stock.marketCap?.toFixed(2),
           sma50: formatNumberString(stock.sma50),
           sma200: formatNumberString(stock.sma200),
+          prevClose: stock.twoPrevDayTicker.close,  
+          twoPrevClose: stock.threePrevDayTicker.close
         }));
       // } else {
       //   console.error("Incomplete data received for the query:", query);

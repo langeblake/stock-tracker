@@ -46,7 +46,7 @@ interface GainersLosersResponse {
 
 const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> => {
     try {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
+      // const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
       const response = await fetch(`https://lumiere-pied.vercel.app/api/gainers-losers`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to fetch data Gainers-Losers`);

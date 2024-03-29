@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
                   className="w-full dark:hidden"
                 />
                 <Image
-                  src="/images/logo/LumiereDark-01.svg"
+                  src="/images/logo/Lumiere-LogoDark.svg"
                   alt="logo"
                   width={70}
                   height={10}
