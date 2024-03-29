@@ -147,7 +147,6 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
     const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
     const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
-    console.log(data)
 
     tableData = data.map(stock => ({
       symbol: stock.ticker.ticker,

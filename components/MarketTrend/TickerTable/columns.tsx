@@ -15,8 +15,6 @@ export type TrendingTicker = {
       marketCap: number | string;
       sma200: number | string;
       sma50: number | string;
-      prevChange: number;
-      twoPrevChange: number;
     };
 
 const formatNumber = (value: number) => {
@@ -140,9 +138,7 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         },
         cell: ({ row }) => {
         const change = parseFloat(row.getValue("change"))
-        const prevChange = parseFloat(row.getValue("prevChange"))
-        const twoPrevChange = parseFloat(row.getValue("twoPrevChange"))
-        const formatted = change ? change.toFixed(2) : prevChange - twoPrevChange
+        const formatted = change.toFixed(2) 
         return <div className={`text-right font-medium ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatted}</div>
         },
     },
