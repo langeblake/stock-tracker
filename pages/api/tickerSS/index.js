@@ -9,39 +9,74 @@ export default async function handler(req, res) {
   // }
   const apiKey = process.env.POLYGON_API_KEY;
 
-  const timeZone = 'America/Los_Angeles';
+  const marketHolidays = [
+    "2024-03-29",
+    "2024-05-27",
+    "2024-06-19",
+    "2024-07-03",
+    "2024-07-04",
+    "2024-09-02",
+    "2024-11-28",
+    "2024-12-24",
+    "2024-12-25",
+    "2025-01-01",
+    "2025-01-20",
+    "2025-02-17",
+    "2025-04-18",
+  ];    
 
-  // Function to adjust date to the previous Friday if it's on a weekend
-  function adjustDateIfWeekend(date) {
-    const day = date.getDay();
-    if (day === 6) { // Saturday
-      return new Date(date.setDate(date.getDate() - 1)); // Move to Friday
-    } else if (day === 0) { // Sunday
-      return new Date(date.setDate(date.getDate() - 2)); // Move to Friday
+  function decrementBusinessDay(date, days) {
+    let adjustedDate = new Date(date);
+  
+    // Function to adjust date if it's a weekend or a holiday
+    function adjustIfNonBusinessDay(date) {
+      let adjustmentMade = false;
+      do {
+        adjustmentMade = false;
+        if (date.getDay() === 0) { // Sunday
+          date = new Date(date.setDate(date.getDate() - 2)); // Move to Friday
+          adjustmentMade = true;
+        } else if (date.getDay() === 6) { // Saturday
+          date = new Date(date.setDate(date.getDate() - 1)); // Move to Friday
+          adjustmentMade = true;
+        } else if (marketHolidays.includes(format(date, 'yyyy-MM-dd'))) {
+          date = new Date(date.setDate(date.getDate() - 1)); // Move to previous day
+          adjustmentMade = true;
+        }
+      } while (adjustmentMade); // Repeat if the adjusted day is still a weekend or a holiday
+      return date;
     }
-    return date;
+  
+    adjustedDate = adjustIfNonBusinessDay(adjustedDate); // Adjust the initial date
+  
+    for (let i = 0; i < days; i++) {
+      adjustedDate = new Date(adjustedDate.setDate(adjustedDate.getDate() - 1)); // Decrement one day
+      adjustedDate = adjustIfNonBusinessDay(adjustedDate); // Adjust again if needed
+    }
+  
+    return adjustedDate;
   }
+  
+  
+    // Initial date setup
+    let currentDate = new Date();
+    // currentDate = utcToZonedTime(currentDate, timeZone);
+    
+    // Adjust currentDate if it's on a weekend
+    currentDate = decrementBusinessDay(new Date(currentDate), 0); // Check and adjust if current day is a weekend
+    
+    // Calculate oneDayBefore and twoDaysBefore based on the adjusted currentDate
+    let oneDayBefore = decrementBusinessDay(new Date(currentDate), 1);
+    let twoDaysBefore = decrementBusinessDay(new Date(oneDayBefore), 1);
+    
+    // Format the dates as "YYYY-MM-DD" in the desired timezone
+    const formattedCurrentDate = format(currentDate, 'yyyy-MM-dd');
+    const formattedOneDayBefore = format(oneDayBefore, 'yyyy-MM-dd');
+    const formattedTwoDaysBefore = format(twoDaysBefore, 'yyyy-MM-dd');
 
-  // Get the current date and time in UTC, then convert to the desired timezone
-  let currentDate = new Date();
-  currentDate = utcToZonedTime(currentDate, timeZone);
-
-  // Adjust for weekends
-  currentDate = adjustDateIfWeekend(currentDate);
-
-  // Make copies of the currentDate for manipulation
-  let oneDayBeforeDate = new Date(currentDate.getTime());
-  oneDayBeforeDate.setDate(currentDate.getDate() - 1);
-  oneDayBeforeDate = adjustDateIfWeekend(oneDayBeforeDate); // Adjust if weekend
-
-  let twoDayBeforeDate = new Date(currentDate.getTime());
-  twoDayBeforeDate.setDate(currentDate.getDate() - 2);
-  twoDayBeforeDate = adjustDateIfWeekend(twoDayBeforeDate); // Adjust if weekend
-
-  // Format the dates as "YYYY-MM-DD" in the desired timezone
-  const formattedDate = format(oneDayBeforeDate, 'yyyy-MM-dd', { timeZone });
-  const formattedDateTwo = format(twoDayBeforeDate, 'yyyy-MM-dd', { timeZone });
-
+    console.log(`Current Date: ${formattedCurrentDate}`);
+    console.log(`One Day Before: ${formattedOneDayBefore}`);
+    console.log(`Two Days Before: ${formattedTwoDaysBefore}`);
 
   try {
     // Retrieve the ticker from the query parameters
@@ -55,8 +90,8 @@ export default async function handler(req, res) {
     const financialsURL = `https://api.polygon.io/vX/reference/financials?ticker=${ticker}&timeframe=quarterly&order=desc&limit=10&sort=period_of_report_date&apiKey=${apiKey}`;
     const tickerNewsURL = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&order=desc&limit=20&apiKey=${apiKey}`;
     const generalNewsURL = `https://api.polygon.io/v2/reference/news?order=desc&limit=50&apiKey=${apiKey}`;
-    const twoPrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDate}?adjusted=true&apiKey=${apiKey}`
-    const threePrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedDateTwo}?adjusted=true&apiKey=${apiKey}`
+    const twoPrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedOneDayBefore}?adjusted=true&apiKey=${apiKey}`
+    const threePrevDayURL = `https://api.polygon.io/v1/open-close/${ticker}/${formattedTwoDaysBefore}?adjusted=true&apiKey=${apiKey}`
 
 
     // Fetch data from multiple APIs

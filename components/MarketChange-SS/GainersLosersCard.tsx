@@ -59,7 +59,7 @@ const fetchGainersLosersData = async (): Promise<GainersLosersResponse | null> =
     }
   };
 
-const TickerCard = ({ ticker }) => {
+const   TickerCard = ({ ticker }) => {
     const changePercClass = ticker.todaysChangePerc >= 0 ? 'text-green-500' : 'text-red-500';
 
     return (
@@ -92,6 +92,7 @@ const GainersLosers = async () => {
     // Processed gainers and losers
     const gainers = processTickers(data.gainers.tickers);
     const losers = processTickers(data.losers.tickers);
+
 
 
     return (

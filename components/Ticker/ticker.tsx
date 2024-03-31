@@ -13,7 +13,7 @@ const Ticker = ({ data }) => {
   const tickerPrevDayVolume = data.ticker.prevDay.v;
   const tickerPriceChange = tickerClose - tickerPrevClose;
   // const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
-  // const volumeChangePerc = ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100;
+  const volumeChangePerc = data.ticker.day.v !== 0 ? ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100 : ((data.twoPrevDayTicker.volume - data.threePrevDayTicker.volume) / data.threePrevDayTicker.volume) * 100 ;
   const first50SMAValue = data.sma50.toFixed(2);
   const first200SMAValue = data.sma200.toFixed(2);
   const fiscalPeriod = data.fiscalPeriod;
@@ -31,7 +31,7 @@ const Ticker = ({ data }) => {
 
   // Adjustments & Class control
   const isPricePositiveChange = tickerPriceChange >= 0;
-  const isVolumePositiveChange = data.ticker.todaysChangePerc >= 0;
+  const isVolumePositiveChange = volumeChangePerc >= 0;
 
   const formattedMarketCap = formatLargeNumber(data.marketCap);
   const formattedVolume = formatLargeVolume(tickerVolume);
@@ -109,7 +109,7 @@ const Ticker = ({ data }) => {
       <div className='flex flex-col border bg-white dark:border-zinc-700 dark:bg-zinc-900 rounded-lg'>
         <div className='flex justify-between'>
           <h1 className='p-4 w-2/3'>Volume</h1>
-          <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{data.ticker.todaysChangePerc.toFixed(2)}%</p>
+          <p className={`p-4 ${isVolumePositiveChange ? 'text-green-500' : 'text-red-500'}`}>{volumeChangePerc.toFixed(2)}%</p>
           <p className='p-4'>{formattedVolume}</p>
         </div>
         <div className='flex justify-between'>

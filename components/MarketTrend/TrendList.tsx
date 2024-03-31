@@ -95,7 +95,7 @@ interface ThreePrevDayTicker {
       
     
       try {
-        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_API_BASE_URL;
+        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
         const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
           headers: {
               // Include the API key in the request headers
@@ -129,6 +129,10 @@ const tickers = [
   'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
 ]
 
+// const tickers = [
+//   'AAPL'
+// ]
+
 
 const formatNumberString = (value: number | undefined) => {
   if (value !== undefined) {
@@ -147,14 +151,13 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
     const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
     const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
-
     tableData = data.map(stock => ({
       symbol: stock.ticker.ticker,
       price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
       change: stock.ticker.todaysChange ? 
       stock.ticker.todaysChange.toFixed(2) : 
-      ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
-      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
+      ((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)).toFixed(2),  
+      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)) / (stock.twoPrevDayTicker.close ?? 0)) * 100).toFixed(2),
       volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
       marketCap: stock.marketCap.toFixed(2),
       sma50: formatNumberString(stock.sma50),
@@ -182,8 +185,8 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
           price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
           change: stock.ticker.todaysChange ? 
           stock.ticker.todaysChange.toFixed(2) : 
-          ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2), 
-          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
+          ((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)).toFixed(2),  
+          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)) / (stock.twoPrevDayTicker.close ?? 0)) * 100).toFixed(2),
           volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
           marketCap: stock.marketCap?.toFixed(2),
           sma50: formatNumberString(stock.sma50),
