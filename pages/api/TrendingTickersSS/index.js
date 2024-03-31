@@ -1,14 +1,13 @@
 import { format, utcToZonedTime } from "date-fns-tz";
 
 export default async function handler(req, res) {
-  // const apiKey = req.headers['x-api-key'];
-  // const expectedApiKey = process.env.POLYGON_API_KEY;
-
-  // if (!apiKey || apiKey !== expectedApiKey) {
-  //   return res.status(401).json({ message: "Unauthorized access." });
-  // }
-    const apiKey = process.env.POLYGON_API_KEY;
-
+  const apiKey = req.headers['x-api-key'];
+  const expectedApiKey = process.env.POLYGON_API_KEY;
+ 
+  if (!apiKey || apiKey !== expectedApiKey) {
+    return res.status(401).json({ message: "Unauthorized access." });
+  }
+    // const apiKey = process.env.POLYGON_API_KEY;
     const timeZone = 'America/Los_Angeles';
 
     const marketHolidays = [

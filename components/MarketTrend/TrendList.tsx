@@ -75,63 +75,45 @@ interface ThreePrevDayTicker {
   
   const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
     const API_KEY = process.env.POLYGON_API_KEY;
-    // Create a new Date object for the current date
-    const timeZone = 'America/Los_Angeles';
-
-    // Get the current date and time in UTC
-    const nowUTC = new Date();
-
-    // Convert UTC to the desired timezone
-    const nowInPST = utcToZonedTime(nowUTC, timeZone);
-
-    // Format the date in the desired format
-    const formattedDate = format(nowInPST, 'yyyy-MM-dd');
-      
-      // Create a new Date object for seven days before the current date
-      const sevenDaysBeforeDate = new Date();
-      sevenDaysBeforeDate.setDate(nowUTC.getDate() - 7);
-      // Format the seven days before date as "YYYY-MM-DD"
-      const formattedSevenDaysBeforeDate = sevenDaysBeforeDate.toISOString().split('T')[0];
-      
     
-      try {
-        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
-        const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
-          headers: {
-              // Include the API key in the request headers
-              // IMPORTANT: Securely manage and inject the API key in a production environment
-              'X-API-Key': API_KEY!
-          }
-        },)
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data for ${ticker}`);
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
+      const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
+        headers: {
+            // Include the API key in the request headers
+            // IMPORTANT: Securely manage and inject the API key in a production environment
+            'x-api-key': API_KEY!
         }
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error(`Error fetching data for ${ticker}:`, error);
-        return null; // Returning null for failed requests
+      },)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data for ${ticker}`);
       }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(`Error fetching data for ${ticker}:`, error);
+      return null; // Returning null for failed requests
+    }
 }
 
 
 // 'FB' is a a test for tickers that don't return data; status !== "OK"
-const tickers = [
-  'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AVAV', 'JPM', 'V', 'JNJ',
-  'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'DIS', 'BAC', 'VZ', 'ADBE',
-  'CMCSA', 'KO', 'NFLX', 'PFE', 'T', 'PYPL', 'INTC', 'CSCO', 'PEP', 'XOM',
-  'COST', 'CVX', 'ABT', 'ACN', 'CRM', 'AVGO', 'ABBV', 'WFC', 'MRK', 'TMO',
-  'MCD', 'MDT', 'NKE', 'DHR', 'TXN', 'QCOM', 'HON', 'LIN', 'BMY', 'UNP',
-  'ORCL', 'LLY', 'PM', 'UPS', 'SCHW', 'LOW', 'C', 'BA', 'IBM', 'SBUX',
-  'AMT', 'NEE', 'AMD', 'NOW', 'BLK', 'AMGN', 'GE', 'CAT', 'MMM', 'GS',
-  'MS', 'INTU', 'DE', 'CVS', 'RTX', 'SPGI', 'TGT', 'ISRG', 'BKNG', 'LMT',
-  'SYK', 'MU', 'ZTS', 'GILD', 'FIS', 'MO', 'MDLZ', 'GM', 'TJX', 'BDX',
-  'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
-]
-
 // const tickers = [
-//   'AAPL'
+//   'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AVAV', 'JPM', 'V', 'JNJ',
+//   'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'DIS', 'BAC', 'VZ', 'ADBE',
+//   'CMCSA', 'KO', 'NFLX', 'PFE', 'T', 'PYPL', 'INTC', 'CSCO', 'PEP', 'XOM',
+//   'COST', 'CVX', 'ABT', 'ACN', 'CRM', 'AVGO', 'ABBV', 'WFC', 'MRK', 'TMO',
+//   'MCD', 'MDT', 'NKE', 'DHR', 'TXN', 'QCOM', 'HON', 'LIN', 'BMY', 'UNP',
+//   'ORCL', 'LLY', 'PM', 'UPS', 'SCHW', 'LOW', 'C', 'BA', 'IBM', 'SBUX',
+//   'AMT', 'NEE', 'AMD', 'NOW', 'BLK', 'AMGN', 'GE', 'CAT', 'MMM', 'GS',
+//   'MS', 'INTU', 'DE', 'CVS', 'RTX', 'SPGI', 'TGT', 'ISRG', 'BKNG', 'LMT',
+//   'SYK', 'MU', 'ZTS', 'GILD', 'FIS', 'MO', 'MDLZ', 'GM', 'TJX', 'BDX',
+//   'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
 // ]
+
+const tickers = [
+  'AAPL'
+]
 
 
 const formatNumberString = (value: number | undefined) => {

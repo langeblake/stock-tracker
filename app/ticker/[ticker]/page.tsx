@@ -83,10 +83,14 @@ interface TickerResponse {
 
 
 const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
-
+  const API_KEY = process.env.POLYGON_API_KEY;
   try {
     const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_API_BASE_URL;
-    const response = await fetch(`https://lumiere-pied.vercel.app/api/tickerSS?ticker=${ticker}`, { cache: 'no-store' });
+    const response = await fetch(`https://lumiere-pied.vercel.app/api/tickerSS?ticker=${ticker}`, { 
+      cache: 'no-store', 
+      headers: {
+      'x-api-key': API_KEY!
+      }});
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${ticker}`);
     } 
