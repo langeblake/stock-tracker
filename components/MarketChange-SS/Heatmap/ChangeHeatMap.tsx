@@ -199,7 +199,6 @@ const ChangeHeatMap = async () => {
 
     const data = await fetchGainersLosersData();
 
-    console.log(combinedStaticData)
     // Transform the data right before rendering the tree map
     const treeMapData = data?.gainers.tickers.length !== 0 ? transformChangeDataForTreeMap(data) : transformStaticChangeDataForTreeMap(combinedStaticData);
 

@@ -190,15 +190,15 @@ const StaticTickerCard = ({ ticker }) => {
   const changePercClass = calculatedChangePerc >= 0 ? 'text-green-500' : 'text-red-500';
 
   return (
-      <div className='flex p-6 justify-between'>
+      <div className='flex p-3 sm:p-6 justify-between'>
           <h3 className='font-semibold'>{ticker.ticker.ticker}</h3>
           <div className='flex flex-col gap-4'>
-              <p>${
+              <p className="pl-2 text-right">${
                 ticker.ticker.min.c !== 0 ?
                 ticker.ticker.min.c.toFixed(2) :
                 ticker.twoPrevDayTicker.close.toFixed(2)
                 }</p>
-              <p className={changePercClass}>{
+              <p className={`${changePercClass} pl-6`}>{
                 calculatedChangePerc.toFixed(2)
                 }%</p>
           </div>
@@ -251,8 +251,6 @@ const GainersLosers = async () => {
     // Processed gainers and losers
     const gainers = processTickers(data.gainers.tickers);
     const losers = processTickers(data.losers.tickers);
-
-    console.log(staticGainers)
 
     return (
         <div>
