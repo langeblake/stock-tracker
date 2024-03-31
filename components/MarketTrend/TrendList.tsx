@@ -126,13 +126,13 @@ const formatNumberString = (value: number | undefined) => {
 const TrendList = async ({ query }: { query: string | undefined }) => {
   let tableData: any[] = [];
 
-  if (query === undefined || null ) {
-    // Static ticker array data
-    const tickerDataPromises = tickers.map(fetchTickerData);
-    const tickerData = await Promise.all(tickerDataPromises);
-    const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
-    const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
+  // Static ticker array data
+  const tickerDataPromises = tickers.map(fetchTickerData);
+  const tickerData = await Promise.all(tickerDataPromises);
+  const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
+  const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
 
+  if (query === undefined || null ) {
     tableData = data.map(stock => ({
       symbol: stock.ticker.ticker,
       price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
