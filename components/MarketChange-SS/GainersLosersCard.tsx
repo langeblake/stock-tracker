@@ -179,6 +179,7 @@ const TickerCard = ({ ticker }) => {
         </div>
     );
 };
+
 const StaticTickerCard = ({ ticker }) => {
   // Recalculate or use the existing todaysChangePerc
   const calculatedChangePerc = ticker.ticker.todaysChangePerc !== 0
