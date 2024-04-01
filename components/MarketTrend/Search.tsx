@@ -9,7 +9,7 @@ import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
 export const Search = () => {
     const router = useRouter();
     const [text, setText] = useState<string>('');
-    const [query] = useDebounce(text, 500);
+    const [query] = useDebounce(text, 0);
     const { favorites } = useFavoritesStore();
     const { favoriteToggle } = useUIStore();
 
@@ -32,8 +32,8 @@ export const Search = () => {
             url = `/?search=${query}`;
         }
         
-        // redirect(url)
-        router.replace(url, { scroll: false});
+        window.history.replaceState(null, '', url)
+        // router.replace(url, { scroll: false});
     }, [query, favoriteToggle, favorites, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -13,9 +13,11 @@ const Favorites = () => {
 
     const handleChange = () => {
         if (favoriteToggle) {
-            router.replace('/', { scroll: false });
+            window.history.replaceState(null, '', '/');
+            // router.replace('/', { scroll: false }); 
         } else {
-            router.replace(`?favorites=${favorites.join(',')}`, { scroll: false }); 
+            window.history.replaceState(null, '', `?favorites=${favorites.join(',')}`)
+            // router.replace(`?favorites=${favorites.join(',')}`, { scroll: false }); 
         }
         toggleFavoriteVisibility();
     };
