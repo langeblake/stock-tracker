@@ -34,8 +34,8 @@ export const Search = () => {
             url = `/?search=${query}`;
         }
         
-        window.history.pushState(null, '', url)
-        location.reload
+        // window.history.pushState(null, '', url)
+        // location.reload
         router.replace(url, { scroll: false});
     }, [query, favoriteToggle, favorites, router,]);
 
