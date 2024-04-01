@@ -5,11 +5,13 @@ import { FiSearch, FiX } from 'react-icons/fi'
 import { redirect, useRouter } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
 import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
+import { usePathname } from 'next/navigation'
+
 
 export const Search = () => {
     const router = useRouter();
     const [text, setText] = useState<string>('');
-    const [query] = useDebounce(text, 0);
+    const [query] = useDebounce(text, 500);
     const { favorites } = useFavoritesStore();
     const { favoriteToggle } = useUIStore();
 
@@ -32,8 +34,8 @@ export const Search = () => {
             url = `/?search=${query}`;
         }
         
-        window.history.replaceState(null, '', url)
-        // router.replace(url, { scroll: false});
+        // window.history.pushState(null, '', url)
+        router.replace(url, { scroll: false});
     }, [query, favoriteToggle, favorites, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
