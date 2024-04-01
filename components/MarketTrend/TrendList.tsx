@@ -126,10 +126,9 @@ const formatNumberString = (value: number | undefined) => {
 const TrendList = async ({ query }: { query: string | undefined }) => {
   let tableData: any[] = [];
 
-  // Static ticker array data
-
 
   if (query === undefined || null ) {
+    // Static data
     const tickerDataPromises = tickers.map(fetchTickerData);
     const tickerData = await Promise.all(tickerDataPromises);
     const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
