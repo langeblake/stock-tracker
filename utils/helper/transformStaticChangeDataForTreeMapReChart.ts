@@ -4,7 +4,7 @@ export function transformStaticChangeDataForTreeMap(data) {
         if (ticker.todaysChangePerc !== 0 && ticker.todaysChangePerc != null) {
             return ticker.todaysChangePerc;
         } else {
-            return ((((ticker.ticker.prevDay.c ?? 0) - (ticker.twoPrevDayTicker.close ?? 0)) / (ticker.twoPrevDayTicker.close ?? 0)) * 100);
+            return ((((ticker.twoPrevDayTicker.close  ?? 0) - (ticker.threePrevDayTicker.close ?? 0)) / (ticker.threePrevDayTicker.close ?? 0)) * 100);
         }
     };
 

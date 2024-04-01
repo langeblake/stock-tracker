@@ -184,7 +184,7 @@ const StaticTickerCard = ({ ticker }) => {
   // Recalculate or use the existing todaysChangePerc
   const calculatedChangePerc = ticker.ticker.todaysChangePerc !== 0
       ? ticker.ticker.todaysChangePerc
-      : ((((ticker.ticker.prevDay.c ?? 0) - (ticker.twoPrevDayTicker.close ?? 0)) / (ticker.twoPrevDayTicker.close ?? 0)) * 100);
+      : ((((ticker.twoPrevDayTicker.close ?? 0) - (ticker.threePrevDayTicker.close ?? 0)) / (ticker.threePrevDayTicker.close ?? 0)) * 100);
 
   // Determine the class based on the calculated or existing todaysChangePerc
   const changePercClass = calculatedChangePerc >= 0 ? 'text-green-500' : 'text-red-500';

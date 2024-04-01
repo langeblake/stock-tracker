@@ -16,7 +16,7 @@ const MarketTrend = ({search, favorites}) => {
     return ( 
         <>
             <section id="tickerListSection" className="pt-20 pb-4 md:pt-28 md:pb-2 xl:pt-0">
-                <div className="px-4 2xl:container">
+                <div className="px-4 xl:container">
                 <div className="flex gap-4 items-center flex-col pb-4 md:pb-0 md:flex-row">
                     <h1 className='md:w-2/5 font-bold text-2xl pt-6 md:pb-6'>Trending Tickers</h1>
                     <div className="flex justify-center items-center gap-4 flex-col md:flex-row">

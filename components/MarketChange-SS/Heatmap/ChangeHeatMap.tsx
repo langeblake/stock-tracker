@@ -2,6 +2,7 @@ import { transformChangeDataForTreeMap } from "@/utils/helper/transformChangeDat
 // import D3ChangeTree from "./D3TreeMaps/D3ChangeTree";
 import ChangeTreeMap from "./ReChartTreeMaps/ChangeTreeMap";
 import { transformStaticChangeDataForTreeMap } from "@/utils/helper/transformStaticChangeDataForTreeMapReChart";
+import { treemap } from "d3";
 
 type TickerData = {
     ticker: {
@@ -201,6 +202,7 @@ const ChangeHeatMap = async () => {
 
     // Transform the data right before rendering the tree map
     const treeMapData = data?.gainers.tickers.length !== 0 ? transformChangeDataForTreeMap(data) : transformStaticChangeDataForTreeMap(combinedStaticData);
+
 
     return ( 
         <div className="w-full max-h-[700px] min-h-[500px]">

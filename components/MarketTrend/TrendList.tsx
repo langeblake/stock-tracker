@@ -78,7 +78,7 @@ interface ThreePrevDayTicker {
     
     try {
       const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
-      const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
+      const response = await fetch(`http://localhost:3000/api/TrendingTickersSS?ticker=${ticker}`, {
         headers: {
             // Include the API key in the request headers
             // IMPORTANT: Securely manage and inject the API key in a production environment
@@ -139,15 +139,15 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
       change: stock.ticker.todaysChange ? 
       stock.ticker.todaysChange.toFixed(2) : 
-      ((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)).toFixed(2),  
-      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)) / (stock.twoPrevDayTicker.close ?? 0)) * 100).toFixed(2),
+      ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
+      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
       volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
       marketCap: stock.marketCap.toFixed(2),
       sma50: formatNumberString(stock.sma50),
       sma200: formatNumberString(stock.sma200),
       prevClose: stock.twoPrevDayTicker.close,  
       twoPrevClose: stock.threePrevDayTicker.close
-    }));
+    }))
   } else {
     const queryTickers = query.split(",");
     const queryTickersPromises = queryTickers.map(fetchTickerData)
@@ -168,8 +168,8 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
           price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
           change: stock.ticker.todaysChange ? 
           stock.ticker.todaysChange.toFixed(2) : 
-          ((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)).toFixed(2),  
-          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.ticker.prevDay.c ?? 0) - (stock.twoPrevDayTicker.close ?? 0)) / (stock.twoPrevDayTicker.close ?? 0)) * 100).toFixed(2),
+          ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
+          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
           volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
           marketCap: stock.marketCap?.toFixed(2),
           sma50: formatNumberString(stock.sma50),
@@ -187,6 +187,8 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       // Handle the case where the query response is not OK
       // You can set a default value or display an error message
     }
+
+
   }
 
   return (
