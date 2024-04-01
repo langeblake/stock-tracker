@@ -78,7 +78,7 @@ interface ThreePrevDayTicker {
     
     try {
       const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
-      const response = await fetch(`http://localhost:3000/api/TrendingTickersSS?ticker=${ticker}`, {
+      const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
         headers: {
             // Include the API key in the request headers
             // IMPORTANT: Securely manage and inject the API key in a production environment
