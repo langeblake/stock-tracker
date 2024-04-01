@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { FiSearch, FiX } from 'react-icons/fi'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
 import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
 
@@ -32,7 +32,8 @@ export const Search = () => {
             url = `/?search=${query}`;
         }
         
-        router.push(url, { scroll: false });
+        // redirect(url)
+        router.replace(url, { scroll: false});
     }, [query, favoriteToggle, favorites, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

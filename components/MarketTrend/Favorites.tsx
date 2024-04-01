@@ -13,9 +13,9 @@ const Favorites = () => {
 
     const handleChange = () => {
         if (favoriteToggle) {
-            router.push('/', { scroll: false });
+            router.replace('/', { scroll: false });
         } else {
-            router.push(`?favorites=${favorites.join(',')}`, { scroll: false }); 
+            router.replace(`?favorites=${favorites.join(',')}`, { scroll: false }); 
         }
         toggleFavoriteVisibility();
     };
