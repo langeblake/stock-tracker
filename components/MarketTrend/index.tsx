@@ -12,7 +12,7 @@ export interface ITickerListParams {
 
 const MarketTrend = ({search, favorites}) => {
     const query = favorites ? favorites : search;
-
+    
     return ( 
         <>
             <section id="tickerListSection" className="pt-20 pb-4 md:pt-28 md:pb-2 xl:pt-0">

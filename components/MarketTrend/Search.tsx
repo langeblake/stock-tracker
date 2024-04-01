@@ -35,9 +35,8 @@ export const Search = () => {
         }
         
         // window.history.pushState(null, '', url)
-        // location.reload
         router.replace(url, { scroll: false});
-    }, [query, favoriteToggle, favorites, router,]);
+    }, [query, favoriteToggle, favorites, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value.toUpperCase());

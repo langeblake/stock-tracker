@@ -17,7 +17,7 @@ interface HomeProps {
   searchParams: ITickerListParams;
 }
 
-const Home = ({ searchParams }: HomeProps) => {
+const Home = async ({ searchParams }: HomeProps) => {
 
 const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
 const favorites = typeof searchParams.favorites === 'string' ? searchParams.favorites : undefined;
