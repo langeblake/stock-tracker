@@ -243,7 +243,7 @@ const GainersLosers = async () => {
     // Function to filter and sort tickers
     const processTickers = (tickers) => {
         return tickers
-            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 1000) // Filter out tickers with change percentage over 1000%
+            .filter(ticker => Math.abs(ticker.todaysChangePerc) <= 1000 && ticker.ticker.length <= 5) // Filter out tickers with change percentage over 1000%
             .sort((a, b) => Math.abs(b.todaysChangePerc) - Math.abs(a.todaysChangePerc)) // Sort by absolute change percentage
             .slice(0, 4); // Limit to top 4
     };
