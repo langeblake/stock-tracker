@@ -25,7 +25,7 @@ export const Search = () => {
     
             // If there's a 'search' parameter and it doesn't match the query,
             // or if there's a change in query that's not yet reflected in URL.
-            if ((search && query !== search && search !== 'NoResult') || (!search && query)) {
+            if ((search && query !== search ) || (!search && query)) {
                 setIsRouting(true);
             } else {
                 setIsRouting(false)
@@ -43,6 +43,8 @@ export const Search = () => {
             } else if (favorites.length > 0 && !query ) {
                 // If favorites are toggled but query is not a favorite or is empty, show all favorites.
                 url = `/?favorites=${favorites.join(',')}`;
+            } else if (favorites.length === 0) {
+                url = `/?favorites=NoResult`
             } else if (query && !favorites.includes(query)) {
                 // If there's a query that's not in favorites, navigate with "NoResult".
                 url = `/?search=NoResult`;

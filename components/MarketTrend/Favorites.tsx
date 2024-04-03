@@ -1,42 +1,42 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Button } from '../ui/button'
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useFavoritesStore, useUIStore } from '@/store/favortiesStore';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 
 const Favorites = () => {
     const router = useRouter();
     const { favorites } = useFavoritesStore();
     const { favoriteToggle, toggleFavoriteVisibility } = useUIStore();
-    const searchParams = useSearchParams()
     const [isRouting, setIsRouting] = useState(false);
 
-    useEffect(() => {
-        if (searchParams) {
-            const favorites = searchParams.get('favorites');
-            const search = searchParams.get('search');
-            // If there's a 'search' parameter and it doesn't match the query,
-            // or if there's a change in query that's not yet reflected in URL.
-            if ((favoriteToggle && !favorites && !search)) {
-                setIsRouting(true);
-                console.log('Spin!')
-            } else {
-                setIsRouting(false);
-                console.log('Stop')
-            }
-        }
+    // useEffect(() => {
+    //     if (searchParams) {
+    //         const favorites = searchParams.get('favorites');
+    //         const search = searchParams.get('search');
+    //         // If there's a 'search' parameter and it doesn't match the query,
+    //         // or if there's a change in query that's not yet reflected in URL.
+    //         if ((favoriteToggle && !favorites && !search)) {
+    //             setIsRouting(true);
+    //             console.log('Spin!')
+    //         } else {
+    //             setIsRouting(false);
+    //             console.log('Stop')
+    //         }
+    //     }
 
-    }, [searchParams, favoriteToggle]);
-
+    // }, [searchParams, favoriteToggle]);
     const handleChange = () => {
+        console.log('handleChange triggered'); // This should always log when the function is called
         if (favoriteToggle) {
-            // window.history.pushState(null, '', '/');
-            router.replace('/', { scroll: false }); 
+            console.log('Navigating to base URL');
+            router.push('/', { scroll: false }); 
+        } else if (favorites.length > 0) {
+            console.log(`Navigating to favorites with: ${favorites.join(',')}`);
+            router.push(`?favorites=${favorites.join(',')}`, { scroll: false }); 
         } else {
-            // window.history.pushState(null, '', `?favorites=${favorites.join(',')}`)
-            router.replace(`?favorites=${favorites.join(',')}`, { scroll: false }); 
+            router.push(`?favorites=NoResult`, { scroll: false }); 
         }
         toggleFavoriteVisibility();
     };
