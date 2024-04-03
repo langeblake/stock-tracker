@@ -18,20 +18,29 @@ export const Search = () => {
     const { favoriteToggle } = useUIStore();
     const searchParams = useSearchParams();
 
+    // useEffect(() => {
+    //     if (favoriteToggle) {
+    //         console.log('Toggle On')
+    //         console.log(query)
+    //     } else {
+    //         console.log('Toggle Off')
+    //     }
+    // }, [favoriteToggle])
+
     useEffect(() => {
+        // Setting loading spinner for Input and Favorite button cases.
         if (searchParams) {
             const search = searchParams.get('search');
             const favoritesParam = searchParams.get('favorites');
     
-            // If there's a 'search' parameter and it doesn't match the query,
-            // or if there's a change in query that's not yet reflected in URL.
-            if ((search && query !== search ) || (!search && query)) {
+            if ((search && query !== search && search !== 'NoResult') || (!search && query) || (query && favoriteToggle && search !== 'NoResult') || (favoriteToggle && !favoritesParam && search !== 'NoResult') || (!favoriteToggle && query && search !== query) || (!favoriteToggle && !text && favoritesParam)) {
                 setIsRouting(true);
-            } else {
+            } 
+            else {
                 setIsRouting(false)
             }
         }
-    }, [searchParams, query]);
+    }, [searchParams, query, favoriteToggle]);
 
     useEffect(() => {
         let url = '/';
@@ -78,7 +87,7 @@ export const Search = () => {
                 type="text"
                 placeholder="Search for a symbol"
                 onChange={handleChange}
-                disabled={isRouting} // Optional: disable input during routing
+                // disabled={isRouting} // Optional: disable input during routing
             />
             {isRouting ? (
                 <span className="absolute inset-y-0 right-0 pr-3 flex items-center">
