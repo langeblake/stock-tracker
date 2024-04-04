@@ -60,14 +60,14 @@ const AboutSectionOne = () => {
                   src="/images/about/AboutImage04.jpg"
                   alt="about-image"
                   fill
-                  className="drop-shadow-three mx-auto max-w-full dark:hidden dark:drop-shadow-none lg:mr-0"
+                  className="drop-shadow-three mx-auto max-w-full  dark:drop-shadow-none lg:mr-0"
                 />
-                <Image
+                {/* <Image
                   src="/images/about/AboutImage04.jpg"
                   alt="about-image"
                   fill
                   className="drop-shadow-three mx-auto hidden max-w-fit dark:block dark:drop-shadow-none lg:mr-0"
-                />
+                /> */}
               </div>
             </div>
           </div>
