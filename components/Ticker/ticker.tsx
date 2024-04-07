@@ -1,5 +1,4 @@
 import { truncateString } from "@/utils/helper/truncateString";
-import { format } from "path";
 
 const Ticker = ({ data }) => {
 
@@ -9,15 +8,15 @@ const Ticker = ({ data }) => {
   const tickerLow = data.ticker.day.l !== 0 ? data.ticker.day.l : data.ticker.prevDay.l;
   const tickerVolume = data.ticker.day.v !== 0 ? data.ticker.day.v : data.ticker.prevDay.v;
   const tickerPrevClose = data.ticker.day.c !== 0 ? data.ticker.prevDay.c : data.threePrevDayTicker.close
-  const tickerDayVolume = data.ticker.day.v.toLocaleString();
-  const tickerPrevDayVolume = data.ticker.prevDay.v;
+  // const tickerDayVolume = data.ticker.day.v.toLocaleString();
+  // const tickerPrevDayVolume = data.ticker.prevDay.v;
   const tickerPriceChange = tickerClose - tickerPrevClose;
   // const tickerVolumeChange = data.ticker.day.v - data.ticker.prevDay.v; // Adjusted to use .v for volume
   const volumeChangePerc = data.ticker.day.v !== 0 ? ((data.ticker.day.v - data.ticker.prevDay.v) / data.ticker.prevDay.v) * 100 : ((data.twoPrevDayTicker.volume - data.threePrevDayTicker.volume) / data.threePrevDayTicker.volume) * 100 ;
   const first50SMAValue = data.sma50.toFixed(2);
   const first200SMAValue = data.sma200.toFixed(2);
   const fiscalPeriod = data.fiscalPeriod;
-  const fiscalYear = data.fiscalYear;
+  // const fiscalYear = data.fiscalYear;
   const netIncomeLoss = data.netIncomeLoss;
   const grossProfit = data.grossProfit;
   const earningsPerShare = data.earningsPerShare;

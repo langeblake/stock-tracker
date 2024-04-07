@@ -3,9 +3,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "User dashboard",
-  // other metadata
+  title: "Privacy Policy | Lumière",
+  description: "Privacy Policy for Lumière",
 };
 
 const TermsOfService = () => {
@@ -20,7 +19,12 @@ const TermsOfService = () => {
                   Privacy Policy
                 </h3>
                 <p className="mb-10 text-base text-justify font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
-                Thank you for using Lumière. We prioritize your privacy and handle your personal information with care. The only user data we collect is the information necessary for login purposes to provide access to the advanced features of our platform. This information is solely for enhancing your user experience and is not used for any other purpose.
+                  Thank you for using Lumière. We prioritize your privacy and
+                  handle your personal information with care. The only user data
+                  we collect is the information necessary for login purposes to
+                  provide access to the advanced features of our platform. This
+                  information is solely for enhancing your user experience and
+                  is not used for any other purpose.
                 </p>
                 <Link
                   href="/"

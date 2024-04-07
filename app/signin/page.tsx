@@ -4,15 +4,12 @@ import { Metadata } from "next";
 import SignIn from "@/components/SignIn";
 
 export const metadata: Metadata = {
-  title: "Sign In Page | Free Next.js Template for Startup and SaaS",
-  description: "This is Sign In Page for Startup Nextjs Template",
-  // other metadata
+  title: "Sign In Page | Lumière",
+  description: "This is Sign In Page for Lumière",
 };
 
 const SigninPage = () => {
-  return (
-    <SignIn />
-  )
+  return <SignIn />;
 };
 
 export default SigninPage;

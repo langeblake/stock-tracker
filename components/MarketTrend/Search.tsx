@@ -18,15 +18,6 @@ export const Search = () => {
     const { favoriteToggle } = useUIStore();
     const searchParams = useSearchParams();
 
-    // useEffect(() => {
-    //     if (favoriteToggle) {
-    //         console.log('Toggle On')
-    //         console.log(query)
-    //     } else {
-    //         console.log('Toggle Off')
-    //     }
-    // }, [favoriteToggle])
-
     useEffect(() => {
         // Setting loading spinner for Input and Favorite button cases.
         if (searchParams) {
@@ -63,8 +54,7 @@ export const Search = () => {
             url = `/?search=${query}`;
         }
         
-        // window.history.pushState(null, '', url)
-        
+        // window.history.pushState(null, '', url);
         router.replace(url, { scroll: false});
     }, [query, favoriteToggle, favorites, router]);
 

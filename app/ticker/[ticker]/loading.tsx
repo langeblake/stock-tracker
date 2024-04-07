@@ -1,6 +1,6 @@
-import Breadcrumb from '@/components/Common/Breadcrumb';
-import React from 'react';
-import { FcAreaChart, FcCandleSticks } from 'react-icons/fc';
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import React from "react";
+import { FcAreaChart, FcCandleSticks } from "react-icons/fc";
 
 const SkeletonCard = () => {
   return (
@@ -18,9 +18,8 @@ const SkeletonCard = () => {
 };
 
 const SkeletonLoader = () => {
-
   return (
-    <div className='container pb-96'>
+    <div className="container pb-96">
       <Breadcrumb />
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10 mt-10 lg:mt-0">
         <SkeletonCard />
@@ -28,20 +27,24 @@ const SkeletonLoader = () => {
         <SkeletonCard />
         <SkeletonCard />
       </div>
-      <div className='max-w-fit border flex gap-1 border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1 rounded-lg animate-pulse'>
-            <button className={`py-1.5 px-3 text-sm hover:cursor-pointerhover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg`}>
-                <div className='flex gap-2 px-2'>
-                <FcAreaChart size={20} /> 
-                <p className='font-light'>Area</p>
-                </div>
-            </button>
-            <button className={`py-1.5 px- text-sm hover:cursor-pointer hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg`}>
-                <div className='flex gap-2 px-5'>
-                <FcCandleSticks size={20}/> 
-                <p className='font-light'>Candle</p>
-                </div>
-            </button>
-        </div>
+      <div className="max-w-fit border flex gap-1 border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1 rounded-lg animate-pulse">
+        <button
+          className={`py-1.5 px-3 text-sm hover:cursor-pointerhover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg`}
+        >
+          <div className="flex gap-2 px-2">
+            <FcAreaChart size={20} />
+            <p className="font-light">Area</p>
+          </div>
+        </button>
+        <button
+          className={`py-1.5 px- text-sm hover:cursor-pointer hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg`}
+        >
+          <div className="flex gap-2 px-5">
+            <FcCandleSticks size={20} />
+            <p className="font-light">Candle</p>
+          </div>
+        </button>
+      </div>
     </div>
   );
 };

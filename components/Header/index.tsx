@@ -13,9 +13,7 @@ interface HeaderProps {
   currentUser?: SafeUser | null;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  currentUser
-}) => {
+const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -94,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
                   aria-label="Mobile Menu"
                   className="absolute right-4 top-1/2 flex items-center translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
                 >
-                  <div className={`${currentUser && 'mr-4'}`}>
+                  <div className={`${currentUser && "mr-4"}`}>
                     <span
                       className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
                         navbarOpen ? " top-[7px] rotate-45" : " "
@@ -118,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({
                     </div>
                   )}
                 </button>
-                
+
                 <nav
                   id="navbarCollapse"
                   className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
@@ -169,7 +167,9 @@ const Header: React.FC<HeaderProps> = ({
                                 <Link
                                   ref={submenuItem.path}
                                   key={index}
-                                  className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3" href={""}>
+                                  className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
+                                  href={""}
+                                >
                                   {submenuItem.title}
                                 </Link>
                               ))}
@@ -179,95 +179,94 @@ const Header: React.FC<HeaderProps> = ({
                       </li>
                     ))}
 
-                    {currentUser && (
-                        <hr className="md:hidden my-4"/>
-                    )}
+                    {currentUser && <hr className="md:hidden my-4" />}
 
                     {/* Conditional Auth and Profile Options */}
                     {currentUser ? (
-                        <>
-                          <li>
-                            <Link 
-                              href="/dashboard"
-                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                              onClick={closeNavbar}
-                            >
-                              Dashboard
-                            </Link>
-                          </li>
-                          <li>
-                            <button
-                              onClick={() => signOut()}
-                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                            >
-                              Logout
-                            </button>
-                          </li>
-                        </>
-                      ) : (
-                        <>
-                          <li>
-                            <Link 
-                              href="/signin" 
-                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                              onClick={closeNavbar}
-                            >
-                              Sign In
-                            </Link>
-                          </li>
-                          <li>
-                            <Link 
-                              href="/signup" 
-                              className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                              onClick={closeNavbar}
-                            >
-                              Sign Up
-                            </Link>
-                          </li>
-                        </>
-                      )}
+                      <>
+                        <li>
+                          <Link
+                            href="/dashboard"
+                            className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                            onClick={closeNavbar}
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => signOut()}
+                            className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                          >
+                            Logout
+                          </button>
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li>
+                          <Link
+                            href="/signin"
+                            className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                            onClick={closeNavbar}
+                          >
+                            Sign In
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/signup"
+                            className="md:hidden py-2 text-base block text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                            onClick={closeNavbar}
+                          >
+                            Sign Up
+                          </Link>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                <div className={`${currentUser ? 'mr-20' : 'mr-0'} md:mr-0 lg:px-4`}>
+                <div
+                  className={`${currentUser ? "mr-20" : "mr-0"} md:mr-0 lg:px-4`}
+                >
                   <ThemeToggler />
                 </div>
                 {currentUser ? (
                   <>
-                  <button
-                    onClick={() => signOut()}
-                    className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
-                  >
-                    Logout
-                  </button>
-                  <Link
-                    href="/dashboard"
-                    className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 mr-20 lg:mr-0 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-                  >
-                    Dashboard
-                  </Link>
-                  <div className="px-4 hidden lg:block shrink-0">
-                    <Avatar src={currentUser?.image}/>
-                  </div>
-                </>
-                ) : ( 
-                <>
-                  <Link
-                    href="/signin"
-                    className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-                  >
-                    Sign Up
-                  </Link>
-                </>
+                    <button
+                      onClick={() => signOut()}
+                      className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
+                    >
+                      Logout
+                    </button>
+                    <Link
+                      href="/dashboard"
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 mr-20 lg:mr-0 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                    >
+                      Dashboard
+                    </Link>
+                    <div className="px-4 hidden lg:block shrink-0">
+                      <Avatar src={currentUser?.image} />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/signin"
+                      className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
                 )}
-
               </div>
             </div>
           </div>

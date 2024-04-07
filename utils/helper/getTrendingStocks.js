@@ -1,4 +1,3 @@
-// apiUtils.js
 import fetchPolygonTicker from '@/utils/api/fetchPolygonTicker'; 
 import fetchPolygonTickerDetails from '@/utils/api/fetchPolygonTickerDetails';
 import fetch200PolygonSMA from '@/utils/api/fetch200PolygonSMA';

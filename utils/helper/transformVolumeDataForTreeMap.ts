@@ -1,3 +1,5 @@
+// Transform function for D3 chart
+
 // export function transformVolumeDataForTreeMap(data) {
 //     const topTickers = data.tickers
 //         .sort((a, b) => {

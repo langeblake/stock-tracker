@@ -1,7 +1,10 @@
+// For fetching user favvorites from the DB, instead of the cache.
+// Not implemented yet.
+
 import prisma from "@/lib/prismadb";
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     const userId = req.query.userId;
     try {
       const user = await prisma.user.findUnique({
@@ -9,12 +12,12 @@ export default async function handler(req, res) {
         select: { favorites: true },
       });
 
-      res.status(200).json(user?.favorites.map(fav => fav.ticker));
+      res.status(200).json(user?.favorites.map((fav) => fav.ticker));
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching favorites' });
+      res.status(500).json({ error: "Error fetching favorites" });
     }
   } else {
-    res.setHeader('Allow', ['GET']);
+    res.setHeader("Allow", ["GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

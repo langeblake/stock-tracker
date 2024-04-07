@@ -1,7 +1,10 @@
+// For updating the DB with user favorites, instead of the cache.
+// Not implemented yet.
+
 import prisma from "@/lib/prismadb";
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const { userId, favorites } = req.body;
     try {
       // Remove all existing favorites for the user
@@ -17,12 +20,12 @@ export default async function handler(req, res) {
         })),
       });
 
-      res.status(200).json({ message: 'Favorites updated successfully' });
+      res.status(200).json({ message: "Favorites updated successfully" });
     } catch (error) {
-      res.status(500).json({ error: 'Error updating favorites' });
+      res.status(500).json({ error: "Error updating favorites" });
     }
   } else {
-    res.setHeader('Allow', ['POST']);
+    res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

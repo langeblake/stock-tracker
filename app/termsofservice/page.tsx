@@ -3,9 +3,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "User dashboard",
-  // other metadata
+  title: "Terms of Service | Lumière",
+  description: "Terms of service for Lumière",
 };
 
 const TermsOfService = () => {
@@ -20,11 +19,25 @@ const TermsOfService = () => {
                   Terms of Service
                 </h3>
                 <p className="mb-10 text-base text-justify font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
-                Lumière stands by the accuracy of the data we provide, but please be aware that our website is a platform intended for educational and experimental purposes only. The information provided is for developing and demonstrating data analytics features within a stock tracking context and is not to be construed as financial advice. Users should not rely on this information for making any investment decisions.
-                <br /><br />
-                By using our site, you acknowledge and agree that Lumière is not responsible for any financial losses or damages arising from the use of our service. This project is designed to showcase technological capabilities and should be used as a tool for learning and exploration in the field of data analytics.
-                <br /><br />
-                We encourage all users to conduct their own research and seek professional advice for their financial endeavors.
+                  Lumière stands by the accuracy of the data we provide, but
+                  please be aware that our website is a platform intended for
+                  educational and experimental purposes only. The information
+                  provided is for developing and demonstrating data analytics
+                  features within a stock tracking context and is not to be
+                  construed as financial advice. Users should not rely on this
+                  information for making any investment decisions.
+                  <br />
+                  <br />
+                  By using our site, you acknowledge and agree that Lumière is
+                  not responsible for any financial losses or damages arising
+                  from the use of our service. This project is designed to
+                  showcase technological capabilities and should be used as a
+                  tool for learning and exploration in the field of data
+                  analytics.
+                  <br />
+                  <br />
+                  We encourage all users to conduct their own research and seek
+                  professional advice for their financial endeavors.
                 </p>
                 <Link
                   href="/"

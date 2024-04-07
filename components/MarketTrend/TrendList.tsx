@@ -1,7 +1,6 @@
-
-import { format, utcToZonedTime } from "date-fns-tz";
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
+import { tickers } from "data/tickers-static.js";
 
 // Adjust the type to match the expected shape of each ticker's data
 interface TickerResponse {
@@ -45,113 +44,118 @@ interface TickerResponse {
   twoPrevDayTicker: TwoPrevDayTicker;
   threePrevDayTicker: ThreePrevDayTicker;
   status: string;
-};
+}
 
 interface TwoPrevDayTicker {
-  afterHours: number,
-  close: number | null,
-  from: Date,
-  high: number,
-  low: number,
-  open: number,
-  preMarket: number,
-  status: string,
-  symbol: string,
-  volume: number
+  afterHours: number;
+  close: number | null;
+  from: Date;
+  high: number;
+  low: number;
+  open: number;
+  preMarket: number;
+  status: string;
+  symbol: string;
+  volume: number;
 }
 interface ThreePrevDayTicker {
-  afterHours: number,
-  close: number | null,
-  from: Date,
-  high: number,
-  low: number,
-  open: number,
-  preMarket: number,
-  status: string,
-  symbol: string,
-  volume: number
+  afterHours: number;
+  close: number | null;
+  from: Date;
+  high: number;
+  low: number;
+  open: number;
+  preMarket: number;
+  status: string;
+  symbol: string;
+  volume: number;
 }
 
-  
-  const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
-    const API_KEY = process.env.POLYGON_API_KEY;
-    
-    try {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lumiere-pied.vercel.app';
-      const response = await fetch(`https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`, {
+const fetchTickerData = async (
+  ticker: string
+): Promise<TickerResponse | null> => {
+  const API_KEY = process.env.POLYGON_API_KEY;
+
+  try {
+    // const baseUrl =
+    //   process.env.NODE_ENV === "development"
+    //     ? "http://localhost:3000"
+    //     : "https://lumiere-pied.vercel.app";
+    const response = await fetch(
+      `https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`,
+      {
         headers: {
-            // Include the API key in the request headers
-            // IMPORTANT: Securely manage and inject the API key in a production environment
-            'x-api-key': API_KEY!
-        }
-      },)
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data for ${ticker}`);
+          // Include the API key in the request headers
+          // IMPORTANT: Securely manage and inject the API key in a production environment
+          "x-api-key": API_KEY!,
+        },
       }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(`Error fetching data for ${ticker}:`, error);
-      return null; // Returning null for failed requests
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data for ${ticker}`);
     }
-}
-
-
-// 'FB' is a a test for tickers that don't return data; status !== "OK"
-const tickers = [
-  'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AVAV', 'JPM', 'V', 'JNJ',
-  'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'DIS', 'BAC', 'VZ', 'ADBE',
-  'CMCSA', 'KO', 'NFLX', 'PFE', 'T', 'PYPL', 'INTC', 'CSCO', 'PEP', 'XOM',
-  'COST', 'CVX', 'ABT', 'ACN', 'CRM', 'AVGO', 'ABBV', 'WFC', 'MRK', 'TMO',
-  'MCD', 'MDT', 'NKE', 'DHR', 'TXN', 'QCOM', 'HON', 'LIN', 'BMY', 'UNP',
-  'ORCL', 'LLY', 'PM', 'UPS', 'SCHW', 'LOW', 'C', 'BA', 'IBM', 'SBUX',
-  'AMT', 'NEE', 'AMD', 'NOW', 'BLK', 'AMGN', 'GE', 'CAT', 'MMM', 'GS',
-  'MS', 'INTU', 'DE', 'CVS', 'RTX', 'SPGI', 'TGT', 'ISRG', 'BKNG', 'LMT',
-  'SYK', 'MU', 'ZTS', 'GILD', 'FIS', 'MO', 'MDLZ', 'GM', 'TJX', 'BDX',
-  'CSX', 'CI', 'AXP', 'SO', 'ADP', 'CL', 'COP', 'USB', 'PNC', 'EL', 'FB'
-]
-
-// const tickers = [
-//   'AAPL'
-// ]
-
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data for ${ticker}:`, error);
+    return null; // Returning null for failed requests
+  }
+};
 
 const formatNumberString = (value: number | undefined) => {
   if (value !== undefined) {
-    return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
-  return ""; // Or any default value you prefer if the value is undefined
-}
+  return "";
+};
 
 const TrendList = async ({ query }: { query: string | undefined }) => {
   let tableData: any[] = [];
 
-
-  if (query === undefined || null ) {
+  if (query === undefined || null) {
     // Static data
     const tickerDataPromises = tickers.map(fetchTickerData);
     const tickerData = await Promise.all(tickerDataPromises);
-    const dataNotNull = tickerData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
+    const dataNotNull = tickerData.filter(
+      (item): item is TickerResponse => item !== null && item.status === "OK"
+    );
     const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
-    tableData = data.map(stock => ({
+    tableData = data.map((stock) => ({
       symbol: stock.ticker.ticker,
-      price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-      change: stock.ticker.todaysChange ? 
-      stock.ticker.todaysChange.toFixed(2) : 
-      ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
-      todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
-      volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
+      price:
+        stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
+      change: stock.ticker.todaysChange
+        ? stock.ticker.todaysChange.toFixed(2)
+        : (
+            (stock.twoPrevDayTicker.close ?? 0) -
+            (stock.threePrevDayTicker.close ?? 0)
+          ).toFixed(2),
+      todaysChangePerc: stock.ticker.todaysChangePerc
+        ? stock.ticker.todaysChangePerc.toFixed(2)
+        : (
+            (((stock.twoPrevDayTicker.close ?? 0) -
+              (stock.threePrevDayTicker.close ?? 0)) /
+              (stock.threePrevDayTicker.close ?? 0)) *
+            100
+          ).toFixed(2),
+      volume:
+        stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
       marketCap: stock.marketCap.toFixed(2),
       sma50: formatNumberString(stock.sma50),
       sma200: formatNumberString(stock.sma200),
-      prevClose: stock.twoPrevDayTicker.close,  
-      twoPrevClose: stock.threePrevDayTicker.close
-    }))
+      prevClose: stock.twoPrevDayTicker.close,
+      twoPrevClose: stock.threePrevDayTicker.close,
+    }));
   } else {
     const queryTickers = query.split(",");
-    const queryTickersPromises = queryTickers.map(fetchTickerData)
+    const queryTickersPromises = queryTickers.map(fetchTickerData);
     const queryTickersData = await Promise.all(queryTickersPromises);
-    const queryTickersDataNotNull = queryTickersData.filter((item): item is TickerResponse => item !== null && item.status === "OK");
+    const queryTickersDataNotNull = queryTickersData.filter(
+      (item): item is TickerResponse => item !== null && item.status === "OK"
+    );
     const data = queryTickersDataNotNull;
     if (data) {
       // Check if all necessary properties exist in the response data
@@ -161,21 +165,38 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       //     queryTickerData.ticker.todaysChange && queryTickerData.ticker.todaysChangePerc &&
       //     queryTickerData.ticker.day.v && queryTickerData.marketCap &&
       //     queryTickerData.sma50 && queryTickerData.sma200) {
-        // Manipulate data based on the query
-        tableData = data.map(stock => ({
-          symbol: stock.ticker.ticker,
-          price: stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-          change: stock.ticker.todaysChange ? 
-          stock.ticker.todaysChange.toFixed(2) : 
-          ((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)).toFixed(2),  
-          todaysChangePerc: stock.ticker.todaysChangePerc ? stock.ticker.todaysChangePerc.toFixed(2) : ((((stock.twoPrevDayTicker.close ?? 0) - (stock.threePrevDayTicker.close ?? 0)) / (stock.threePrevDayTicker.close ?? 0)) * 100).toFixed(2),
-          volume: stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
-          marketCap: stock.marketCap?.toFixed(2),
-          sma50: formatNumberString(stock.sma50),
-          sma200: formatNumberString(stock.sma200),
-          prevClose: stock.twoPrevDayTicker.close,  
-          twoPrevClose: stock.threePrevDayTicker.close
-        }));
+        
+      // Manipulate data based on the query
+      tableData = data.map((stock) => ({
+        symbol: stock.ticker.ticker,
+        price:
+          stock.ticker.day.c !== 0
+            ? stock.ticker.day.c
+            : stock.ticker.prevDay.c,
+        change: stock.ticker.todaysChange
+          ? stock.ticker.todaysChange.toFixed(2)
+          : (
+              (stock.twoPrevDayTicker.close ?? 0) -
+              (stock.threePrevDayTicker.close ?? 0)
+            ).toFixed(2),
+        todaysChangePerc: stock.ticker.todaysChangePerc
+          ? stock.ticker.todaysChangePerc.toFixed(2)
+          : (
+              (((stock.twoPrevDayTicker.close ?? 0) -
+                (stock.threePrevDayTicker.close ?? 0)) /
+                (stock.threePrevDayTicker.close ?? 0)) *
+              100
+            ).toFixed(2),
+        volume:
+          stock.ticker.day.v !== 0
+            ? stock.ticker.day.v
+            : stock.ticker.prevDay.v,
+        marketCap: stock.marketCap?.toFixed(2),
+        sma50: formatNumberString(stock.sma50),
+        sma200: formatNumberString(stock.sma200),
+        prevClose: stock.twoPrevDayTicker.close,
+        twoPrevClose: stock.threePrevDayTicker.close,
+      }));
       // } else {
       //   console.error("Incomplete data received for the query:", query);
       //   // Handle the case where necessary properties are missing from the response data
@@ -183,21 +204,16 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       // }
     } else {
       console.error("Failed to fetch data for the query:", query);
-      // Handle the case where the query response is not OK
-      // You can set a default value or display an error message
     }
-
-
   }
 
   return (
     <section id="tickerListSection" className="">
       <div className="">
-        <DataTable columns={columns} data={tableData}/>
+        <DataTable columns={columns} data={tableData} />
       </div>
     </section>
   );
 };
 
 export default TrendList;
-

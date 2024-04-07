@@ -7,7 +7,6 @@ import { FcAreaChart } from "react-icons/fc";
 const ChartSelection = ({
     StockAreaChart,
     YearStockAreaChart,
-    // MonthStockAreaChart,
     NinetyCandleStickChart,
     ThirtyCandleStickChart,
     SevenCandleStickChart,

@@ -1,37 +1,18 @@
-# KRX Quant Front-End
-The front-end of this project uses NEXT.js, React, Typescript, Tailwind, and NPM (npm is the default package manager for the JavaScript runtime environment Node.js).
-</br>
-</br>
+# Lumiere: U.S. Stock Tracker
 
-## Setting Up API Key & BaseURL (for development)
-Before running the project, you'll need to set up your API key for finance data. This project currently uses US stock data from Polygon.io. </br>You will also need to add an Internal API Base URL while this project is in development.
-</br>Create a .env.local file in the project root directory and add your API key as follows:
+Lumiere is a U.S. stock tracker that provides users with an overview of the markets, trending stock lists, and detailed pages for individual stocks. It leverages real-time data from the Polygon.io API to keep users informed about the latest market trends. With Lumiere, users can explore interactive charts, search for specific stocks, and create accounts for a personalized experience.
 
-```Bash
-POLYGON_API_KEY=api_key_here
+## Features
+- **Market Overview**: Get an overview of the U.S. stock markets at a glance.
+- **Trending Stock List**: Explore trending stocks and search for individual stocks.
+- **Individual Stock Pages**: Dive into detailed pages for each stock, including interactive charts built with Recharts.
+- **User Authentication**: Create accounts using email, Google, or Github with user authentication powered by NextAuth.
 
-// .env.local (for development)
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
-```
-</br>
-
-## Ensure you have Node.js installed on your system
-
-### Checking Node.js Version
-```Bash
-node -v
-```
-
-To install Node.js, visit the [Node.js website](https://www.example.com) and download the installer for your operating system.
-
-### Install Dependencies
-```Bash
-npm install
-```
-
-### Run the Project Locally
-```Bash
-npm run dev
-```
-
-
+## Tech Stack
+- **Next.js**
+- **React**
+- **Recharts**
+- **MongoDB**
+- **TypeScript**
+- **Prisma**
+- **Tailwind CSS**
