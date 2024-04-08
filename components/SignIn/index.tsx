@@ -170,7 +170,7 @@ const SignIn = () => {
                         />
                       </div>
                       <div className="mb-8 flex flex-col justify-between sm:flex-row sm:items-center">
-                        <div className="mb-4 sm:mb-0">
+                        {/* <div className="mb-4 sm:mb-0">
                           <label
                             htmlFor="checkboxLabel"
                             className="flex cursor-pointer select-none items-center text-sm font-medium text-body-color"
@@ -202,15 +202,15 @@ const SignIn = () => {
                             </div>
                             Keep me signed in
                           </label>
-                        </div>
-                        <div>
+                        </div> */}
+                        {/* <div>
                           <a
                             href="#0"
                             className="text-sm font-medium text-primary hover:underline"
                           >
                             Forgot Password?
                           </a>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="mb-6">
                         <button className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
