@@ -1,75 +1,10 @@
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
 import { tickers } from "data/tickers-static.js";
+import { TickerResponse } from "@/types/stockDataTypes";
 
 // Adjust the type to match the expected shape of each ticker's data
-interface TickerResponse {
-  ticker: {
-    ticker: string;
-    todaysChangePerc: number;
-    todaysChange: number;
-    updated: number;
-    day: {
-      o: number;
-      h: number;
-      l: number;
-      c: number;
-      v: number;
-      vw: number;
-    };
-    min: {
-      av: number;
-      t: number;
-      n: number;
-      o: number;
-      h: number;
-      l: number;
-      c: number;
-      v: number;
-      vw: number;
-    };
-    prevDay: {
-      o: number;
-      h: number;
-      l: number;
-      c: number;
-      v: number;
-      vw: number;
-    };
-  };
-  name: string;
-  marketCap: number;
-  sma200: number;
-  sma50: number;
-  twoPrevDayTicker: TwoPrevDayTicker;
-  threePrevDayTicker: ThreePrevDayTicker;
-  status: string;
-}
 
-interface TwoPrevDayTicker {
-  afterHours: number;
-  close: number | null;
-  from: Date;
-  high: number;
-  low: number;
-  open: number;
-  preMarket: number;
-  status: string;
-  symbol: string;
-  volume: number;
-}
-interface ThreePrevDayTicker {
-  afterHours: number;
-  close: number | null;
-  from: Date;
-  high: number;
-  low: number;
-  open: number;
-  preMarket: number;
-  status: string;
-  symbol: string;
-  volume: number;
-}
 
 const fetchTickerData = async (
   ticker: string

@@ -71,3 +71,116 @@ export interface DayData {
     gainers: StockData;
     losers: StockData;
   }
+
+
+  export interface TickerResponse {
+    ticker: {
+      ticker: string;
+      todaysChangePerc: number;
+      todaysChange: number;
+      updated: number;
+      day: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      min: {
+        av: number;
+        t: number;
+        n: number;
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      prevDay: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+    };
+    name: string;
+    marketCap: number;
+    sma200: number;
+    sma50: number;
+    twoPrevDayTicker: TwoPrevDayTicker;
+    threePrevDayTicker: ThreePrevDayTicker;
+    status: string;
+  }
+  
+  export interface TwoPrevDayTicker {
+    afterHours: number;
+    close: number | null;
+    from: Date;
+    high: number;
+    low: number;
+    open: number;
+    preMarket: number;
+    status: string;
+    symbol: string;
+    volume: number;
+  }
+  
+  export interface ThreePrevDayTicker {
+    afterHours: number;
+    close: number | null;
+    from: Date;
+    high: number;
+    low: number;
+    open: number;
+    preMarket: number;
+    status: string;
+    symbol: string;
+    volume: number;
+  }
+
+// Gainers - Losers
+  export type TickerData = {
+    ticker: {
+      ticker: string;
+      todaysChangePerc: number;
+      todaysChange: number;
+      updated: number;
+      day: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      min: {
+        av: number;
+        t: number;
+        n: number;
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+      prevDay: {
+        o: number;
+        h: number;
+        l: number;
+        c: number;
+        v: number;
+        vw: number;
+      };
+    };
+  };
+  
+  export interface GainersLosersResponse {
+    gainers: { tickers: TickerData[] };
+    losers: { tickers: TickerData[] };
+  }
+  

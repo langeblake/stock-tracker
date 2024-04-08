@@ -2,11 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 import { FiLoader, FiSearch, FiX } from 'react-icons/fi'
-import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
 import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+
 
 
 export const Search = () => {
