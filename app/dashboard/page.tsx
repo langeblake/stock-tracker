@@ -1,13 +1,22 @@
 import Link from "next/link";
 
 import { Metadata } from "next";
+import getCurrentUser from "../actions/getCurrentUser";
+import { redirect } from "next/navigation";
+import Breadcrumb from "@/components/Common/Breadcrumb";
 
 export const metadata: Metadata = {
   title: "Dashboard | Lumière",
   description: "User Dashboard",
 };
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/signin");
+  }
+
   return (
     <>
       <section className="relative z-10 pb-16 pt-24 md:pb-20 lg:pb-28 lg:pt-[180px]">
@@ -16,6 +25,7 @@ const Dashboard = () => {
             <div className="w-full px-4">
               <div className="mx-auto max-w-[530px] text-center">
                 <div className="mx-auto text-center mb-9"></div>
+                <h2 className="font-bold mb-3 text-xl text-primary sm:text-2xl">Hi, {currentUser.name}!</h2>
                 <h3 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">
                   Dashboard coming soon!
                 </h3>
