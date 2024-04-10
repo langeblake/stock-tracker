@@ -54,6 +54,7 @@ const AboutSectionOne = () => {
                   src="/images/about/About-image.png"
                   alt="about-image"
                   fill
+                  priority
                   className="drop-shadow-three mx-auto max-w-full  dark:drop-shadow-none lg:mr-0"
                 />
               </div>
