@@ -51,7 +51,7 @@ const AboutSectionOne = () => {
                 data-wow-delay=".2s"
               >
                 <Image
-                  src="/images/about/About-image.jpg"
+                  src="/images/about/About-image.png"
                   alt="about-image"
                   fill
                   className="drop-shadow-three mx-auto max-w-full  dark:drop-shadow-none lg:mr-0"
