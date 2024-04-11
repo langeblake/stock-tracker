@@ -3,8 +3,6 @@ import { columns } from "./TickerTable/columns";
 import { tickers } from "data/tickers-static.js";
 import { TickerResponse } from "@/types/stockDataTypes";
 
-// Adjust the type to match the expected shape of each ticker's data
-
 
 const fetchTickerData = async (
   ticker: string
@@ -20,8 +18,6 @@ const fetchTickerData = async (
       `https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`,
       {
         headers: {
-          // Include the API key in the request headers
-          // IMPORTANT: Securely manage and inject the API key in a production environment
           "x-api-key": API_KEY!,
         },
       }
@@ -33,7 +29,7 @@ const fetchTickerData = async (
     return data;
   } catch (error) {
     console.error(`Error fetching data for ${ticker}:`, error);
-    return null; // Returning null for failed requests
+    return null; 
   }
 };
 
