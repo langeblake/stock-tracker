@@ -15,26 +15,69 @@ export const Search = () => {
   const { favoriteToggle } = useUIStore();
   const searchParams = useSearchParams();
 
+  const shouldSetRouting = (
+    searchParams,
+    query,
+    search,
+    favoritesParam,
+    favoriteToggle,
+    text
+  ) => {
+    // Check directly if favoritesParam indicates 'NoResult'
+    if (favoritesParam === "NoResult") {
+      // If favorites are 'NoResult', do not show loading spinner regardless of the query status
+      return false;
+    }
+
+    // Check if search value changed and not set to 'NoResult'
+    if (search && query !== search && search !== "NoResult") {
+      return true;
+    }
+
+    // Check if there is a new query but no previous search value
+    if (!search && query) {
+      return true;
+    }
+
+    // Check if there's a favorite toggle and query mismatch with 'NoResult'
+    if (favoriteToggle && query && search !== "NoResult") {
+      return true;
+    }
+
+    // Check if favorites are toggled but no favorites param is present and it's not 'NoResult'
+    if (favoriteToggle && !favoritesParam && search !== "NoResult") {
+      return true;
+    }
+
+    // Check if no favorite toggle, query exists but does not match the current search
+    if (!favoriteToggle && query && search !== query) {
+      return true;
+    }
+
+    // Check if no favorite toggle, no text input but favorites are present
+    if (!favoriteToggle && !text && favoritesParam) {
+      return true;
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     if (searchParams) {
       const search = searchParams.get("search");
       const favoritesParam = searchParams.get("favorites");
 
-      // Setting loading spinner UI depending on Search Param, Input (query), and Favorites toggle.
-      if (
-        (search && query !== search && search !== "NoResult") ||
-        (!search && query) ||
-        (query && favoriteToggle && search !== "NoResult") ||
-        (favoriteToggle && !favoritesParam && search !== "NoResult") ||
-        (!favoriteToggle && query && search !== query) ||
-        (!favoriteToggle && !text && favoritesParam)
-      ) {
-        setIsRouting(true);
-      } else {
-        setIsRouting(false);
-      }
+      const isRoutingNeeded = shouldSetRouting(
+        searchParams,
+        query,
+        search,
+        favoritesParam,
+        favoriteToggle,
+        text
+      );
+      setIsRouting(isRoutingNeeded);
     }
-  }, [searchParams, query, favoriteToggle]);
+  }, [searchParams, query, favoriteToggle, text]);
 
   useEffect(() => {
     let url = "/";
