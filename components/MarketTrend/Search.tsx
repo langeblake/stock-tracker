@@ -1,95 +1,99 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { FiLoader, FiSearch, FiX } from 'react-icons/fi'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useDebounce } from 'use-debounce'
-import { useFavoritesStore, useUIStore } from '@/store/favortiesStore'
-
-
+import React, { useEffect, useState } from "react";
+import { FiLoader, FiSearch, FiX } from "react-icons/fi";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDebounce } from "use-debounce";
+import { useFavoritesStore, useUIStore } from "@/store/favortiesStore";
 
 export const Search = () => {
-    const router = useRouter();
-    const [text, setText] = useState<string>('');
-    const [isRouting, setIsRouting] = useState(false);
-    const [query] = useDebounce(text, 500);
-    const { favorites } = useFavoritesStore();
-    const { favoriteToggle } = useUIStore();
-    const searchParams = useSearchParams();
+  const router = useRouter();
+  const [text, setText] = useState<string>("");
+  const [isRouting, setIsRouting] = useState(false);
+  const [query] = useDebounce(text, 500);
+  const { favorites } = useFavoritesStore();
+  const { favoriteToggle } = useUIStore();
+  const searchParams = useSearchParams();
 
-    useEffect(() => {
-        // Setting loading spinner for Input and Favorite button cases.
-        if (searchParams) {
-            const search = searchParams.get('search');
-            const favoritesParam = searchParams.get('favorites');
-    
-            if ((search && query !== search && search !== 'NoResult') || (!search && query) || (query && favoriteToggle && search !== 'NoResult') || (favoriteToggle && !favoritesParam && search !== 'NoResult') || (!favoriteToggle && query && search !== query) || (!favoriteToggle && !text && favoritesParam)) {
-                setIsRouting(true);
-            } 
-            else {
-                setIsRouting(false)
-            }
-        }
-    }, [searchParams, query, favoriteToggle]);
+  useEffect(() => {
+    if (searchParams) {
+      const search = searchParams.get("search");
+      const favoritesParam = searchParams.get("favorites");
 
-    useEffect(() => {
-        let url = '/';
+      // Setting loading spinner UI depending on Search Param, Input (query), and Favorites toggle.
+      if (
+        (search && query !== search && search !== "NoResult") ||
+        (!search && query) ||
+        (query && favoriteToggle && search !== "NoResult") ||
+        (favoriteToggle && !favoritesParam && search !== "NoResult") ||
+        (!favoriteToggle && query && search !== query) ||
+        (!favoriteToggle && !text && favoritesParam)
+      ) {
+        setIsRouting(true);
+      } else {
+        setIsRouting(false);
+      }
+    }
+  }, [searchParams, query, favoriteToggle]);
 
-        if (favoriteToggle) {
-            if (favorites.length > 0 && query && favorites.includes(query)) {
-                // If favorites are toggled and query is a favorite, navigate with search parameter.
-                url = `/?search=${query}`;
-            } else if (favorites.length > 0 && !query ) {
-                // If favorites are toggled but query is not a favorite or is empty, show all favorites.
-                url = `/?favorites=${favorites.join(',')}`;
-            } else if (favorites.length === 0) {
-                url = `/?favorites=NoResult`
-            } else if (query && !favorites.includes(query)) {
-                // If there's a query that's not in favorites, navigate with "NoResult".
-                url = `/?search=NoResult`;
-            }
-        } else if (query) {
-            // Show search results if there's a query and favorites are not toggled.
-            url = `/?search=${query}`;
-        }
-        
-        // window.history.pushState(null, '', url);
-        router.replace(url, { scroll: false});
-    }, [query, favoriteToggle, favorites, router]);
+  useEffect(() => {
+    let url = "/";
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setText(e.target.value.toUpperCase());
-    };
+    if (favoriteToggle) {
+      if (favorites.length > 0 && query && favorites.includes(query)) {
+        // If favorites are toggled and query is a favorite, navigate with search parameter.
+        url = `/?search=${query}`;
+      } else if (favorites.length > 0 && !query) {
+        // If favorites are toggled but query is not a favorite or is empty, show all favorites.
+        url = `/?favorites=${favorites.join(",")}`;
+      } else if (favorites.length === 0) {
+        url = `/?favorites=NoResult`;
+      } else if (query && !favorites.includes(query)) {
+        // If there's a query that's not in favorites, navigate with "NoResult".
+        url = `/?search=NoResult`;
+      }
+    } else if (query) {
+      // Show search results if there's a query and favorites are not toggled.
+      url = `/?search=${query}`;
+    }
 
-    const handleClear = () => {
-        setText('');
-    };
+    // window.history.pushState(null, '', url);
+    router.replace(url, { scroll: false });
+  }, [query, favoriteToggle, favorites, router]);
 
-    return (
-        <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <FiSearch className="dark:text-gray-400" />
-            </span>
-            <input
-                value={text}
-                className="pl-10 pr-10 border h-10 rounded-md border-zinc-700 bg-zinc-100 dark:bg-black w-64 focus:border-none"
-                type="text"
-                placeholder="Search for a symbol"
-                onChange={handleChange}
-                // disabled={isRouting} // Optional: disable input during routing
-            />
-            {isRouting ? (
-                <span className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    <FiLoader className="animate-spin dark:text-white" />
-                </span>
-            ) : text ? (
-                <span
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                    onClick={handleClear}
-                >
-                    <FiX className="dark:text-gray-400" />
-                </span>
-            ) : null}
-        </div>
-    );
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value.toUpperCase());
+  };
+
+  const handleClear = () => {
+    setText("");
+  };
+
+  return (
+    <div className="relative">
+      <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+        <FiSearch className="dark:text-gray-400" />
+      </span>
+      <input
+        value={text}
+        className="pl-10 pr-10 border h-10 rounded-md border-zinc-700 bg-zinc-100 dark:bg-black w-64 focus:border-none"
+        type="text"
+        placeholder="Search for a symbol"
+        onChange={handleChange}
+        // disabled={isRouting} // Optional: disable input during routing
+      />
+      {isRouting ? (
+        <span className="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <FiLoader className="animate-spin dark:text-white" />
+        </span>
+      ) : text ? (
+        <span
+          className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+          onClick={handleClear}
+        >
+          <FiX className="dark:text-gray-400" />
+        </span>
+      ) : null}
+    </div>
+  );
 };
