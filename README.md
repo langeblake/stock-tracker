@@ -1,8 +1,8 @@
-# [Lumière](https://lumiere-pied.vercel.app/): U.S. Stock Tracker
+# [Lumière](https://lumiere-stocktracker.vercel.app/): U.S. Stock Tracker
 
 Lumiere is a U.S. stock tracker that provides users with an overview of the markets, trending stock lists, and detailed pages for individual stocks. It leverages real-time data from the Polygon.io API to keep users informed about the latest market trends. With Lumiere, users can explore interactive charts, search for specific stocks, and create accounts for a personalized experience.
 
-[Visit Lumière here!](https://lumiere-pied.vercel.app/) 
+[Visit Lumière here!](https://lumiere-stocktracker.vercel.app/) 
 
 ## Features
 - **Market Overview**: Get an overview of the U.S. stock markets at a glance.
