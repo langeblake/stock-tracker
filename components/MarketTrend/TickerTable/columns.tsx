@@ -31,7 +31,7 @@ const formatNumber = (value: number) => {
   } else if (value >= 1e3) {
     return value.toLocaleString();
   } else {
-    return `${value}`;
+    return `${value.toFixed(2)}`;
   }
 };
 
@@ -135,12 +135,8 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         <Button
           variant="ghost"
           onClick={() => {
-            // Use the same corrected approach as 'price'
-            if (column.getIsSorted() === undefined) {
-              column.getAutoSortDir();
-            } else {
-              column.toggleSorting();
-            }
+            // Toggle sorting, handle undefined state for initial sort direction
+            column.toggleSorting(column.getIsSorted() ? undefined : true);
           }}
           className="text-right"
         >
@@ -166,47 +162,54 @@ export const columns: ColumnDef<TrendingTicker>[] = [
         </div>
       );
     },
+    sortingFn: (rowA, rowB) => {
+      const valA = parseFloat(rowA.getValue("change"));
+      const valB = parseFloat(rowB.getValue("change"));
+      // Subtract to get proper sorting for numbers
+      return valA - valB;
+    }
+},
+{
+  accessorKey: "todaysChangePerc",
+  sortDescFirst: true,
+  header: ({ column }) => {
+    return (
+      <Button
+        variant="ghost"
+        onClick={() => {
+          // Toggle sorting, and handle the initial undefined state for sort direction
+          column.toggleSorting(column.getIsSorted() ? undefined : true);
+        }}
+        className="text-right"
+      >
+        % Change
+        {column.getIsSorted() === "asc" ? (
+          <IoMdArrowDropdown size={20} />
+        ) : column.getIsSorted() === "desc" ? (
+          <IoMdArrowDropup size={20} />
+        ) : (
+          <div className="w-5"></div>
+        )}
+      </Button>
+    );
   },
-  {
-    accessorKey: "todaysChangePerc",
-    sortDescFirst: true,
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            if (column.getIsSorted() === undefined) {
-              // If not sorted, sort in descending order first
-              column.getSortingFn();
-            } else {
-              // Toggle sorting if already sorted
-              column.toggleSorting();
-            }
-          }}
-          className="text-right"
-        >
-          % Change
-          {column.getIsSorted() === "asc" ? (
-            <IoMdArrowDropdown size={20} />
-          ) : column.getIsSorted() === "desc" ? (
-            <IoMdArrowDropup size={20} />
-          ) : (
-            <div className="w-5"></div>
-          )}
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"));
-      return (
-        <div
-          className={`text-right font-medium ${todaysChangePerc >= 0 ? "text-green-500" : "text-red-500"}`}
-        >
-          {formatNumber(todaysChangePerc)}
-        </div>
-      );
-    },
+  cell: ({ row }) => {
+    const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"));
+    return (
+      <div
+        className={`text-right font-medium ${todaysChangePerc >= 0 ? "text-green-500" : "text-red-500"}`}
+      >
+        {formatNumber(todaysChangePerc)}
+      </div>
+    );
   },
+  sortingFn: (rowA, rowB) => {
+    const valA = parseFloat(rowA.getValue("todaysChangePerc"));
+    const valB = parseFloat(rowB.getValue("todaysChangePerc"));
+    // Subtract to get proper sorting for numbers
+    return valA - valB;
+  }
+},
   {
     accessorKey: "volume",
     sortDescFirst: true,
