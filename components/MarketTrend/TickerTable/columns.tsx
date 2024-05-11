@@ -167,49 +167,49 @@ export const columns: ColumnDef<TrendingTicker>[] = [
       const valB = parseFloat(rowB.getValue("change"));
       // Subtract to get proper sorting for numbers
       return valA - valB;
-    }
-},
-{
-  accessorKey: "todaysChangePerc",
-  sortDescFirst: true,
-  header: ({ column }) => {
-    return (
-      <Button
-        variant="ghost"
-        onClick={() => {
-          // Toggle sorting, and handle the initial undefined state for sort direction
-          column.toggleSorting(column.getIsSorted() ? undefined : true);
-        }}
-        className="text-right"
-      >
-        % Change
-        {column.getIsSorted() === "asc" ? (
-          <IoMdArrowDropdown size={20} />
-        ) : column.getIsSorted() === "desc" ? (
-          <IoMdArrowDropup size={20} />
-        ) : (
-          <div className="w-5"></div>
-        )}
-      </Button>
-    );
+    },
   },
-  cell: ({ row }) => {
-    const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"));
-    return (
-      <div
-        className={`text-right font-medium ${todaysChangePerc >= 0 ? "text-green-500" : "text-red-500"}`}
-      >
-        {formatNumber(todaysChangePerc)}
-      </div>
-    );
+  {
+    accessorKey: "todaysChangePerc",
+    sortDescFirst: true,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            // Toggle sorting, and handle the initial undefined state for sort direction
+            column.toggleSorting(column.getIsSorted() ? undefined : true);
+          }}
+          className="text-right"
+        >
+          % Change
+          {column.getIsSorted() === "asc" ? (
+            <IoMdArrowDropdown size={20} />
+          ) : column.getIsSorted() === "desc" ? (
+            <IoMdArrowDropup size={20} />
+          ) : (
+            <div className="w-5"></div>
+          )}
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const todaysChangePerc = parseFloat(row.getValue("todaysChangePerc"));
+      return (
+        <div
+          className={`text-right font-medium ${todaysChangePerc >= 0 ? "text-green-500" : "text-red-500"}`}
+        >
+          {formatNumber(todaysChangePerc)}
+        </div>
+      );
+    },
+    sortingFn: (rowA, rowB) => {
+      const valA = parseFloat(rowA.getValue("todaysChangePerc"));
+      const valB = parseFloat(rowB.getValue("todaysChangePerc"));
+      // Subtract to get proper sorting for numbers
+      return valA - valB;
+    },
   },
-  sortingFn: (rowA, rowB) => {
-    const valA = parseFloat(rowA.getValue("todaysChangePerc"));
-    const valB = parseFloat(rowB.getValue("todaysChangePerc"));
-    // Subtract to get proper sorting for numbers
-    return valA - valB;
-  }
-},
   {
     accessorKey: "volume",
     sortDescFirst: true,

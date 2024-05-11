@@ -29,7 +29,7 @@ export const Search = () => {
       return false;
     }
 
-    // Check if search value changed and not set to 'NoResult'
+    // Check if query value changed and not set to 'NoResult'
     if (search && query !== search && search !== "NoResult") {
       return true;
     }
