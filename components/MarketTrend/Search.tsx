@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useDeferredValue,
+} from "react";
 import { FiLoader, FiSearch, FiX } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
@@ -9,58 +14,49 @@ import { useFavoritesStore, useUIStore } from "@/store/favortiesStore";
 export const Search = () => {
   const router = useRouter();
   const [text, setText] = useState<string>("");
-  const [isRouting, setIsRouting] = useState(false);
-  const [query] = useDebounce(text, 500);
+  const [query] = useDebounce(text, 300); // Debounce input to reduce frequency of updates
   const { favorites } = useFavoritesStore();
   const { favoriteToggle } = useUIStore();
   const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [initialLoad, setInitialLoad] = useState(true);
 
-  const shouldSetRouting = (
-    searchParams,
-    query,
-    search,
-    favoritesParam,
-    favoriteToggle,
-    text
-  ) => {
-    // Check directly if favoritesParam indicates 'NoResult'
-    if (favoritesParam === "NoResult") {
-      // If favorites are 'NoResult', do not show loading spinner regardless of the query status
+  const shouldSetRouting = useCallback(
+    (search, favoritesParam, query, favoriteToggle, text) => {
+      if (initialLoad) return false;
+      console.log("shouldSetRouting", {
+        search,
+        favoritesParam,
+        query,
+        favoriteToggle,
+        text,
+      });
+
+      // Check directly if favoritesParam indicates 'NoResult'
+      if (favoritesParam === "NoResult") return false;
+
+      // Check if query value changed and not set to 'NoResult'
+      if (search && query !== search && search !== "NoResult") return true;
+      // Check if there is a new query but no previous search value
+      if (!search && query) return true;
+      // Check if there's a favorite toggle and query mismatch with 'NoResult'
+      if (favoriteToggle && query && search !== "NoResult") return true;
+      // Check if favorites are toggled but no favorites param is present and it's not 'NoResult'
+      if (favoriteToggle && !favoritesParam && search !== "NoResult")
+        return true;
+      // Check if no favorite toggle, query exists but does not match the current search
+      if (!favoriteToggle && query && search !== query) return true;
+      // Check if no favorite toggle, no text input but favorites are present
+      if (!favoriteToggle && !text && favoritesParam) return true;
+
       return false;
-    }
+    },
+    [initialLoad]
+  );
 
-    // Check if query value changed and not set to 'NoResult'
-    if (search && query !== search && search !== "NoResult") {
-      return true;
-    }
-
-    // Check if there is a new query but no previous search value
-    if (!search && query) {
-      return true;
-    }
-
-    // Check if there's a favorite toggle and query mismatch with 'NoResult'
-    if (favoriteToggle && query && search !== "NoResult") {
-      return true;
-    }
-
-    // Check if favorites are toggled but no favorites param is present and it's not 'NoResult'
-    if (favoriteToggle && !favoritesParam && search !== "NoResult") {
-      return true;
-    }
-
-    // Check if no favorite toggle, query exists but does not match the current search
-    if (!favoriteToggle && query && search !== query) {
-      return true;
-    }
-
-    // Check if no favorite toggle, no text input but favorites are present
-    if (!favoriteToggle && !text && favoritesParam) {
-      return true;
-    }
-
-    return false;
-  };
+  useEffect(() => {
+    setInitialLoad(false);
+  }, []);
 
   useEffect(() => {
     if (searchParams) {
@@ -68,48 +64,55 @@ export const Search = () => {
       const favoritesParam = searchParams.get("favorites");
 
       const isRoutingNeeded = shouldSetRouting(
-        searchParams,
-        query,
         search,
         favoritesParam,
+        query,
         favoriteToggle,
         text
       );
-      setIsRouting(isRoutingNeeded);
+
+      console.log("Setting isLoading:", isRoutingNeeded);
+      setIsLoading(isRoutingNeeded);
     }
-  }, [searchParams, query, favoriteToggle, text]);
+  }, [searchParams, query, favoriteToggle, shouldSetRouting, text]);
+
+  const updateUrl = async (url: string) => {
+    if (!initialLoad) {
+      setIsLoading(true); // Start loading spinner
+    }
+    console.log("Starting URL update:", url);
+    await router.replace(url, { scroll: false });
+    console.log("Finished URL update");
+  };
 
   useEffect(() => {
     let url = "/";
 
     if (favoriteToggle) {
       if (favorites.length > 0 && query && favorites.includes(query)) {
-        // If favorites are toggled and query is a favorite, navigate with search parameter.
         url = `/?search=${query}`;
       } else if (favorites.length > 0 && !query) {
-        // If favorites are toggled but query is not a favorite or is empty, show all favorites.
         url = `/?favorites=${favorites.join(",")}`;
       } else if (favorites.length === 0) {
         url = `/?favorites=NoResult`;
       } else if (query && !favorites.includes(query)) {
-        // If there's a query that's not in favorites, navigate with "NoResult".
         url = `/?search=NoResult`;
       }
     } else if (query) {
-      // Show search results if there's a query and favorites are not toggled.
       url = `/?search=${query}`;
     }
 
-    // window.history.pushState(null, '', url);
-    router.replace(url, { scroll: false });
+    updateUrl(url);
   }, [query, favoriteToggle, favorites, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value.toUpperCase());
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
     setText("");
+    await updateUrl("/");
+    setIsLoading(false);
   };
 
   return (
@@ -123,9 +126,8 @@ export const Search = () => {
         type="text"
         placeholder="Search for a symbol"
         onChange={handleChange}
-        // disabled={isRouting} // Optional: disable input during routing
       />
-      {isRouting ? (
+      {isLoading ? (
         <span className="absolute inset-y-0 right-0 pr-3 flex items-center">
           <FiLoader className="animate-spin dark:text-white" />
         </span>
