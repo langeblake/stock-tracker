@@ -64,12 +64,7 @@ export const Search = () => {
   }, [searchParams, query, favoriteToggle, shouldSetRouting, text]);
 
   const updateUrl = async (url: string) => {
-    if (!initialLoad) {
-      setIsLoading(true); // Start loading spinner
-    }
-
-    await router.replace(url, { scroll: false });
-
+    router.replace(url, { scroll: false });
   };
 
   useEffect(() => {
