@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useDeferredValue,
-} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FiLoader, FiSearch, FiX } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
@@ -24,17 +19,9 @@ export const Search = () => {
   const shouldSetRouting = useCallback(
     (search, favoritesParam, query, favoriteToggle, text) => {
       if (initialLoad) return false;
-      console.log("shouldSetRouting", {
-        search,
-        favoritesParam,
-        query,
-        favoriteToggle,
-        text,
-      });
 
       // Check directly if favoritesParam indicates 'NoResult'
       if (favoritesParam === "NoResult") return false;
-      if (!favoritesParam && !searchParams && !query && !favoriteToggle) return false
 
       // Check if query value changed and not set to 'NoResult'
       if (search && query !== search && search !== "NoResult") return true;
@@ -72,7 +59,6 @@ export const Search = () => {
         text
       );
 
-      console.log("Setting isLoading:", isRoutingNeeded);
       setIsLoading(isRoutingNeeded);
     }
   }, [searchParams, query, favoriteToggle, shouldSetRouting, text]);
@@ -81,9 +67,9 @@ export const Search = () => {
     if (!initialLoad) {
       setIsLoading(true); // Start loading spinner
     }
-    console.log("Starting URL update:", url);
+
     await router.replace(url, { scroll: false });
-    console.log("Finished URL update");
+
   };
 
   useEffect(() => {
@@ -101,6 +87,8 @@ export const Search = () => {
       }
     } else if (query) {
       url = `/?search=${query}`;
+    } else {
+      url = "/"; // Ensure the URL is reset when query is empty
     }
 
     updateUrl(url);
@@ -112,7 +100,9 @@ export const Search = () => {
 
   const handleClear = async () => {
     setText("");
+    setIsLoading(true); // Start loading spinner before clearing
     await updateUrl("/");
+    setIsLoading(false); // Stop loading spinner after URL update
   };
 
   return (
