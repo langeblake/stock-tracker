@@ -100,9 +100,7 @@ export const Search = () => {
 
   const handleClear = async () => {
     setText("");
-    setIsLoading(true); // Start loading spinner before clearing
     await updateUrl("/");
-    setIsLoading(false); // Stop loading spinner after URL update
   };
 
   return (
