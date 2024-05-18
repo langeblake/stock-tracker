@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useFavoritesStore, useUIStore } from "@/store/favortiesStore";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { useRouter } from "next/navigation";
@@ -9,21 +9,24 @@ const Favorites = () => {
   const router = useRouter();
   const { favorites } = useFavoritesStore();
   const { favoriteToggle, toggleFavoriteVisibility } = useUIStore();
-  const [isRouting, setIsRouting] = useState(false);
 
-  const handleChange = () => {
-    console.log("handleChange triggered"); // This should always log when the function is called
+  const handleChange = useCallback(() => {
+    let url = "/";
+
     if (favoriteToggle) {
-      console.log("Navigating to base URL");
-      router.push("/", { scroll: false });
-    } else if (favorites.length > 0) {
-      console.log(`Navigating to favorites with: ${favorites.join(",")}`);
-      router.push(`?favorites=${favorites.join(",")}`, { scroll: false });
+      // Toggle off favorites
+      url = "/";
     } else {
-      router.push(`?favorites=NoResult`, { scroll: false });
+      if (favorites.length > 0) {
+        url = `/?favorites=${favorites.join(",")}`;
+      } else {
+        url = `/?favorites=NoResult`;
+      }
     }
+
+    router.push(url, { scroll: false });
     toggleFavoriteVisibility();
-  };
+  }, [favoriteToggle, favorites, router, toggleFavoriteVisibility]);
 
   return (
     <div>
