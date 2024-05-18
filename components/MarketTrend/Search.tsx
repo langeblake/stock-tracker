@@ -34,6 +34,7 @@ export const Search = () => {
 
       // Check directly if favoritesParam indicates 'NoResult'
       if (favoritesParam === "NoResult") return false;
+      if (!favoritesParam && !searchParams && !query && !favoriteToggle) return false
 
       // Check if query value changed and not set to 'NoResult'
       if (search && query !== search && search !== "NoResult") return true;
@@ -112,7 +113,6 @@ export const Search = () => {
   const handleClear = async () => {
     setText("");
     await updateUrl("/");
-    setIsLoading(false);
   };
 
   return (
