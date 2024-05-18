@@ -113,6 +113,7 @@ export const Search = () => {
     setText("");
     await updateUrl("/");
     setIsLoading(false);
+    setInitialLoad(false);
   };
 
   return (
