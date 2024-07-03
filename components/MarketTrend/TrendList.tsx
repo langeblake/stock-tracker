@@ -53,20 +53,20 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       change: stock.ticker.todaysChange
         ? stock.ticker.todaysChange.toFixed(2)
         : (
-            (stock.twoPrevDayTicker?.close ?? 0) -
-            (stock.threePrevDayTicker?.close ?? 0)
+            (stock.twoPrevDayTicker.close ?? 0) -
+            (stock.threePrevDayTicker.close ?? 0)
           ).toFixed(2),
       todaysChangePerc: stock.ticker.todaysChangePerc
         ? stock.ticker.todaysChangePerc.toFixed(2)
         : (
-            (((stock.twoPrevDayTicker?.close ?? 0) -
-              (stock.threePrevDayTicker?.close ?? 0)) /
-              (stock.threePrevDayTicker?.close ?? 0)) *
+            (((stock.twoPrevDayTicker.close ?? 0) -
+              (stock.threePrevDayTicker.close ?? 0)) /
+              (stock.threePrevDayTicker.close ?? 0)) *
             100
           ).toFixed(2),
       volume:
         stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
-      marketCap: stock.marketCap.toFixed(2),
+      marketCap: stock.marketCap ? stock.marketCap.toFixed(2) : 'N/A',
       sma50: formatNumberString(stock.sma50),
       sma200: formatNumberString(stock.sma200),
       prevClose: stock.twoPrevDayTicker.close,
@@ -103,7 +103,7 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
         stock.ticker.day.v !== 0
           ? stock.ticker.day.v
           : stock.ticker.prevDay.v,
-      marketCap: stock.marketCap?.toFixed(2),
+      marketCap: stock.marketCap ? stock.marketCap.toFixed(2) : 'N/A',
       sma50: formatNumberString(stock.sma50),
       sma200: formatNumberString(stock.sma200),
       prevClose: stock.twoPrevDayTicker.close,
