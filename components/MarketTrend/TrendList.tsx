@@ -53,15 +53,15 @@ const TrendList = async ({ query }: { query: string | undefined }) => {
       change: stock.ticker.todaysChange
         ? stock.ticker.todaysChange.toFixed(2)
         : (
-            (stock.twoPrevDayTicker.close ?? 0) -
-            (stock.threePrevDayTicker.close ?? 0)
+            (stock.twoPrevDayTicker?.close ?? 0) -
+            (stock.threePrevDayTicker?.close ?? 0)
           ).toFixed(2),
       todaysChangePerc: stock.ticker.todaysChangePerc
         ? stock.ticker.todaysChangePerc.toFixed(2)
         : (
-            (((stock.twoPrevDayTicker.close ?? 0) -
-              (stock.threePrevDayTicker.close ?? 0)) /
-              (stock.threePrevDayTicker.close ?? 0)) *
+            (((stock.twoPrevDayTicker?.close ?? 0) -
+              (stock.threePrevDayTicker?.close ?? 0)) /
+              (stock.threePrevDayTicker?.close ?? 0)) *
             100
           ).toFixed(2),
       volume:
