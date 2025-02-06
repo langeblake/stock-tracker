@@ -35,7 +35,7 @@ const fetchTickerNewsData = async (): Promise<TickerNewsResponse | null> => {
     // Get a random index between 0 and 19
     const randomIndex = Math.floor(Math.random() * 50);
     // return results[randomIndex]; // Return a random article
-    return results[1];
+    return results[randomIndex];
   } catch (error) {
     console.error(`Error fetching news data:`, error);
     return null;
