@@ -45,6 +45,7 @@ export const YearReAreaChart = ({ data }) => {
       }
     }
 
+
     return (
       <div className='pt-16 text-black overflow-x-auto lg:overflow-hidden'>
         <ResponsiveContainer width="100%" minWidth={1000} height={500}>

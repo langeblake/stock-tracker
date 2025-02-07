@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "../../../components/Ticker/ticker";
 import ChartSelection from "@/components/Ticker/ChartSelection/ChartSelection";
@@ -7,6 +6,8 @@ import NinetyCandleStickChart from "@/components/Ticker/CandleStickChart/120Cand
 import ThirtyCandleStickChart from "@/components/Ticker/CandleStickChart/30CandleStickChart";
 import SevenCandleStickChart from "@/components/Ticker/CandleStickChart/15CandleStickChart";
 import YearStockAreaChart from "@/components/Ticker/AreaChart/YearStockAreaChart";
+import path from 'path';
+import fs from 'fs';
 
 interface TickerData {
   ticker: {
@@ -42,6 +43,18 @@ interface TickerData {
       vw: number;
     };
   };
+  name: string | undefined;
+  market_cap: number;
+  list_date: string;
+  $200sma_value: number;
+  $50sma_value: number;
+  fiscalPeriod: string;
+  fiscalYear: string;
+  netIncomLoss: number;
+  grossProfit: number;
+  earingsPerShare: number;
+  revenues: number;
+  tickerNews: TickerNewsData;
 }
 
 interface PublisherData {
@@ -59,58 +72,25 @@ interface TickerNewsData {
   publisher: PublisherData;
 }
 
-interface TickerResponse {
-  ticker: TickerData;
-  name: string | undefined;
-  market_cap: number;
-  list_date: string;
-  $200sma_value: number;
-  $50sma_value: number;
-  fiscalPeriod: string;
-  fiscalYear: string;
-  netIncomLoss: number;
-  grossProfit: number;
-  earingsPerShare: number;
-  revenues: number;
-  tickerNews: TickerNewsData;
-}
+const getTickerData = async (ticker: string): Promise<TickerData | null> => {
+  const filePath = path.join(process.cwd(), 'data/staticPolygonData/allTickersData.json');
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const allTickersData: TickerData[] = JSON.parse(fileContents);
 
-const fetchTickerData = async (
-  ticker: string
-): Promise<TickerResponse | null> => {
-  const API_KEY = process.env.POLYGON_API_KEY;
-  try {
-    // const baseUrl =
-    //   process.env.NODE_ENV === "development"
-    //     ? "http://localhost:3000"
-    //     : process.env.NEXT_PUBLIC_API_BASE_URL;
-    const response = await fetch(
-      `https://lumiere-pied.vercel.app/api/tickerSS?ticker=${ticker}`,
-      {
-        cache: "no-store",
-        headers: {
-          "x-api-key": API_KEY!,
-        },
-      }
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data for ${ticker}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching data for ${ticker}:`, error);
-    return null;
-  }
+  const tickerData = allTickersData.find(data => data.ticker.ticker === ticker);
+
+  return tickerData || null;
 };
 
-const TickerPage = async ({ params }) => {
+const TickerPage = async ({ params }: { params: { ticker: string } }) => {
   const { ticker } = params;
-  const tickerData = await fetchTickerData(ticker);
-
-  if (!tickerData?.ticker) {
-    redirect("/error");
+  const tickerData = await getTickerData(ticker);
+  
+  if (!tickerData) {
+    return <div>Not Found</div>;
   }
+  
+  const tickerSymbol = tickerData.ticker.ticker;
 
   return (
     <section className="container mb-20">
@@ -118,29 +98,29 @@ const TickerPage = async ({ params }) => {
       <Ticker data={tickerData} />
       <ChartSelection
         StockAreaChart={
-          <StockAreaChart ticker={ticker} listDate={tickerData?.list_date} />
+          <StockAreaChart ticker={tickerSymbol} listDate={tickerData?.list_date} />
         }
         YearStockAreaChart={
           <YearStockAreaChart
-            ticker={ticker}
+            ticker={tickerSymbol}
             listDate={tickerData?.list_date}
           />
         }
         NinetyCandleStickChart={
           <NinetyCandleStickChart
-            ticker={ticker}
+            ticker={tickerSymbol}
             listDate={tickerData?.list_date}
           />
         }
         ThirtyCandleStickChart={
           <ThirtyCandleStickChart
-            ticker={ticker}
+            ticker={tickerSymbol}
             listDate={tickerData?.list_date}
           />
         }
         SevenCandleStickChart={
           <SevenCandleStickChart
-            ticker={ticker}
+            ticker={tickerSymbol}
             listDate={tickerData?.list_date}
           />
         }

@@ -23,7 +23,7 @@ const TrendList = ({ query, favorites, favoriteToggle }: TrendListProps) => {
   let filteredData: any[] = [];
 
   // Check if there are favorites
-  if (favoriteToggle && favorites.length > 0) {
+  if (favoriteToggle) {
     // Filter tickerData to only include favorites
     filteredData = tickerData.filter((stock) => favorites.includes(stock.symbol));
   } else {

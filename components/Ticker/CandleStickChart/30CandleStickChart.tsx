@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { ThirtyReCandleStickChart } from './30Rechart-CandleStick';
+import { fetchAggregateData } from '../AreaChart/StockAreaChart';
 
 interface TickerData {
     c: number;
@@ -12,31 +13,6 @@ interface TickerData {
     vw: number;
     
 }
-
-interface AgreggateResponse {
-    ticker: string;
-    resultsCount: number;
-    results: TickerData[];
-}
-
-const fetchAggregateData = async (ticker: string, listDate: string): Promise<AgreggateResponse | null> => {
-    try {
-      const apiKey = process.env.POLYGON_API_KEY;
-      const currentDate = new Date().toISOString().split('T')[0]; 
-      //Start date is hard-coded because of 5 year limit on historical data. Can use 'listDate' for more hist.data.
-      const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2019-01-01/${currentDate}?adjusted=true&sort=desc&limit=33&apiKey=${apiKey}`, { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`Failed to fetch aggregate data for TICKER`);
-      } 
-      const data = await response.json();
-      return data; // Assuming the API returns the data structured as expected.
-    } catch (error) {
-      console.error(`Error fetching data for TICKER:`, error);
-      return null;
-    }
-  };
-  
-
 
 const ThirtyCandleStickChart = async ({ ticker, listDate }) => {
   const aggregateData = await fetchAggregateData(ticker, listDate);

@@ -18,7 +18,7 @@ interface AgreggateResponse {
   results: TickerData[];
 }
 
-const fetchAggregateData = async (
+export const fetchAggregateData = async (
   ticker: string,
   listDate: string
 ): Promise<AgreggateResponse | null> => {
@@ -27,7 +27,7 @@ const fetchAggregateData = async (
     const currentDate = new Date().toISOString().split("T")[0];
     //Start date is hard-coded because of 5 year limit on historical data. Can use 'listDate' for more hist.data
     const response = await fetch(
-      `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2019-01-01/${currentDate}?adjusted=true&sort=asc&limit=50000&apiKey=${apiKey}`,
+      `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/2019-01-01/2025-02-06?adjusted=true&sort=asc&limit=50000&apiKey=${apiKey}`,
       { cache: "no-store" }
     );
     if (!response.ok) {
@@ -53,6 +53,7 @@ const StockAreaChart = async ({ ticker, listDate }) => {
     close: d.c, // Use `d.c` for the closing price
     // Directly create a Date object for sorting purposes
   }));
+
 
   return (
     <div>
