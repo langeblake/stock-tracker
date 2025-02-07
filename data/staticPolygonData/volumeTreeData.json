@@ -1,0 +1,52 @@
+[
+    {
+        "name": "MGOL",
+        "size": 391749046,
+        "actualValue": 0.00410000000000002
+    },
+    {
+        "name": "LTRY",
+        "size": 272769690,
+        "actualValue": 0.03460000000000002
+    },
+    {
+        "name": "NVDA",
+        "size": 248142280,
+        "actualValue": 3.069999999999993
+    },
+    {
+        "name": "F",
+        "size": 219035932,
+        "actualValue": -0.15000000000000036
+    },
+    {
+        "name": "CYN",
+        "size": 184465255,
+        "actualValue": -0.0121
+    },
+    {
+        "name": "BBAI",
+        "size": 165854940,
+        "actualValue": 1.6100000000000003
+    },
+    {
+        "name": "RIME",
+        "size": 134997842,
+        "actualValue": -0.00040000000000000105
+    },
+    {
+        "name": "PLTR",
+        "size": 127832120,
+        "actualValue": -0.4200000000000017
+    },
+    {
+        "name": "APPS",
+        "size": 120805151,
+        "actualValue": 0.040000000000000036
+    },
+    {
+        "name": "LIPO",
+        "size": 86927669,
+        "actualValue": -0.04999999999999982
+    }
+]

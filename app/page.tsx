@@ -12,18 +12,8 @@ export const metadata: Metadata = {
   description: "Stock Tracker",
 };
 
-// interface HomeProps {
-//   searchParams: ITickerListParams;
-// }
 
 const Home = async () => {
-  // const search =
-  //   typeof searchParams.search === "string" ? searchParams.search : undefined;
-  // const favorites =
-  //   typeof searchParams.favorites === "string"
-  //     ? searchParams.favorites
-  //     : undefined;
-
   return (
     <>
       <ScrollUp />

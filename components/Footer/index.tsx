@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
+  const date = new Date().getFullYear();
   return (
     <>
       <footer
@@ -170,7 +171,7 @@ const Footer = () => {
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
           <div className="py-8">
             <p className="text-center font-bold text-body-color dark:text-white">
-              Blake Lange ©2024
+              Blake Lange ©{date}
             </p>
           </div>
         </div>

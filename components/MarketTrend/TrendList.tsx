@@ -1,6 +1,6 @@
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
-import tableData from "./tableData.json";
+import tickerData from '@/data/staticPolygonData/tickerData.json';
 import Fuse from "fuse.js";
 
 export const formatNumberString = (value: number | undefined) => {
@@ -24,10 +24,10 @@ const TrendList = ({ query, favorites, favoriteToggle }: TrendListProps) => {
 
   // Check if there are favorites
   if (favoriteToggle && favorites.length > 0) {
-    // Filter tableData to only include favorites
-    filteredData = tableData.filter((stock) => favorites.includes(stock.symbol));
+    // Filter tickerData to only include favorites
+    filteredData = tickerData.filter((stock) => favorites.includes(stock.symbol));
   } else {
-    filteredData = tableData;
+    filteredData = tickerData;
   }
 
   // Further filter the data based on the query using Fuse.js
