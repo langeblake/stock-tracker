@@ -6,16 +6,18 @@ import GainersLosers from "@/components/MarketChange/GainersLosersCard";
 import ChangeHeatMap from "@/components/MarketChange/Heatmap/ChangeHeatMap";
 import MarketTrend from "@/components/MarketTrend";
 import VolumeHeatMap from "@/components/MarketChange/Heatmap/VolumeHeatMap";
+import Modal from "@/components/Modal";
+import ModalManager from "@/components/ModalManager";
 
 export const metadata: Metadata = {
   title: "Lumiere",
   description: "Stock Tracker",
 };
 
-
 const Home = async () => {
   return (
     <>
+      <ModalManager />
       <ScrollUp />
       <OverviewCards />
       <MarketTrend />
