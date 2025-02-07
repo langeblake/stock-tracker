@@ -6,11 +6,27 @@ import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
 const Favorites = () => {
+  const router = useRouter();
+  const { favorites } = useFavoritesStore();
   const { favoriteToggle, toggleFavoriteVisibility } = useUIStore();
 
   const handleChange = useCallback(() => {
+    let url = "/";
+
+    if (favoriteToggle) {
+      // Toggle off favorites
+      url = "/";
+    } else {
+      if (favorites.length > 0) {
+        url = `/?favorites=${favorites.join(",")}`;
+      } else {
+        url = `/?favorites=NoResult`;
+      }
+    }
+
+    router.push(url, { scroll: false });
     toggleFavoriteVisibility();
-  }, [toggleFavoriteVisibility]);
+  }, [favoriteToggle, favorites, router, toggleFavoriteVisibility]);
 
   return (
     <div>

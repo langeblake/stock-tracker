@@ -1,18 +1,19 @@
-import { Search } from "./Search";
+'use client';
+
+import React, { useState, Suspense } from 'react';
+import Search from "./Search";
 import Favorites from "./Favorites";
-import React, { Suspense } from 'react';
 const TrendList = React.lazy(() => import('./TrendList'));
- // Import the LoadingSkeleton component
-import { columns } from "./TickerTable/columns"; // Import your columns definition
 import LoadingSkeleton from "../Loading/LoadingTickerTable";
+import { useFavoritesStore, useUIStore } from '@/store/favortiesStore';
 
-export interface ITickerListParams {
-  search?: string;
-  favorites?: string;
-}
+const MarketTrend = () => {
+  const [query, setQuery] = useState<string>("");
+  const { favorites } = useFavoritesStore();
+  const isFavorite = favorites.includes(query);
+  const { favoriteToggle, toggleFavoriteVisibility } = useUIStore();
 
-const MarketTrend = ({ search, favorites }) => {
-  const query = favorites ? favorites : search;
+
 
   return (
     <section id="tickerListSection" className="pt-20 pb-4 md:pt-28 md:pb-2 xl:pt-0">
@@ -20,12 +21,12 @@ const MarketTrend = ({ search, favorites }) => {
         <div className="flex gap-4 items-center flex-col pb-4 md:pb-0 md:flex-row">
           <h1 className="md:w-2/5 font-bold text-2xl pt-6 md:pb-6">Trending Tickers</h1>
           <div className="flex justify-center items-center gap-4 flex-col md:flex-row">
-            <Search />
+            <Search setQuery={setQuery} />
             <Favorites />
           </div>
         </div>
-        <Suspense fallback={<LoadingSkeleton />}> {/* Pass columns prop to LoadingSkeleton */}
-          <TrendList query={query} />
+        <Suspense fallback={<LoadingSkeleton />}>
+          <TrendList query={query} favorites={favorites} favoriteToggle={favoriteToggle}/>
         </Suspense>
       </div>
     </section>

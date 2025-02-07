@@ -1,32 +1,9 @@
 import { DataTable } from "./TickerTable/data-table";
 import { columns } from "./TickerTable/columns";
-import { tickers } from "data/tickers-static.js";
-import { TickerResponse } from "@/types/stockDataTypes";
+import tableData from "./tableData.json";
+import Fuse from "fuse.js";
 
-const fetchTickerData = async (ticker: string): Promise<TickerResponse | null> => {
-  const API_KEY = process.env.POLYGON_API_KEY;
-
-  try {
-    const response = await fetch(
-      `https://lumiere-pied.vercel.app/api/TrendingTickersSS?ticker=${ticker}`,
-      {
-        headers: {
-          "x-api-key": API_KEY!,
-        },
-      }
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data for ${ticker}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching data for ${ticker}:`, error);
-    return null;
-  }
-};
-
-const formatNumberString = (value: number | undefined) => {
+export const formatNumberString = (value: number | undefined) => {
   if (value !== undefined) {
     return value.toLocaleString(undefined, {
       minimumFractionDigits: 2,
@@ -36,88 +13,41 @@ const formatNumberString = (value: number | undefined) => {
   return "";
 };
 
-const TrendList = async ({ query }: { query: string | undefined }) => {
-  let tableData: any[] = [];
+type TrendListProps = {
+  query: string | undefined;
+  favorites: string[];
+  favoriteToggle: boolean;
+};
 
-  if (!query) {
-    const tickerDataPromises = tickers.map(fetchTickerData);
-    const tickerData = await Promise.all(tickerDataPromises);
-    const dataNotNull = tickerData.filter(
-      (item): item is TickerResponse => item !== null && item.status === "OK"
-    );
-    const data = dataNotNull.sort((a, b) => b.ticker.day.v - a.ticker.day.v);
-    tableData = data.map((stock) => ({
-      symbol: stock.ticker.ticker,
-      price:
-        stock.ticker.day.c !== 0 ? stock.ticker.day.c : stock.ticker.prevDay.c,
-      change: stock.ticker.todaysChange
-        ? stock.ticker.todaysChange.toFixed(2)
-        : (
-            (stock.twoPrevDayTicker.close ?? 0) -
-            (stock.threePrevDayTicker.close ?? 0)
-          ).toFixed(2),
-      todaysChangePerc: stock.ticker.todaysChangePerc
-        ? stock.ticker.todaysChangePerc.toFixed(2)
-        : (
-            (((stock.twoPrevDayTicker.close ?? 0) -
-              (stock.threePrevDayTicker.close ?? 0)) /
-              (stock.threePrevDayTicker.close ?? 0)) *
-            100
-          ).toFixed(2),
-      volume:
-        stock.ticker.day.v !== 0 ? stock.ticker.day.v : stock.ticker.prevDay.v,
-      marketCap: stock.marketCap ? stock.marketCap.toFixed(2) : 'N/A',
-      sma50: formatNumberString(stock.sma50),
-      sma200: formatNumberString(stock.sma200),
-      prevClose: stock.twoPrevDayTicker.close,
-      twoPrevClose: stock.threePrevDayTicker.close,
-    }));
+const TrendList = ({ query, favorites, favoriteToggle }: TrendListProps) => {
+  let filteredData: any[] = [];
+
+  // Check if there are favorites
+  if (favoriteToggle && favorites.length > 0) {
+    // Filter tableData to only include favorites
+    filteredData = tableData.filter((stock) => favorites.includes(stock.symbol));
   } else {
-    const queryTickers = query.split(",");
-    const queryTickersPromises = queryTickers.map(fetchTickerData);
-    const queryTickersData = await Promise.all(queryTickersPromises);
-    const queryTickersDataNotNull = queryTickersData.filter(
-      (item): item is TickerResponse => item !== null && item.status === "OK"
-    );
-    tableData = queryTickersDataNotNull.map((stock) => ({
-      symbol: stock.ticker.ticker,
-      price:
-        stock.ticker.day.c !== 0
-          ? stock.ticker.day.c
-          : stock.ticker.prevDay.c,
-      change: stock.ticker.todaysChange
-        ? stock.ticker.todaysChange.toFixed(2)
-        : (
-            (stock.twoPrevDayTicker.close ?? 0) -
-            (stock.threePrevDayTicker.close ?? 0)
-          ).toFixed(2),
-      todaysChangePerc: stock.ticker.todaysChangePerc
-        ? stock.ticker.todaysChangePerc.toFixed(2)
-        : (
-            (((stock.twoPrevDayTicker.close ?? 0) -
-              (stock.threePrevDayTicker.close ?? 0)) /
-              (stock.threePrevDayTicker.close ?? 0)) *
-            100
-          ).toFixed(2),
-      volume:
-        stock.ticker.day.v !== 0
-          ? stock.ticker.day.v
-          : stock.ticker.prevDay.v,
-      marketCap: stock.marketCap ? stock.marketCap.toFixed(2) : 'N/A',
-      sma50: formatNumberString(stock.sma50),
-      sma200: formatNumberString(stock.sma200),
-      prevClose: stock.twoPrevDayTicker.close,
-      twoPrevClose: stock.threePrevDayTicker.close,
-    }));
+    filteredData = tableData;
+  }
+
+  // Further filter the data based on the query using Fuse.js
+  if (query) {
+    const fuse = new Fuse(filteredData, {
+      keys: ['symbol'],
+      threshold: 0.1, // Adjust the threshold as needed
+    });
+    const results = fuse.search(query);
+    filteredData = results.map(result => result.item);
   }
 
   return (
     <section id="tickerListSection" className="">
       <div className="">
-        <DataTable columns={columns} data={tableData} />
+        <DataTable columns={columns} data={filteredData} />
       </div>
     </section>
   );
 };
 
 export default TrendList;
+

@@ -4,7 +4,7 @@ import OverviewCards from "@/components/OverviewCards";
 import MarketChange from "@/components/MarketChange";
 import GainersLosers from "@/components/MarketChange/GainersLosersCard";
 import ChangeHeatMap from "@/components/MarketChange/Heatmap/ChangeHeatMap";
-import MarketTrend, { ITickerListParams } from "@/components/MarketTrend";
+import MarketTrend from "@/components/MarketTrend";
 import VolumeHeatMap from "@/components/MarketChange/Heatmap/VolumeHeatMap";
 
 export const metadata: Metadata = {
@@ -12,23 +12,23 @@ export const metadata: Metadata = {
   description: "Stock Tracker",
 };
 
-interface HomeProps {
-  searchParams: ITickerListParams;
-}
+// interface HomeProps {
+//   searchParams: ITickerListParams;
+// }
 
-const Home = async ({ searchParams }: HomeProps) => {
-  const search =
-    typeof searchParams.search === "string" ? searchParams.search : undefined;
-  const favorites =
-    typeof searchParams.favorites === "string"
-      ? searchParams.favorites
-      : undefined;
+const Home = async () => {
+  // const search =
+  //   typeof searchParams.search === "string" ? searchParams.search : undefined;
+  // const favorites =
+  //   typeof searchParams.favorites === "string"
+  //     ? searchParams.favorites
+  //     : undefined;
 
   return (
     <>
       <ScrollUp />
       <OverviewCards />
-      <MarketTrend search={search} favorites={favorites} />
+      <MarketTrend />
       <MarketChange
         GainersLosers={<GainersLosers />}
         VolumeHeatMap={<VolumeHeatMap />}
