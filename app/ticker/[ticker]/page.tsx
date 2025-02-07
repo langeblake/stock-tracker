@@ -2,7 +2,7 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import Ticker from "../../../components/Ticker/ticker";
 import ChartSelection from "@/components/Ticker/ChartSelection/ChartSelection";
 import StockAreaChart from "@/components/Ticker/AreaChart/StockAreaChart";
-import NinetyCandleStickChart from "@/components/Ticker/CandleStickChart/120CandleStickChart";
+import NinetyCandleStickChart from "@/components/Ticker/CandleStickChart/90CandleStickChart";
 import ThirtyCandleStickChart from "@/components/Ticker/CandleStickChart/30CandleStickChart";
 import SevenCandleStickChart from "@/components/Ticker/CandleStickChart/15CandleStickChart";
 import YearStockAreaChart from "@/components/Ticker/AreaChart/YearStockAreaChart";

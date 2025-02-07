@@ -13,7 +13,7 @@ const ChartSelection = ({
 }) => {
     const [selectedChartType, setSelectedChartType] = useState("Area")
     const [selectedAreaChartRange, setSelectedAreaChartRange] = useState("5yr")
-    const [selectedCandleChartRange, setSelectedCandleChartRange] = useState("120")
+    const [selectedCandleChartRange, setSelectedCandleChartRange] = useState("90")
 
     const renderChart = () => {
         if (selectedChartType === "Area") {
@@ -29,7 +29,7 @@ const ChartSelection = ({
             }
         } else if (selectedChartType === "Candlestick") {
             switch (selectedCandleChartRange) {
-                case "120":
+                case "90":
                     return NinetyCandleStickChart
                 case "30":
                     return ThirtyCandleStickChart;
@@ -63,9 +63,9 @@ const ChartSelection = ({
         </div>
         {selectedChartType === "Candlestick" ? (
             <div className='max-w-fit mt-2 border border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1  rounded-lg'>
-            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '120' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
-            onClick={() => setSelectedCandleChartRange('120')}>
-                <p className='font-light'>120d</p>
+            <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '90' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
+            onClick={() => setSelectedCandleChartRange('90')}>
+                <p className='font-light'>90d</p>
             </button>
             <button className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedCandleChartRange === '30' ? 'bg-zinc-100 dark:bg-black rounded-lg' : 'hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg'}`} 
             onClick={() => setSelectedCandleChartRange('30')}>

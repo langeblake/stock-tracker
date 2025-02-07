@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { ThirtyReCandleStickChart } from './30Rechart-CandleStick';
 import { fetchAggregateData } from '../AreaChart/StockAreaChart';
+import { fetchAggregateCandlestickData } from './90CandleStickChart';
 
 interface TickerData {
     c: number;
@@ -15,7 +16,7 @@ interface TickerData {
 }
 
 const ThirtyCandleStickChart = async ({ ticker, listDate }) => {
-  const aggregateData = await fetchAggregateData(ticker, listDate);
+  const aggregateData = await fetchAggregateCandlestickData(ticker, 30);
 
   if (!aggregateData || !aggregateData.results) {
       console.error('Failed to fetch aggregate data or no results found');
