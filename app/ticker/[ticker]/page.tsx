@@ -77,7 +77,7 @@ const getTickerData = async (ticker: string): Promise<TickerData | null> => {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const allTickersData: TickerData[] = JSON.parse(fileContents);
 
-  const tickerData = allTickersData.find(data => data.ticker.ticker === ticker);
+  const tickerData = allTickersData.find(data => data.ticker?.ticker === ticker);
 
   return tickerData || null;
 };

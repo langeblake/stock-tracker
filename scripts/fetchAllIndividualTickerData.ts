@@ -22,8 +22,11 @@ const tickers = [
   "WTRG", "XEL", "XLNX", "XYL", "YUM", "ZBH", "ZBRA", "ZION", "ZTS"
 ];
 
+
 const fetchTickerData = async (ticker: string): Promise<any> => {
-    const API_KEY = process.env.POLYGON_API_KEY;
+    // const API_KEY = process.env.POLYGON_API_KEY;
+    const API_KEY = 'WX2kmKhTkcHqa8X0c_E4CjmdRNLweD79';
+
   try {
     const response = await fetch(
       `https://lumiere-pied.vercel.app/api/tickerSS?ticker=${ticker}`,
@@ -55,7 +58,7 @@ const fetchAllTickersData = async () => {
     }
   }
 
-  const filePath = path.join(__dirname, 'allTickersData.json');
+  const filePath = path.join(__dirname, 'amdTickerData.json');
   fs.writeFileSync(filePath, JSON.stringify(allData, null, 2), 'utf-8');
   console.log(`Data written to ${filePath}`);
 };

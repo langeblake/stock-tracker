@@ -59,7 +59,7 @@ export default async function handler(req, res) {
   
   
     // Initial date setup
-    let currentDate = new Date();
+    let currentDate = new Date(2025, 1, 6);
     // currentDate = utcToZonedTime(currentDate, timeZone);
     
     // Adjust currentDate if it's on a weekend

@@ -574,6 +574,157 @@
   },
   {
     "ticker": {
+      "ticker": "AMD",
+      "todaysChangePerc": -2.886801016702974,
+      "todaysChange": -3.180099999999996,
+      "updated": 1738976400000000000,
+      "day": {
+        "o": 109.13,
+        "h": 109.92,
+        "l": 106.79,
+        "c": 107.56,
+        "v": 45958452,
+        "vw": 107.9088
+      },
+      "min": {
+        "av": 45958452,
+        "t": 1738976340000,
+        "n": 91,
+        "o": 106.97,
+        "h": 107,
+        "l": 106.96,
+        "c": 106.9799,
+        "v": 2789,
+        "vw": 106.9767
+      },
+      "prevDay": {
+        "o": 110.93,
+        "h": 112.56,
+        "l": 109.02,
+        "c": 110.16,
+        "v": 50081689,
+        "vw": 110.178
+      }
+    },
+    "name": "Advanced Micro Devices",
+    "marketCap": 174671157476.1838,
+    "sma200": 146.79762499999998,
+    "sma50": 124.27170000000011,
+    "fiscalPeriod": "Q3",
+    "fiscalYear": "2024",
+    "netIncomeLoss": 771000000,
+    "grossProfit": 3419000000,
+    "earningsPerShare": 0.48,
+    "revenues": 6819000000,
+    "tickerNews": {
+      "id": "bcdbf58e33ed7963e94e460de8aa74a137d8c781d446f7e81ea9f2e69e5ffc64",
+      "publisher": {
+        "name": "The Motley Fool",
+        "homepage_url": "https://www.fool.com/",
+        "logo_url": "https://s3.polygon.io/public/assets/news/logos/themotleyfool.svg",
+        "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/themotleyfool.ico"
+      },
+      "title": "Is AMD Stock a Buy Now?",
+      "author": "Jose Najarro",
+      "published_utc": "2025-02-07T10:30:00Z",
+      "article_url": "https://www.fool.com/investing/2025/02/07/is-amd-stock-a-buy-now/?source=iedfolrf0000001",
+      "tickers": [
+        "AMD",
+        "NVDA",
+        "INTC"
+      ],
+      "image_url": "https://g.foolcdn.com/editorial/images/806800/amd-headquarters-santa-clara-with-amd-logo-on-building_amd_advance.jpg",
+      "description": "The article discusses Advanced Micro Devices' (AMD) recently reported earnings. It provides an overview of the company's performance and financial results.",
+      "keywords": [
+        "Advanced Micro Devices",
+        "AMD",
+        "earnings report"
+      ],
+      "insights": [
+        {
+          "ticker": "AMD",
+          "sentiment": "neutral",
+          "sentiment_reasoning": "The article provides a factual overview of AMD's earnings report without making any explicit positive or negative statements about the company's performance."
+        },
+        {
+          "ticker": "NVDA",
+          "sentiment": "neutral",
+          "sentiment_reasoning": "The article mentions Nvidia as a company that The Motley Fool recommends, but does not provide any specific information about Nvidia's performance or outlook."
+        },
+        {
+          "ticker": "INTC",
+          "sentiment": "neutral",
+          "sentiment_reasoning": "The article mentions that The Motley Fool recommends a specific options trade related to Intel, but does not provide any further details about the company's performance or outlook."
+        }
+      ]
+    },
+    "generalNews": {
+      "id": "506d1246e73a47fdbf5394b44f664b6486883c198cfaefc950c61ee4737bc8f9",
+      "publisher": {
+        "name": "The Motley Fool",
+        "homepage_url": "https://www.fool.com/",
+        "logo_url": "https://s3.polygon.io/public/assets/news/logos/themotleyfool.svg",
+        "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/themotleyfool.ico"
+      },
+      "title": "Why Ethereum, XRP, and Cardano Pulled the Crypto Market Down This Week",
+      "author": "Travis Hoium",
+      "published_utc": "2025-02-07T22:02:00Z",
+      "article_url": "https://www.fool.com/investing/2025/02/07/why-ethereum-xrp-and-cardano-pulled-the-crypto-mar/?source=iedfolrf0000001",
+      "tickers": [
+        "GSOL",
+        "ETHV"
+      ],
+      "image_url": "https://g.foolcdn.com/editorial/images/806961/currency-and-crypto-digitization.jpg",
+      "description": "The crypto market has continued to decline this week, with major cryptocurrencies like Ethereum, Solana, Cardano, and XRP experiencing significant losses. The decline is attributed to a combination of factors, including economic uncertainty, weak job growth, and concerns over potential tariffs.",
+      "keywords": [
+        "crypto market",
+        "Ethereum",
+        "Solana",
+        "Cardano",
+        "XRP",
+        "economic uncertainty",
+        "tariffs"
+      ],
+      "insights": [
+        {
+          "ticker": "GSOL",
+          "sentiment": "negative",
+          "sentiment_reasoning": "Solana is down 14.7%, also experiencing a substantial drop in value."
+        },
+        {
+          "ticker": "ETHV",
+          "sentiment": "negative",
+          "sentiment_reasoning": "Ethereum fell 19.8% from last Friday's close, indicating a significant decline in its value."
+        }
+      ]
+    },
+    "twoPrevDayTicker": {
+      "status": "OK",
+      "from": "2025-02-06",
+      "symbol": "AMD",
+      "open": 110.93,
+      "high": 112.56,
+      "low": 109.02,
+      "close": 110.16,
+      "volume": 50245131,
+      "afterHours": 109.4,
+      "preMarket": 111.45
+    },
+    "threePrevDayTicker": {
+      "status": "OK",
+      "from": "2025-02-05",
+      "symbol": "AMD",
+      "open": 107.61,
+      "high": 112.09,
+      "low": 106.5,
+      "close": 112.01,
+      "volume": 110131645,
+      "afterHours": 110.9,
+      "preMarket": 108.93
+    }
+  },
+  {
+    "ticker": {
       "ticker": "AMZN",
       "todaysChangePerc": -2.968200872253034,
       "todaysChange": -7.009999999999991,
