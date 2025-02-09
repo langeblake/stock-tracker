@@ -2,24 +2,28 @@ import fs from 'fs';
 import path from 'path';
 import fetch from 'node-fetch';
 
+// const tickers = [
+//   "AAPL", "MSFT", "AMZN", "GOOGL", "META", "TSLA", "AVAV", "JPM", "V", "JNJ",
+//   "WMT", "PG", "UNH", "MA", "NVDA", "HD", "DIS", "BAC", "VZ", "ADBE",
+//   "CMCSA", "KO", "NFLX", "PFE", "T", "PYPL", "INTC", "CSCO", "PEP", "XOM",
+//   "COST", "CVX", "ABT", "ACN", "CRM", "AVGO", "NKE", "MRK", "MDT", "NEE",
+//   "LLY", "TXN", "PM", "LIN", "ORCL", "HON", "IBM", "QCOM", "UPS", "RTX",
+//   "UNP", "LOW", "MS", "GS", "BLK", "SCHW", "AMGN", "BA", "CAT", "MMM",
+//   "SPGI", "PLD", "TMO", "AXP", "CVS", "DE", "DHR", "DUK", "ISRG", "BKNG",
+//   "LMT", "SYK", "MDLZ", "MO", "ADI", "AMT", "BMY", "CI", "COP", "EL",
+//   "MMC", "NOW", "PNC", "SO", "TGT", "USB", "WFC", "ZTS", "ADP", "AON",
+//   "APD", "BDX", "C", "CCI", "CL", "D", "DG", "ECL", "ETN", "EW", "FIS",
+//   "FISV", "GILD", "HUM", "ITW", "JNPR", "KMB", "LRCX", "MAR", "MCD", "MET",
+//   "MMC", "MSCI", "NOC", "NSC", "NTRS", "ORLY", "PAYX", "PEG", "PGR", "PNR",
+//   "PPG", "PRU", "PSA", "PXD", "REGN", "ROK", "ROP", "SBUX", "SHW", "SRE",
+//   "STT", "STZ", "SWK", "SYF", "SYY", "TFC", "TJX", "TRV", "TSN", "TT",
+//   "TWTR", "TXN", "UAL", "UDR", "UHS", "USB", "VFC", "VLO", "VRSK", "VTR",
+//   "VZ", "WBA", "WDC", "WEC", "WELL", "WMB", "WM", "WMT", "WRB", "WST",
+//   "WTRG", "XEL", "XLNX", "XYL", "YUM", "ZBH", "ZBRA", "ZION", "ZTS"
+// ];
+
 const tickers = [
-  "AAPL", "MSFT", "AMZN", "GOOGL", "META", "TSLA", "AVAV", "JPM", "V", "JNJ",
-  "WMT", "PG", "UNH", "MA", "NVDA", "HD", "DIS", "BAC", "VZ", "ADBE",
-  "CMCSA", "KO", "NFLX", "PFE", "T", "PYPL", "INTC", "CSCO", "PEP", "XOM",
-  "COST", "CVX", "ABT", "ACN", "CRM", "AVGO", "NKE", "MRK", "MDT", "NEE",
-  "LLY", "TXN", "PM", "LIN", "ORCL", "HON", "IBM", "QCOM", "UPS", "RTX",
-  "UNP", "LOW", "MS", "GS", "BLK", "SCHW", "AMGN", "BA", "CAT", "MMM",
-  "SPGI", "PLD", "TMO", "AXP", "CVS", "DE", "DHR", "DUK", "ISRG", "BKNG",
-  "LMT", "SYK", "MDLZ", "MO", "ADI", "AMT", "BMY", "CI", "COP", "EL",
-  "MMC", "NOW", "PNC", "SO", "TGT", "USB", "WFC", "ZTS", "ADP", "AON",
-  "APD", "BDX", "C", "CCI", "CL", "D", "DG", "ECL", "ETN", "EW", "FIS",
-  "FISV", "GILD", "HUM", "ITW", "JNPR", "KMB", "LRCX", "MAR", "MCD", "MET",
-  "MMC", "MSCI", "NOC", "NSC", "NTRS", "ORLY", "PAYX", "PEG", "PGR", "PNR",
-  "PPG", "PRU", "PSA", "PXD", "REGN", "ROK", "ROP", "SBUX", "SHW", "SRE",
-  "STT", "STZ", "SWK", "SYF", "SYY", "TFC", "TJX", "TRV", "TSN", "TT",
-  "TWTR", "TXN", "UAL", "UDR", "UHS", "USB", "VFC", "VLO", "VRSK", "VTR",
-  "VZ", "WBA", "WDC", "WEC", "WELL", "WMB", "WM", "WMT", "WRB", "WST",
-  "WTRG", "XEL", "XLNX", "XYL", "YUM", "ZBH", "ZBRA", "ZION", "ZTS"
+"LTRY", "MGOL", "APPS", "LTRYW", "KWESW", "CRMLW", "HOFVW", "BTAI",
 ];
 
 
@@ -58,7 +62,7 @@ const fetchAllTickersData = async () => {
     }
   }
 
-  const filePath = path.join(__dirname, 'amdTickerData.json');
+  const filePath = path.join(__dirname, 'gainersLosersTickerData.json');
   fs.writeFileSync(filePath, JSON.stringify(allData, null, 2), 'utf-8');
   console.log(`Data written to ${filePath}`);
 };

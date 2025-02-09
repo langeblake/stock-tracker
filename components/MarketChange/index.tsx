@@ -5,7 +5,7 @@ import React, { Suspense, useState } from "react";
 
 const MarketChange = ({ GainersLosers, VolumeHeatMap, ChangeHeatMap }) => {
   // State to track which heatmap is selected
-  const [selectedHeatMap, setSelectedHeatMap] = useState("change");
+  const [selectedHeatMap, setSelectedHeatMap] = useState("volume");
 
   return (
     <section
@@ -25,16 +25,16 @@ const MarketChange = ({ GainersLosers, VolumeHeatMap, ChangeHeatMap }) => {
               <h1 className="font-bold text-2xl mr-8">Heatmap (24hr)</h1>
               <div className="border flex border-zinc-300 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 px-1  rounded-lg">
                 <button
-                  className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedHeatMap === "change" ? "bg-zinc-100 dark:bg-black rounded-lg" : "hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg"}`}
-                  onClick={() => setSelectedHeatMap("change")}
-                >
-                  Chg%
-                </button>
-                <button
                   className={`py-1.5 px-2 hover:cursor-pointer text-sm ${selectedHeatMap === "volume" ? " bg-zinc-100 dark:bg-black rounded-lg " : "hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg"}`}
                   onClick={() => setSelectedHeatMap("volume")}
                 >
                   Volume
+                </button>
+                <button
+                  className={`py-1.5 px-3 text-sm hover:cursor-pointer ${selectedHeatMap === "change" ? "bg-zinc-100 dark:bg-black rounded-lg" : "hover:bg-zinc-400/20 dark:hover:bg-zinc-800 hover:rounded-lg"}`}
+                  onClick={() => setSelectedHeatMap("change")}
+                >
+                  Chg%
                 </button>
               </div>
             </div>

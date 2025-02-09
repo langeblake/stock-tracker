@@ -8,21 +8,17 @@ const GainersLosersCard = () => {
     <div className="flex gap-4">
       <div className="flex flex-col gap-4 w-1/2">
         {gainersData.map((ticker, index) => (
-          <Link key={index} href={`/ticker/${ticker.ticker}`}>
-            <div className="border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70 dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer">
+            <div key={index} className="border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70 bg-white">
               <TickerCard ticker={ticker} />
             </div>
-          </Link>
         ))}
       </div>
 
       <div className="flex flex-col gap-4 w-1/2">
         {losersData.map((ticker, index) => (
-          <Link key={index} href={`/ticker/${ticker.ticker}`}>
-            <div className="border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70 dark:hover:bg-zinc-900 hover:bg-zinc-50 bg-white hover:cursor-pointer">
+            <div key={index} className="border rounded-lg dark:border-zinc-700 dark:bg-zinc-900/70 bg-white">
               <TickerCard ticker={ticker} />
             </div>
-          </Link>
         ))}
       </div>
     </div>
